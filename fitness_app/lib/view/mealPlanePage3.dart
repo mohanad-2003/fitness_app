@@ -2,10 +2,9 @@ import 'package:fitness_app/view/header_workout.dart';
 import 'package:fitness_app/view/mealPlanBreakfast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class MealplanePage3 extends StatelessWidget {
-  MealplanePage3({super.key});
+  const MealplanePage3({super.key});
 
   @override
   Widget build(BuildContext context) {

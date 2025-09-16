@@ -1,5 +1,5 @@
 import 'package:fitness_app/view/mealPlanBreakfast.dart';
-import 'package:fitness_app/view/meal_plane.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +12,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(debugShowCheckedModeBanner: false, home: MealPlanbreakfast());
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MealPlanbreakfast(),
+    );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:fitness_app/controller/meal_idea_controller.dart';
 
 class TopRecipeDetails extends StatelessWidget {
@@ -14,7 +13,7 @@ class TopRecipeDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ===== زر رجوع وعنوان =====
+     
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Row(
@@ -195,7 +194,7 @@ class TopRecipeDetails extends StatelessWidget {
                       ),
                     ),
                   )
-                  .toList(),
+                  ,
 
               SizedBox(height: 16.h),
 

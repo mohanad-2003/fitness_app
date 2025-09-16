@@ -59,7 +59,7 @@ class MealsPlanespage1 extends StatelessWidget {
                           return GestureDetector(
                             onTap:
                                 () => controller.selectPreference(preference),
-                            child: Container(
+                            child: SizedBox(
                               width: (screenWidth / 1) - (screenWidth * 0.09),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -132,7 +132,7 @@ class MealsPlanespage1 extends StatelessWidget {
                               controller.selectedAllergies.value == allergie;
                           return GestureDetector(
                             onTap: () => controller.changeAllergies(allergie),
-                            child: Container(
+                            child: SizedBox(
                               width: (screenWidth / 2) - (screenWidth * 0.07),
                               child: Row(
                                 children: [
@@ -200,7 +200,7 @@ class MealsPlanespage1 extends StatelessWidget {
                               controller.selectedMealsType.value == mealType;
                           return GestureDetector(
                             onTap: () => controller.changeMealType(mealType),
-                            child: Container(
+                            child: SizedBox(
                               width: (screenWidth / 2) - (screenWidth * 0.07),
                               child: Row(
                                 children: [

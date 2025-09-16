@@ -2,8 +2,6 @@ import 'package:fitness_app/controller/nutrition_controller.dart';
 import 'package:fitness_app/view/header_workout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/get_core.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 
 class NutritionPage extends StatelessWidget {
   NutritionController nutritionController = Get.put(NutritionController());

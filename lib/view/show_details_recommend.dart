@@ -1,4 +1,3 @@
-// show_details_recommend.dart
 import 'package:fitness_app/controller/meal_idea_controller.dart';
 import 'package:fitness_app/view/appColor.dart';
 import 'package:flutter/material.dart';

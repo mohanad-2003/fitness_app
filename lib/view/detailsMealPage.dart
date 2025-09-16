@@ -4,7 +4,6 @@ import 'package:fitness_app/view/mealIdea_discover_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class Detailsmealpage extends StatelessWidget {
   final Map<String, dynamic> item;
