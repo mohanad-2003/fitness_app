@@ -462,6 +462,7 @@ class CommonMealIdeaPage extends StatelessWidget {
               final item = recipesList[index];
               return Container(
                 width: double.infinity,
+                height: 110.h,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20.r),
@@ -530,7 +531,7 @@ class CommonMealIdeaPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Spacer(),
+
                     Expanded(
                       flex: 3,
                       child: Stack(
@@ -540,7 +541,7 @@ class CommonMealIdeaPage extends StatelessWidget {
                             child: Image.asset(
                               item.image,
                               width: 148.w,
-                              height: 110,
+                              height: double.infinity,
                               fit: BoxFit.cover,
                             ),
                           ),
