@@ -8,7 +8,7 @@ class SearchController1 extends GetxController {
   }
 
   List<Map<String, dynamic>> workout = [
-      {
+    {
       "image": "assets/squat.png",
       "name": "Squat Exercise",
       "time": "12 Minutes",
@@ -29,7 +29,7 @@ class SearchController1 extends GetxController {
       "name": "Circuit Training",
       "time": "50 Minutes",
       "calory": "1300 Kcal",
-      "exercises":"5 exercises",
+      "exercises": "5 exercises",
       "type": "Workout",
     },
     {
@@ -45,7 +45,7 @@ class SearchController1 extends GetxController {
       "time": "12 Minutes",
       "calory": "1250 Kcal",
       "type": "Workout",
-      "exercises":"5 exercises",
+      "exercises": "5 exercises",
     },
     {
       "image": "assets/turkey.png",
