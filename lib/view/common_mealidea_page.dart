@@ -14,16 +14,6 @@ class RecommendedMealItem {
     required this.time,
     required this.calory,
   });
-
-  /// في حال عندك داتا كـ Map
-  // factory RecommendedMealItem.fromMap(Map<String, dynamic> m) {
-  //   return RecommendedMealItem(
-  //     image: (m['image'] ?? '') as String,
-  //     name: (m['name'] ?? '') as String,
-  //     time: (m['time'] ?? '') as String,
-  //     calory: (m['calory'] ?? m['calories'] ?? '') as String,
-  //   );
-  // }
 }
 
 class RecipesMealItem {
@@ -38,14 +28,6 @@ class RecipesMealItem {
     required this.image,
     required this.time,
   });
-  // factory RecipesMealItem.fromMap(Map<String, dynamic> m) {
-  //   return RecipesMealItem(
-  //     image: (m['image'] ?? '') as String,
-  //     name: (m['name'] ?? '') as String,
-  //     time: (m['time'] ?? '') as String,
-  //     calory: (m['calory'] ?? m['calories'] ?? '') as String,
-  //   );
-  // }
 }
 
 /// صفحة مشتركة/Reusable لقسم فكرة الوجبة + الموصى به
@@ -148,12 +130,13 @@ class CommonMealIdeaPage extends StatelessWidget {
                       left: 0,
                       right: 0,
                       child: Container(
+                        width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20.r),
                             bottomRight: Radius.circular(20.r),
                           ),
-                          color: Colors.black.withOpacity(0.35),
+                          color: Colors.black.withOpacity(0.45),
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -173,7 +156,7 @@ class CommonMealIdeaPage extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: 14.sp,
                                         color: accentColor,
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),

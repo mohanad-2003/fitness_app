@@ -11,7 +11,7 @@ import 'package:fitness_app/view/common_details_header.dart';
 class MealIdeaPage extends StatelessWidget {
   MealIdeaPage({super.key});
 
-  final MealIdeaController c = Get.put(MealIdeaController());
+  final MealIdeaController mealIdeaController = Get.put(MealIdeaController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,42 +34,46 @@ class MealIdeaPage extends StatelessWidget {
                     Obx(
                       () => Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(c.category.length, (index) {
-                          final isSelected = c.currentCategory.value == index;
-                          return Expanded(
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(20.r),
-                              onTap: () {
-                                c.selectdCategory(index);
-                                c.closeDetails(); // رجوع للوضع العادي عند تغيير التبويب
-                              },
-                              child: Container(
-                                height: 32.h,
-                                margin: EdgeInsets.symmetric(horizontal: 5.w),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.r),
-                                  color:
-                                      isSelected
-                                          ? const Color(0xffE2F163)
-                                          : Colors.white,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    c.category[index],
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color:
-                                          isSelected
-                                              ? const Color(0xff232323)
-                                              : const Color(0xff896CFE),
-                                      fontWeight: FontWeight.w600,
+                        children: List.generate(
+                          mealIdeaController.category.length,
+                          (index) {
+                            final isSelected =
+                                mealIdeaController.currentCategory.value ==
+                                index;
+                            return Expanded(
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(20.r),
+                                onTap: () {
+                                  mealIdeaController.selectdCategory(index);
+                                },
+                                child: Container(
+                                  height: 32.h,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.w),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20.r),
+                                    color:
+                                        isSelected
+                                            ? const Color(0xffE2F163)
+                                            : Colors.white,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      mealIdeaController.category[index],
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        color:
+                                            isSelected
+                                                ? const Color(0xff232323)
+                                                : const Color(0xff896CFE),
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        }),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -84,7 +88,7 @@ class MealIdeaPage extends StatelessWidget {
                   duration: const Duration(milliseconds: 250),
                   switchInCurve: Curves.easeOut,
                   switchOutCurve: Curves.easeIn,
-                  child: _buildBodyForCategory(c),
+                  child: _buildBodyForCategory(mealIdeaController),
                 );
               }),
             ],
@@ -95,17 +99,20 @@ class MealIdeaPage extends StatelessWidget {
   }
 
   Widget _buildBodyForCategory(MealIdeaController c) {
+    final currentIndex = c.currentCategory.value;
+
     // تفاصيل عنصر من Recommended
     if (c.showRecommendedDetails.value) {
       final i = c.selectedRecommendedIndex.value;
+      Map<String, dynamic> m = {};
 
-      // اختَر المصدر حسب التبويب
-      final m = switch (c.currentCategory.value) {
-        0 => c.breakfastRecommended[i],
-        1 => c.lunchRecommended[i],
-        2 => c.dinnerRecommended[i],
-        _ => c.breakfastRecommended[i],
-      };
+      if (currentIndex == 0) {
+        m = c.breakfastRecommended[i];
+      } else if (currentIndex == 1) {
+        m = c.lunchRecommended[i];
+      } else if (currentIndex == 2) {
+        m = c.dinnerRecommended[i];
+      }
 
       final ingredients = List<String>.from(m['ingredients'] ?? []);
       return _DetailsContainer(
@@ -124,12 +131,15 @@ class MealIdeaPage extends StatelessWidget {
 
     // تفاصيل الهيدر البنفسجي (Top)
     if (c.showTopDetails.value) {
-      final m = switch (c.currentCategory.value) {
-        0 => c.breakfastTop,
-        1 => c.lunchTop,
-        2 => c.dinnerTop,
-        _ => c.breakfastTop,
-      };
+      Map<String, dynamic> m = {};
+
+      if (currentIndex == 0) {
+        m = c.breakfastTop;
+      } else if (currentIndex == 1) {
+        m = c.lunchTop;
+      } else if (currentIndex == 2) {
+        m = c.dinnerTop;
+      }
 
       final ingredients = List<String>.from(m['ingredients'] ?? []);
       return _DetailsContainer(
@@ -147,7 +157,7 @@ class MealIdeaPage extends StatelessWidget {
       );
     }
 
-    // الوضع العادي (قائمة كل تبويب)
+    // الوضع العادي
     return _ListSection(key: const ValueKey('list'), controller: c);
   }
 }

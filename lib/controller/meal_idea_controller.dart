@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 
 class MealIdeaController extends GetxController {
@@ -7,9 +6,9 @@ class MealIdeaController extends GetxController {
   final List<String> category = ["Breakfast", "Lunch", "Dinner"];
 
   // حالات إظهار التفاصيل داخل الصفحة
-  final showTopDetails = false.obs;            // تفاصيل الكارد البنفسجي
-  final showRecommendedDetails = false.obs;    // تفاصيل عنصر من Recommended
-  final selectedRecommendedIndex = 0.obs;      // اندكس العنصر المختار
+  final showTopDetails = false.obs; // تفاصيل الكارد البنفسجي
+  final showRecommendedDetails = false.obs; // تفاصيل عنصر من Recommended
+  final selectedRecommendedIndex = 0.obs; // اندكس العنصر المختار
 
   // ==== Breakfast ====
   final Map<String, dynamic> breakfastTop = {
@@ -130,7 +129,7 @@ class MealIdeaController extends GetxController {
 
   // ==== Dinner ====
   final Map<String, dynamic> dinnerTop = {
-    "image": "assets/grilled.png", // تأكد من وجود الامتداد الفعلي للصورة
+    "image": "assets/gc.png", // تأكد من وجود الامتداد الفعلي للصورة
     "name": "Grilled Chicken Salad",
     "time": "20 Minutes",
     "calory": "240 Cal",
@@ -146,7 +145,7 @@ class MealIdeaController extends GetxController {
 
   final List<Map<String, dynamic>> dinnerRecommended = [
     {
-      "image": "assets/chickp.png",
+      "image": "assets/ch.png",
       "name": "Chickpea salad",
       "time": "20 Minutes",
       "calory": "300 Cal",
@@ -187,7 +186,10 @@ class MealIdeaController extends GetxController {
   ];
 
   // اختيار تبويب
-  void selectdCategory(int index) => currentCategory.value = index;
+  void selectdCategory(int index) {
+    currentCategory.value = index;
+     // selectedRecommendedIndex.value = 0;
+  }
 
   // فتح/إغلاق التفاصيل
   void openTop() {
