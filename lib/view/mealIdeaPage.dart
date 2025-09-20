@@ -1,3 +1,4 @@
+// meal_idea_page.dart
 import 'package:fitness_app/view/header_workout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +12,7 @@ import 'package:fitness_app/view/common_details_header.dart';
 class MealIdeaPage extends StatelessWidget {
   MealIdeaPage({super.key});
 
-  final MealIdeaController mealIdeaController = Get.put(MealIdeaController());
+  final MealIdeaController c = Get.put(MealIdeaController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,46 +35,41 @@ class MealIdeaPage extends StatelessWidget {
                     Obx(
                       () => Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                          mealIdeaController.category.length,
-                          (index) {
-                            final isSelected =
-                                mealIdeaController.currentCategory.value ==
-                                index;
-                            return Expanded(
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(20.r),
-                                onTap: () {
-                                  mealIdeaController.selectdCategory(index);
-                                },
-                                child: Container(
-                                  height: 32.h,
-                                  margin: EdgeInsets.symmetric(horizontal: 5.w),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20.r),
-                                    color:
-                                        isSelected
-                                            ? const Color(0xffE2F163)
-                                            : Colors.white,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      mealIdeaController.category[index],
-                                      style: TextStyle(
-                                        fontSize: 14.sp,
-                                        color:
-                                            isSelected
-                                                ? const Color(0xff232323)
-                                                : const Color(0xff896CFE),
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                        children: List.generate(c.category.length, (index) {
+                          final isSelected = c.currentCategory.value == index;
+                          return Expanded(
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(20.r),
+                              onTap: () {
+                                c.selectdCategory(index);
+                              },
+                              child: Container(
+                                height: 32.h,
+                                margin: EdgeInsets.symmetric(horizontal: 5.w),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  color:
+                                      isSelected
+                                          ? const Color(0xffE2F163)
+                                          : Colors.white,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    c.category[index],
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color:
+                                          isSelected
+                                              ? const Color(0xff232323)
+                                              : const Color(0xff896CFE),
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        }),
                       ),
                     ),
                   ],
@@ -88,7 +84,7 @@ class MealIdeaPage extends StatelessWidget {
                   duration: const Duration(milliseconds: 250),
                   switchInCurve: Curves.easeOut,
                   switchOutCurve: Curves.easeIn,
-                  child: _buildBodyForCategory(mealIdeaController),
+                  child: _buildBodyForCategory(c),
                 );
               }),
             ],
@@ -125,6 +121,33 @@ class MealIdeaPage extends StatelessWidget {
           image: m['image'],
           tagText: "Recommended",
           ingredients: ingredients,
+        ),
+      );
+    }
+
+    // تفاصيل عنصر من Recipes For You
+    if (c.showRecipeDetails.value) {
+      final i = c.selectedRecipeIndex.value;
+      Map<String, dynamic> m = {};
+      if (currentIndex == 0) {
+        m = c.breakfastRecipes[i];
+      } else if (currentIndex == 1) {
+        m = c.lunchRecipes[i];
+      } else if (currentIndex == 2) {
+        m = c.dinnerRecipes[i];
+      }
+      final ingredients = List<String>.from(m['ingredients'] ?? []);
+      return _DetailsContainer(
+        key: const ValueKey('recipes_details'),
+        onBack: c.closeDetails,
+        child: CommonDetailsHeader(
+          name: m['name'],
+          time: m['time'],
+          calory: m['calory'],
+          image: m['image'],
+          tagText: "Recipe",
+          ingredients: ingredients,
+          preparation: m['preparation'], // ✅ صار يعرض طريقة التحضير
         ),
       );
     }
@@ -186,26 +209,31 @@ class _ListSection extends StatelessWidget {
       recipes = controller.dinnerRecipes;
     }
 
-    // تحويل إلى موديلات الواجهة (لو كنت تستخدمها)
-    final recommendedList =
-        rec.map((m) {
-          return RecommendedMealItem(
-            image: m['image'],
-            name: m['name'],
-            time: m['time'],
-            calory: m['calory'],
-          );
-        }).toList();
+    // تحويل إلى موديلات الواجهة
+    final List<RecommendedMealItem> recommendedList = [];
+    for (var m in rec) {
+      recommendedList.add(
+        RecommendedMealItem(
+          image: m['image'],
+          name: m['name'],
+          time: m['time'],
+          calory: m['calory'],
+        ),
+      );
+    }
 
-    final recipesList =
-        recipes.map((m) {
-          return RecipesMealItem(
-            image: m['image'],
-            name: m['name'],
-            time: m['time'],
-            calory: m['calory'],
-          );
-        }).toList();
+    final List<RecipesMealItem> recipesList = [];
+for (var m in recipes) {
+  recipesList.add(
+    RecipesMealItem(
+      image: m['image'],
+      name: m['name'],
+      time: m['time'],
+      calory: m['calory'],
+    ),
+  );
+}
+
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,16 +246,12 @@ class _ListSection extends StatelessWidget {
           calories: top['calory'],
           recommendedList: recommendedList,
           recipesList: recipesList,
-
-          // يفتح تفاصيل الهيدر داخل الصفحة
-          onHeaderDetails: controller.openTop,
-
-          // تفاصيل عنصر من Recommended
-          onRecommendedPlayTap: (i) => controller.openRecommended(i),
-
-          // اختياري: نجوم المفضلة
+          onHeaderDetails: controller.openTop, // Top
+          onRecommendedPlayTap:
+              (i) => controller.openRecommended(i), // Recommended
           onHeaderStarTap: () {},
           onRecommendedStarTap: (i) {},
+          onRecipeTap: (i) => controller.openRecipe(i), // Recipes For You
         ),
       ],
     );
@@ -254,15 +278,15 @@ class _DetailsContainer extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: onBack,
-                child: const Icon(Icons.arrow_back, color: Colors.white),
+                child: const Icon(Icons.arrow_back, color: Colors.amber),
               ),
               SizedBox(width: 8.w),
               Text(
                 "Meal Ideas",
                 style: TextStyle(
                   fontSize: 16.sp,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
+                  color: Colors.amber,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],

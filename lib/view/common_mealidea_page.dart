@@ -1,7 +1,7 @@
+// common_mealidea_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// عنصر واحد في قسم "Recommended"
 class RecommendedMealItem {
   final String image;
   final String name;
@@ -43,15 +43,15 @@ class CommonMealIdeaPage extends StatelessWidget {
   /// ألوان قابلة للتخصيص (اختيارية)
   final Color headerBgColor; // خلفية بلوك البانر الخارجي
   final Color tagBgColor; // خلفية شارة "Recipe of the day"
-  final Color accentColor; // لون مميز للنصوص (مثل #E2F163)
-  final Color
-  secondaryAccentColor; // لون ثانوي للأيقونات الدائرية (مثل #896CFE)
+  final Color accentColor; // لون مميز للنصوص
+  final Color secondaryAccentColor; // لون ثانوي للأيقونات
 
-  /// كولباكات اختيارية للتفاعل
+  /// كولباكات تفاعل
   final VoidCallback? onHeaderStarTap;
   final VoidCallback? onHeaderDetails;
   final void Function(int index)? onRecommendedStarTap;
   final void Function(int index)? onRecommendedPlayTap;
+  final void Function(int index)? onRecipeTap; // <<< جديد
 
   const CommonMealIdeaPage({
     super.key,
@@ -70,6 +70,7 @@ class CommonMealIdeaPage extends StatelessWidget {
     this.onRecommendedPlayTap,
     required this.recipesList,
     required this.onHeaderDetails,
+    this.onRecipeTap, // <<< جديد
   });
 
   @override
@@ -227,14 +228,14 @@ class CommonMealIdeaPage extends StatelessWidget {
 
         SizedBox(height: 20.h),
 
-        // Recommended Header
+        // Recommended + Recipes
         Padding(
           padding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildRecommended(),
-              SizedBox(height: 10),
+              SizedBox(height: 10.h),
               _buildRecipes(),
             ],
           ),
@@ -362,7 +363,6 @@ class CommonMealIdeaPage extends StatelessWidget {
                           SizedBox(height: 6.h),
                           Row(
                             children: [
-                              // time
                               Row(
                                 children: [
                                   Image.asset(
@@ -382,7 +382,6 @@ class CommonMealIdeaPage extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(width: 14.w),
-                              // calories
                               Row(
                                 children: [
                                   Image.asset(
@@ -445,103 +444,106 @@ class CommonMealIdeaPage extends StatelessWidget {
           child: ListView.separated(
             itemBuilder: (context, index) {
               final item = recipesList[index];
-              return Container(
-                width: double.infinity,
-                height: 110.h,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10.h,
-                          horizontal: 15.w,
+              return GestureDetector(
+                onTap: () => onRecipeTap?.call(index), // <<< الفتح للتفاصيل
+                child: Container(
+                  width: double.infinity,
+                  height: 110.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 5,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 10.h,
+                            horizontal: 15.w,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.name,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: Color(0xff232323),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 10.h),
+                              Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        "assets/time.png",
+                                        color: Color(0xff232323),
+                                      ),
+                                      SizedBox(width: 5.w),
+                                      Text(
+                                        item.time,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Color(0xff212020),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 20.w),
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        "assets/calories.png",
+                                        color: Color(0xff232323),
+                                      ),
+                                      SizedBox(width: 5.w),
+                                      Text(
+                                        item.calory,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Color(0xff212020),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      ),
+                      const Spacer(),
+                      Expanded(
+                        flex: 3,
+                        child: Stack(
                           children: [
-                            Text(
-                              item.name,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                color: Color(0xff232323),
-                                fontWeight: FontWeight.bold,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20.r),
+                              child: Image.asset(
+                                item.image,
+                                width: 148.w,
+                                height: double.infinity,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                            SizedBox(height: 10.h),
-                            Row(
-                              children: [
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/time.png",
-                                      color: Color(0xff232323),
-                                    ),
-                                    SizedBox(width: 5.w),
-                                    Text(
-                                      item.time,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Color(0xff212020),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(width: 20.w),
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/calories.png",
-                                      color: Color(0xff232323),
-                                    ),
-                                    SizedBox(width: 5.w),
-                                    Text(
-                                      item.calory,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Color(0xff212020),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            Positioned(
+                              top: 5,
+                              right: 5,
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: const Icon(Icons.star, color: Colors.white),
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    Spacer(),
-                    Expanded(
-                      flex: 3,
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20.r),
-                            child: Image.asset(
-                              item.image,
-                              width: 148.w,
-                              height: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Positioned(
-                            top: 5,
-                            right: 5,
-                            child: GestureDetector(
-                              onTap: () => "",
-                              child: Icon(Icons.star, color: Colors.white),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

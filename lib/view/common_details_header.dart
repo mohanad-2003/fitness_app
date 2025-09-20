@@ -17,15 +17,15 @@ class CommonDetailsHeader extends StatelessWidget {
   final bool isStarred;
 
   // ألوان قابلة للتخصيص
-  final Color headerBgColor;   // خلفية بلوك الصورة
-  final Color tagBgColor;      // خلفية الشارة
-  final Color titleColor;      // لون العنوان
-  final Color metaIconColor;   // لون أيقونات الوقت/السعرات
-  final Color metaTextColor;   // لون نص الوقت/السعرات
+  final Color headerBgColor; // خلفية بلوك الصورة
+  final Color tagBgColor; // خلفية الشارة
+  final Color titleColor; // لون العنوان
+  final Color metaIconColor; // لون أيقونات الوقت/السعرات
+  final Color metaTextColor; // لون نص الوقت/السعرات
 
   // أقسام إضافية (اختيارية) بنفس التصميم
-  final List<String>? ingredients;  // لو حابب تعرض Ingredients تحت الهيدر
-  final String? preparation;        // نص الـ Preparation
+  final List<String>? ingredients; // لو حابب تعرض Ingredients تحت الهيدر
+  final String? preparation; // نص الـ Preparation
   final EdgeInsetsGeometry padding;
 
   const CommonDetailsHeader({
@@ -68,17 +68,21 @@ class CommonDetailsHeader extends StatelessWidget {
                       name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 20.sp, color: titleColor, fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  if (onStarTap != null)
-                    IconButton(
-                      onPressed: onStarTap,
-                      icon: Icon(
-                        isStarred ? Icons.star : Icons.star_border,
-                        color: Colors.white,
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        color: titleColor,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
+                  ),
+
+                  GestureDetector(
+                    onTap: onStarTap,
+                    child: Icon(
+                      isStarred ? Icons.star : Icons.star_border,
+                      color: Colors.white,
+                    ),
+                  ),
                 ],
               ),
               SizedBox(height: 10.h),
@@ -90,7 +94,10 @@ class CommonDetailsHeader extends StatelessWidget {
                     children: [
                       Image.asset("assets/time.png", color: metaIconColor),
                       SizedBox(width: 5.w),
-                      Text(time, style: TextStyle(fontSize: 12.sp, color: metaTextColor)),
+                      Text(
+                        time,
+                        style: TextStyle(fontSize: 12.sp, color: metaTextColor),
+                      ),
                     ],
                   ),
                   SizedBox(width: 20.w),
@@ -98,7 +105,10 @@ class CommonDetailsHeader extends StatelessWidget {
                     children: [
                       Image.asset("assets/calories.png", color: metaIconColor),
                       SizedBox(width: 5.w),
-                      Text(calory, style: TextStyle(fontSize: 12.sp, color: metaTextColor)),
+                      Text(
+                        calory,
+                        style: TextStyle(fontSize: 12.sp, color: metaTextColor),
+                      ),
                     ],
                   ),
                 ],
@@ -147,7 +157,11 @@ class CommonDetailsHeader extends StatelessWidget {
                       child: Center(
                         child: Text(
                           tagText,
-                          style: TextStyle(fontSize: 12.sp, color: const Color(0xff232323), fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: const Color(0xff232323),
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
@@ -165,7 +179,14 @@ class CommonDetailsHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Ingredients", style: TextStyle(fontSize: 14.sp, color: titleColor, fontWeight: FontWeight.w700)),
+                Text(
+                  "Ingredients",
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: titleColor,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
                 SizedBox(height: 8.h),
                 ...ingredients!.map((e) => _bullet(e)),
               ],
@@ -181,9 +202,23 @@ class CommonDetailsHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 10.h),
-                Text("Preparation", style: TextStyle(fontSize: 14.sp, color: titleColor, fontWeight: FontWeight.w700)),
+                Text(
+                  "Preparation",
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: titleColor,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
                 SizedBox(height: 6.h),
-                Text(preparation!, style: TextStyle(fontSize: 13.sp, color: Colors.white70, height: 1.4)),
+                Text(
+                  preparation!,
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    color: Colors.white70,
+                    height: 1.4,
+                  ),
+                ),
               ],
             ),
           ),
@@ -193,19 +228,27 @@ class CommonDetailsHeader extends StatelessWidget {
   }
 
   Widget _bullet(String t) => Padding(
-        padding: EdgeInsets.symmetric(vertical: 4.h),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 6.w,
-              height: 6.w,
-              margin: EdgeInsets.only(top: 6.h),
-              decoration: const BoxDecoration(color: Color(0xff896CFE), shape: BoxShape.circle),
-            ),
-            SizedBox(width: 8.w),
-            Expanded(child: Text(t, style: TextStyle(fontSize: 13.sp, color: Colors.white))),
-          ],
+    padding: EdgeInsets.symmetric(vertical: 4.h),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 6.w,
+          height: 6.w,
+          margin: EdgeInsets.only(top: 6.h),
+          decoration: const BoxDecoration(
+            color: Color(0xff896CFE),
+            shape: BoxShape.circle,
+          ),
         ),
-      );
+        SizedBox(width: 8.w),
+        Expanded(
+          child: Text(
+            t,
+            style: TextStyle(fontSize: 13.sp, color: Colors.white),
+          ),
+        ),
+      ],
+    ),
+  );
 }
