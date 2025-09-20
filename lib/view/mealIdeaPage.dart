@@ -1,17 +1,17 @@
-import 'package:fitness_app/controller/meal_idea_controller.dart';
-import 'package:fitness_app/view/appColor.dart';
-import 'package:fitness_app/view/common_mealidea_page.dart';
-import 'package:fitness_app/view/details_meal_idea.dart';
 import 'package:fitness_app/view/header_workout.dart';
-import 'package:fitness_app/view/show_details_recommend.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import 'package:fitness_app/controller/meal_idea_controller.dart';
+import 'package:fitness_app/view/appColor.dart';
+import 'package:fitness_app/view/common_mealidea_page.dart';
+import 'package:fitness_app/view/common_details_header.dart';
+
 class MealIdeaPage extends StatelessWidget {
   MealIdeaPage({super.key});
 
-  final MealIdeaController mealIdeaController = Get.put(MealIdeaController());
+  final MealIdeaController c = Get.put(MealIdeaController());
 
   @override
   Widget build(BuildContext context) {
@@ -23,221 +23,243 @@ class MealIdeaPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // العنوان + التبويبات
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    HeaderWorkout(name: "Meal Ideas"),
+                    HeaderWorkout(name: "Meal Idea"),
                     SizedBox(height: 20.h),
-                    Obx(() {
-                      return Row(
+                    Obx(
+                      () => Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                          mealIdeaController.category.length,
-                          (index) {
-                            final isSelected =
-                                mealIdeaController.currentCategory.value ==
-                                index;
-                            return Expanded(
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(20.r),
-                                onTap:
-                                    () => mealIdeaController.selectdCategory(
-                                      index,
-                                    ),
-                                child: Container(
-                                  height: 32.h,
-                                  margin: EdgeInsets.symmetric(horizontal: 5.w),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20.r),
-                                    color:
-                                        isSelected
-                                            ? const Color(0xffE2F163)
-                                            : Colors.white,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      mealIdeaController.category[index],
-                                      style: TextStyle(
-                                        fontSize: 14.sp,
-                                        color:
-                                            isSelected
-                                                ? const Color(0xff232323)
-                                                : const Color(0xff896CFE),
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                        children: List.generate(c.category.length, (index) {
+                          final isSelected = c.currentCategory.value == index;
+                          return Expanded(
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(20.r),
+                              onTap: () {
+                                c.selectdCategory(index);
+                                c.closeDetails(); // رجوع للوضع العادي عند تغيير التبويب
+                              },
+                              child: Container(
+                                height: 32.h,
+                                margin: EdgeInsets.symmetric(horizontal: 5.w),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  color:
+                                      isSelected
+                                          ? const Color(0xffE2F163)
+                                          : Colors.white,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    c.category[index],
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color:
+                                          isSelected
+                                              ? const Color(0xff232323)
+                                              : const Color(0xff896CFE),
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
                               ),
-                            );
-                          },
-                        ),
-                      );
-                    }),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
                   ],
                 ),
               ),
 
               SizedBox(height: 10.h),
 
-              // ✅ AnimatedSwitcher لانتقال سلس بين القائمة والتفاصيل
+              // المحتوى أسفل التبويبات
               Obx(() {
-                if (mealIdeaController.currentCategory.value == 0) {
-                  final bool showTop = mealIdeaController.showTopDetails.value;
-                  final bool showRec =
-                      mealIdeaController.showRecommendedDetails.value;
-
-                  if (showRec) {
-                    return ShowDetailsRecommend(controller: mealIdeaController);
-                  } else if (showTop) {
-                    return TopRecipeDetails(controller: mealIdeaController);
-                  } else {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 20.h),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CommonMealIdeaPage(
-                              image: "assets/sp.png",
-                              name: "Spinach And Tomato Omelette",
-                              time: "10 min",
-                              calories: "250 kcal",
-                              recommendedList: [
-                                RecommendedMealItem(
-                                  image: "assets/green.png",
-                                  name: "Green Celery Juice",
-                                  time: "7 min",
-                                  calory: "120 kcal",
-                                ),
-                                RecommendedMealItem(
-                                  image: "assets/fruit.png",
-                                  name: "Fruit Smoothie",
-                                  time: "10 min",
-                                  calory: "250 kcal",
-                                ),
-                              ],
-                              onHeaderStarTap: () {
-                                /* حط مفضلة */
-                              },
-                              onRecommendedPlayTap: (i) {
-                                /* شغّل فيديو الوصفة */
-                              },
-                              onRecommendedStarTap: (i) {
-                                /* مفضلة عنصر */
-                              },
-                              recipesList: [
-                                RecipesMealItem(
-                                  name: "Delights with Greek yogurt",
-                                  calory: "200 Cal",
-                                  image: "assets/delights.png",
-                                  time: "6 Minutes",
-                                ),
-                                RecipesMealItem(
-                                  name: "Avocado and Egg Toast",
-                                  calory: "150 Cal",
-                                  image: "assets/avocado.png",
-                                  time: "15 Minutes",
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  }
-                } else if (mealIdeaController.currentCategory.value == 1) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CommonMealIdeaPage(
-                        image: "assets/lunch.png",
-                        name: "Salmon And Avocado Salad",
-                        calories: "300 Cal",
-                        time: "15 Minutes",
-                        recommendedList: [
-                          RecommendedMealItem(
-                            image: "assets/qui.png",
-                            name: "Quinoa salad",
-                            time: "25 Minutes",
-                            calory: "300 Cal",
-                          ),
-                          RecommendedMealItem(
-                            image: "assets/burrito.png",
-                            name: "burrito with vegetables",
-                            time: "20 Minutes",
-                            calory: "250 Cal",
-                          ),
-                        ],
-
-                        recipesList: [
-                          RecipesMealItem(
-                            name: "Teriyaki chicken with brown rice",
-                            calory: "375 Cal",
-                            image: "assets/ter.png",
-                            time: "45 Minutes",
-                          ),
-                          RecipesMealItem(
-                            name: "Baked salmon",
-                            calory: "350 Cal",
-                            image: "assets/baked.png",
-                            time: "30 Minutes",
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                } else if (mealIdeaController.currentCategory.value == 2) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CommonMealIdeaPage(
-                        image: "assets/grilled",
-                        name: "Grilled Chicken Salad",
-                        calories: "240 Cal",
-                        time: "20 Minutes",
-                        recommendedList: [
-                          RecommendedMealItem(
-                            image: "assets/chickp.png",
-                            name: "Chickpea salad",
-                            time: "20 Minutes",
-                            calory: "300 Cal",
-                          ),
-                          RecommendedMealItem(
-                            image: "assets/lentil.png",
-                            name: "lentil soup",
-                            time: "30 Minutes",
-                            calory: "200 Cal",
-                          ),
-                        ],
-                        recipesList: [
-                          RecipesMealItem(
-                            name: "Turkey and Avocado Wrap",
-                            calory: "230 Cal",
-                            image: "assets/turkey.png",
-                            time: "15 Minutes",
-                          ),
-                          RecipesMealItem(
-                            name: "Chicken Breast Stuffed with Spinach ",
-                            calory: "250 Cal",
-                            image: "assets/chicken.png",
-                            time: "30 Minutes",
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                } else {
-                  return SizedBox();
-                }
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 250),
+                  switchInCurve: Curves.easeOut,
+                  switchOutCurve: Curves.easeIn,
+                  child: _buildBodyForCategory(c),
+                );
               }),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildBodyForCategory(MealIdeaController c) {
+    // تفاصيل عنصر من Recommended
+    if (c.showRecommendedDetails.value) {
+      final i = c.selectedRecommendedIndex.value;
+
+      // اختَر المصدر حسب التبويب
+      final m = switch (c.currentCategory.value) {
+        0 => c.breakfastRecommended[i],
+        1 => c.lunchRecommended[i],
+        2 => c.dinnerRecommended[i],
+        _ => c.breakfastRecommended[i],
+      };
+
+      final ingredients = List<String>.from(m['ingredients'] ?? []);
+      return _DetailsContainer(
+        key: const ValueKey('rec_details'),
+        onBack: c.closeDetails,
+        child: CommonDetailsHeader(
+          name: m['name'],
+          time: m['time'],
+          calory: m['calory'],
+          image: m['image'],
+          tagText: "Recommended",
+          ingredients: ingredients,
+        ),
+      );
+    }
+
+    // تفاصيل الهيدر البنفسجي (Top)
+    if (c.showTopDetails.value) {
+      final m = switch (c.currentCategory.value) {
+        0 => c.breakfastTop,
+        1 => c.lunchTop,
+        2 => c.dinnerTop,
+        _ => c.breakfastTop,
+      };
+
+      final ingredients = List<String>.from(m['ingredients'] ?? []);
+      return _DetailsContainer(
+        key: const ValueKey('top_details'),
+        onBack: c.closeDetails,
+        child: CommonDetailsHeader(
+          name: m['name'],
+          time: m['time'],
+          calory: m['calory'],
+          image: m['image'],
+          tagText: "Recipe Of The Day",
+          ingredients: ingredients,
+          preparation: m['preparation'],
+        ),
+      );
+    }
+
+    // الوضع العادي (قائمة كل تبويب)
+    return _ListSection(key: const ValueKey('list'), controller: c);
+  }
+}
+
+class _ListSection extends StatelessWidget {
+  final MealIdeaController controller;
+  const _ListSection({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    // اختيار مصادر الداتا حسب التبويب
+    late Map<String, dynamic> top;
+    late List<Map<String, dynamic>> rec, recipes;
+
+    if (controller.currentCategory.value == 0) {
+      top = controller.breakfastTop;
+      rec = controller.breakfastRecommended;
+      recipes = controller.breakfastRecipes;
+    } else if (controller.currentCategory.value == 1) {
+      top = controller.lunchTop;
+      rec = controller.lunchRecommended;
+      recipes = controller.lunchRecipes;
+    } else {
+      top = controller.dinnerTop;
+      rec = controller.dinnerRecommended;
+      recipes = controller.dinnerRecipes;
+    }
+
+    // تحويل إلى موديلات الواجهة (لو كنت تستخدمها)
+    final recommendedList =
+        rec.map((m) {
+          return RecommendedMealItem(
+            image: m['image'],
+            name: m['name'],
+            time: m['time'],
+            calory: m['calory'],
+          );
+        }).toList();
+
+    final recipesList =
+        recipes.map((m) {
+          return RecipesMealItem(
+            image: m['image'],
+            name: m['name'],
+            time: m['time'],
+            calory: m['calory'],
+          );
+        }).toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 20.h),
+        CommonMealIdeaPage(
+          image: top['image'],
+          name: top['name'],
+          time: top['time'],
+          calories: top['calory'],
+          recommendedList: recommendedList,
+          recipesList: recipesList,
+
+          // يفتح تفاصيل الهيدر داخل الصفحة
+          onHeaderDetails: controller.openTop,
+
+          // تفاصيل عنصر من Recommended
+          onRecommendedPlayTap: (i) => controller.openRecommended(i),
+
+          // اختياري: نجوم المفضلة
+          onHeaderStarTap: () {},
+          onRecommendedStarTap: (i) {},
+        ),
+      ],
+    );
+  }
+}
+
+class _DetailsContainer extends StatelessWidget {
+  final Widget child;
+  final VoidCallback onBack;
+  const _DetailsContainer({
+    super.key,
+    required this.child,
+    required this.onBack,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // Back
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: onBack,
+                child: const Icon(Icons.arrow_back, color: Colors.white),
+              ),
+              SizedBox(width: 8.w),
+              Text(
+                "Meal Ideas",
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+        child,
+      ],
     );
   }
 }

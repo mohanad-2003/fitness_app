@@ -16,14 +16,14 @@ class RecommendedMealItem {
   });
 
   /// في حال عندك داتا كـ Map
-  factory RecommendedMealItem.fromMap(Map<String, dynamic> m) {
-    return RecommendedMealItem(
-      image: (m['image'] ?? '') as String,
-      name: (m['name'] ?? '') as String,
-      time: (m['time'] ?? '') as String,
-      calory: (m['calory'] ?? m['calories'] ?? '') as String,
-    );
-  }
+  // factory RecommendedMealItem.fromMap(Map<String, dynamic> m) {
+  //   return RecommendedMealItem(
+  //     image: (m['image'] ?? '') as String,
+  //     name: (m['name'] ?? '') as String,
+  //     time: (m['time'] ?? '') as String,
+  //     calory: (m['calory'] ?? m['calories'] ?? '') as String,
+  //   );
+  // }
 }
 
 class RecipesMealItem {
@@ -38,14 +38,14 @@ class RecipesMealItem {
     required this.image,
     required this.time,
   });
-  factory RecipesMealItem.fromMap(Map<String, dynamic> m) {
-    return RecipesMealItem(
-      image: (m['image'] ?? '') as String,
-      name: (m['name'] ?? '') as String,
-      time: (m['time'] ?? '') as String,
-      calory: (m['calory'] ?? m['calories'] ?? '') as String,
-    );
-  }
+  // factory RecipesMealItem.fromMap(Map<String, dynamic> m) {
+  //   return RecipesMealItem(
+  //     image: (m['image'] ?? '') as String,
+  //     name: (m['name'] ?? '') as String,
+  //     time: (m['time'] ?? '') as String,
+  //     calory: (m['calory'] ?? m['calories'] ?? '') as String,
+  //   );
+  // }
 }
 
 /// صفحة مشتركة/Reusable لقسم فكرة الوجبة + الموصى به
@@ -67,6 +67,7 @@ class CommonMealIdeaPage extends StatelessWidget {
 
   /// كولباكات اختيارية للتفاعل
   final VoidCallback? onHeaderStarTap;
+  final VoidCallback? onHeaderDetails;
   final void Function(int index)? onRecommendedStarTap;
   final void Function(int index)? onRecommendedPlayTap;
 
@@ -86,6 +87,7 @@ class CommonMealIdeaPage extends StatelessWidget {
     this.onRecommendedStarTap,
     this.onRecommendedPlayTap,
     required this.recipesList,
+    required this.onHeaderDetails,
   });
 
   @override
@@ -94,144 +96,147 @@ class CommonMealIdeaPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Header / Banner
-        Container(
-          width: double.infinity,
-          height: 242.h,
-          color: headerBgColor,
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20.r),
-                    child: Image.asset(
-                      image,
-                      width: 323.w,
-                      height: 198.h,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: Container(
-                      width: 125.w,
-                      height: 25.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.r),
-                          topRight: Radius.circular(20.r),
-                          bottomLeft: Radius.circular(20.r),
-                        ),
-                        color: tagBgColor,
+        GestureDetector(
+          onTap: onHeaderDetails,
+          child: Container(
+            width: double.infinity,
+            height: 242.h,
+            color: headerBgColor,
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20.r),
+                      child: Image.asset(
+                        image,
+                        width: 323.w,
+                        height: 198.h,
+                        fit: BoxFit.cover,
                       ),
-                      child: Center(
-                        child: Text(
-                          tagText,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            color: const Color(0xff232323),
-                            fontWeight: FontWeight.w600,
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        width: 125.w,
+                        height: 25.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20.r),
+                            topRight: Radius.circular(20.r),
+                            bottomLeft: Radius.circular(20.r),
+                          ),
+                          color: tagBgColor,
+                        ),
+                        child: Center(
+                          child: Text(
+                            tagText,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: const Color(0xff232323),
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20.r),
-                          bottomRight: Radius.circular(20.r),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20.r),
+                            bottomRight: Radius.circular(20.r),
+                          ),
+                          color: Colors.black.withOpacity(0.35),
                         ),
-                        color: Colors.black.withOpacity(0.35),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 6.h,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    name,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: accentColor,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: onHeaderStarTap,
-                                  child: const Icon(
-                                    Icons.star,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 6.h),
-                            Row(
-                              children: [
-                                // time
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/time.png",
-                                      color: Colors.white,
-                                      width: 16.w,
-                                      height: 16.w,
-                                    ),
-                                    SizedBox(width: 5.w),
-                                    Text(
-                                      time,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 6.h,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      name,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.white,
+                                        fontSize: 14.sp,
+                                        color: accentColor,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                  ],
-                                ),
-                                SizedBox(width: 20.w),
-                                // calories
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/calories.png",
+                                  ),
+                                  InkWell(
+                                    onTap: onHeaderStarTap,
+                                    child: const Icon(
+                                      Icons.star,
                                       color: Colors.white,
-                                      width: 16.w,
-                                      height: 16.w,
                                     ),
-                                    SizedBox(width: 5.w),
-                                    Text(
-                                      calories,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 6.h),
+                              Row(
+                                children: [
+                                  // time
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        "assets/time.png",
                                         color: Colors.white,
+                                        width: 16.w,
+                                        height: 16.w,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
+                                      SizedBox(width: 5.w),
+                                      Text(
+                                        time,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 20.w),
+                                  // calories
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        "assets/calories.png",
+                                        color: Colors.white,
+                                        width: 16.w,
+                                        height: 16.w,
+                                      ),
+                                      SizedBox(width: 5.w),
+                                      Text(
+                                        calories,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -309,7 +314,7 @@ class CommonMealIdeaPage extends StatelessWidget {
                           ),
                           child: Image.asset(
                             item.image,
-                            width: 170.w,
+                            width: double.infinity,
                             height: 120.h,
                             fit: BoxFit.cover,
                           ),
@@ -323,7 +328,7 @@ class CommonMealIdeaPage extends StatelessWidget {
                           ),
                         ),
                         Positioned(
-                          bottom: -18,
+                          bottom: -15,
                           right: 10,
                           child: InkWell(
                             onTap: () => onRecommendedPlayTap?.call(index),
@@ -357,10 +362,7 @@ class CommonMealIdeaPage extends StatelessWidget {
 
                     // نصوص البطاقة
                     Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 8.h,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
