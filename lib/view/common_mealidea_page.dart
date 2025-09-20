@@ -533,6 +533,7 @@ class CommonMealIdeaPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Spacer(),
                     Expanded(
                       flex: 3,
                       child: Stack(
