@@ -192,8 +192,8 @@ class _ListSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // اختيار مصادر الداتا حسب التبويب
-    late Map<String, dynamic> top;
-    late List<Map<String, dynamic>> rec, recipes;
+    final Map<String, dynamic> top;
+    final List<Map<String, dynamic>> rec, recipes;
 
     if (controller.currentCategory.value == 0) {
       top = controller.breakfastTop;
