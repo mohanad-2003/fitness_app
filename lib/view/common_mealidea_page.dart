@@ -51,7 +51,15 @@ class CommonMealIdeaPage extends StatelessWidget {
   final VoidCallback? onHeaderDetails;
   final void Function(int index)? onRecommendedStarTap;
   final void Function(int index)? onRecommendedPlayTap;
-  final void Function(int index)? onRecipeTap; // <<< جديد
+  final void Function(int index)? onRecipeTap;
+
+  /// حالات المفضلة (Injected من الكنترولر)
+  final bool Function()? isHeaderFav;
+  final bool Function(int index)? isRecommendedFav;
+  final bool Function(int index)? isRecipeFav;
+
+  /// تبديل مفضلة الوصفات في قائمة Recipes
+  final void Function(int index)? onRecipeStarTap;
 
   const CommonMealIdeaPage({
     super.key,
@@ -60,6 +68,8 @@ class CommonMealIdeaPage extends StatelessWidget {
     required this.calories,
     required this.time,
     required this.recommendedList,
+    required this.recipesList,
+    required this.onHeaderDetails,
     this.tagText = "Recipe of the day",
     this.headerBgColor = const Color(0xffB3A0FF),
     this.tagBgColor = const Color(0xffE2F163),
@@ -68,9 +78,11 @@ class CommonMealIdeaPage extends StatelessWidget {
     this.onHeaderStarTap,
     this.onRecommendedStarTap,
     this.onRecommendedPlayTap,
-    required this.recipesList,
-    required this.onHeaderDetails,
-    this.onRecipeTap, // <<< جديد
+    this.onRecipeTap,
+    this.isHeaderFav,
+    this.isRecommendedFav,
+    this.isRecipeFav,
+    this.onRecipeStarTap,
   });
 
   @override
@@ -163,9 +175,14 @@ class CommonMealIdeaPage extends StatelessWidget {
                                   ),
                                   InkWell(
                                     onTap: onHeaderStarTap,
-                                    child: const Icon(
-                                      Icons.star,
-                                      color: Colors.white,
+                                    child: Icon(
+                                      (isHeaderFav?.call() ?? false)
+                                          ? Icons.star
+                                          : Icons.star_border,
+                                      color:
+                                          (isHeaderFav?.call() ?? false)
+                                              ? Colors.red
+                                              : Colors.white,
                                     ),
                                   ),
                                 ],
@@ -308,7 +325,15 @@ class CommonMealIdeaPage extends StatelessWidget {
                           right: 8,
                           child: InkWell(
                             onTap: () => onRecommendedStarTap?.call(index),
-                            child: const Icon(Icons.star, color: Colors.white),
+                            child: Icon(
+                              (isRecommendedFav?.call(index) ?? false)
+                                  ? Icons.star
+                                  : Icons.star_border,
+                              color:
+                                  (isRecommendedFav?.call(index) ?? false)
+                                      ? Colors.red
+                                      : Colors.white,
+                            ),
                           ),
                         ),
                         Positioned(
@@ -445,7 +470,7 @@ class CommonMealIdeaPage extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = recipesList[index];
               return GestureDetector(
-                onTap: () => onRecipeTap?.call(index), // <<< الفتح للتفاصيل
+                onTap: () => onRecipeTap?.call(index), // فتح التفاصيل
                 child: Container(
                   width: double.infinity,
                   height: 110.h,
@@ -535,8 +560,17 @@ class CommonMealIdeaPage extends StatelessWidget {
                               top: 5,
                               right: 5,
                               child: GestureDetector(
-                                onTap: () {},
-                                child: const Icon(Icons.star, color: Colors.white),
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () => onRecipeStarTap?.call(index),
+                                child: Icon(
+                                  (isRecipeFav?.call(index) ?? false)
+                                      ? Icons.star
+                                      : Icons.star_border,
+                                  color:
+                                      (isRecipeFav?.call(index) ?? false)
+                                          ? Colors.red
+                                          : Colors.white,
+                                ),
                               ),
                             ),
                           ],

@@ -121,6 +121,8 @@ class MealIdeaPage extends StatelessWidget {
           image: m['image'],
           tagText: "Recommended",
           ingredients: ingredients,
+          isStarred: c.isRecommendedFav(c.currentCategory.value, i),
+          onStarTap: () => c.toggleRecommendedFav(c.currentCategory.value, i),
         ),
       );
     }
@@ -148,6 +150,8 @@ class MealIdeaPage extends StatelessWidget {
           tagText: "Recipe",
           ingredients: ingredients,
           preparation: m['preparation'], // ✅ صار يعرض طريقة التحضير
+          isStarred: c.isRecipeFav(c.currentCategory.value, i),
+          onStarTap: () => c.toggleRecipeFav(c.currentCategory.value, i),
         ),
       );
     }
@@ -176,6 +180,8 @@ class MealIdeaPage extends StatelessWidget {
           tagText: "Recipe Of The Day",
           ingredients: ingredients,
           preparation: m['preparation'],
+          isStarred: c.isTopFav(c.currentCategory.value, m['name']),
+          onStarTap: () => c.toggleTopFav(c.currentCategory.value, m['name']),
         ),
       );
     }
@@ -210,49 +216,69 @@ class _ListSection extends StatelessWidget {
     }
 
     // تحويل إلى موديلات الواجهة
-    final List<RecommendedMealItem> recommendedList = [];
-    for (var m in rec) {
-      recommendedList.add(
+    final List<RecommendedMealItem> recommendedList = [
+      for (var m in rec)
         RecommendedMealItem(
           image: m['image'],
           name: m['name'],
           time: m['time'],
           calory: m['calory'],
         ),
-      );
-    }
+    ];
 
-    final List<RecipesMealItem> recipesList = [];
-for (var m in recipes) {
-  recipesList.add(
-    RecipesMealItem(
-      image: m['image'],
-      name: m['name'],
-      time: m['time'],
-      calory: m['calory'],
-    ),
-  );
-}
+    final List<RecipesMealItem> recipesList = [
+      for (var m in recipes)
+        RecipesMealItem(
+          image: m['image'],
+          name: m['name'],
+          time: m['time'],
+          calory: m['calory'],
+        ),
+    ];
 
+    final currentCat = controller.currentCategory.value;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 20.h),
-        CommonMealIdeaPage(
-          image: top['image'],
-          name: top['name'],
-          time: top['time'],
-          calories: top['calory'],
-          recommendedList: recommendedList,
-          recipesList: recipesList,
-          onHeaderDetails: controller.openTop, // Top
-          onRecommendedPlayTap:
-              (i) => controller.openRecommended(i), // Recommended
-          onHeaderStarTap: () {},
-          onRecommendedStarTap: (i) {},
-          onRecipeTap: (i) => controller.openRecipe(i), // Recipes For You
-        ),
+
+        // ملاحظة مهمة:
+        // لفّينا الودجت التالية بـ Obx حتى تُعاد بناء النجوم عند تغيّر favorites.
+        // نقرأ length لضمان التبعية التفاعلية لهذا الـ Obx على RxSet.
+        Obx(() {
+          final _ =
+              controller.favorites.length; // يضمن إعادة البناء عند أي تغيير
+
+          return CommonMealIdeaPage(
+            image: top['image'],
+            name: top['name'],
+            time: top['time'],
+            calories: top['calory'],
+
+            // القوائم
+            recommendedList: recommendedList,
+            recipesList: recipesList,
+
+            // فتح التفاصيل (Top / Recommended / Recipes)
+            onHeaderDetails: controller.openTop,
+            onRecommendedPlayTap: (i) => controller.openRecommended(i),
+            onRecipeTap: (i) => controller.openRecipe(i),
+
+            // ==== حالة المفضّلة ====
+            // فحص
+            isHeaderFav: () => controller.isTopFav(currentCat, top['name']),
+            isRecommendedFav: (i) => controller.isRecommendedFav(currentCat, i),
+            isRecipeFav: (i) => controller.isRecipeFav(currentCat, i),
+
+            // تبديل
+            onHeaderStarTap:
+                () => controller.toggleTopFav(currentCat, top['name']),
+            onRecommendedStarTap:
+                (i) => controller.toggleRecommendedFav(currentCat, i),
+            onRecipeStarTap: (i) => controller.toggleRecipeFav(currentCat, i),
+          );
+        }),
       ],
     );
   }
@@ -270,26 +296,14 @@ class _DetailsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Back
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: onBack,
-                child: const Icon(Icons.arrow_back, color: Colors.amber),
-              ),
-              SizedBox(width: 8.w),
-              Text(
-                "Meal Ideas",
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: Colors.amber,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+          child: GestureDetector(
+            onTap: onBack,
+            child: const Icon(Icons.arrow_back, color: Colors.amber),
           ),
         ),
         child,

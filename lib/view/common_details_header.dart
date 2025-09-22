@@ -23,9 +23,9 @@ class CommonDetailsHeader extends StatelessWidget {
   final Color metaIconColor; // لون أيقونات الوقت/السعرات
   final Color metaTextColor; // لون نص الوقت/السعرات
 
-  // أقسام إضافية (اختيارية) بنفس التصميم
-  final List<String>? ingredients; // لو حابب تعرض Ingredients تحت الهيدر
-  final String? preparation; // نص الـ Preparation
+  // أقسام إضافية (اختيارية)
+  final List<String>? ingredients; // Ingredients
+  final String? preparation; // Preparation
   final EdgeInsetsGeometry padding;
 
   const CommonDetailsHeader({
@@ -75,12 +75,12 @@ class CommonDetailsHeader extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   GestureDetector(
                     onTap: onStarTap,
                     child: Icon(
                       isStarred ? Icons.star : Icons.star_border,
-                      color: Colors.white,
+                      // 👇 أحمر لو مفعلة، أبيض لو غير مفعّلة
+                      color: isStarred ? Colors.red : Colors.white,
                     ),
                   ),
                 ],
@@ -125,7 +125,7 @@ class CommonDetailsHeader extends StatelessWidget {
           height: 242.h,
           decoration: BoxDecoration(
             color: headerBgColor,
-            borderRadius: BorderRadius.circular(0), // لو بدك تدوير للخارج
+            borderRadius: BorderRadius.circular(0),
           ),
           child: Center(
             child: Stack(
@@ -139,33 +139,6 @@ class CommonDetailsHeader extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                if (showTag)
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: Container(
-                      width: 130.w,
-                      height: 30.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.r),
-                          topRight: Radius.circular(20.r),
-                          bottomLeft: Radius.circular(20.r),
-                        ),
-                        color: tagBgColor,
-                      ),
-                      child: Center(
-                        child: Text(
-                          tagText,
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            color: const Color(0xff232323),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
               ],
             ),
           ),

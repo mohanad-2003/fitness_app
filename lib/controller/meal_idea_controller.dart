@@ -1,18 +1,61 @@
 // meal_idea_controller.dart
 import 'package:get/get.dart';
+// لو بدك حفظ دائم، فعّل GetStorage واستخدمه (اختياري):
+// import 'package:get_storage/get_storage.dart';
 
 class MealIdeaController extends GetxController {
-  // التبويب الحالي
+  // =========================
+  // تبويبات
+  // =========================
   var currentCategory = 0.obs;
   final List<String> category = ["Breakfast", "Lunch", "Dinner"];
 
-  // حالات التفاصيل
+  // =========================
+  // حالات عرض التفاصيل
+  // =========================
   final showTopDetails = false.obs;          // تفاصيل Top
   final showRecommendedDetails = false.obs;  // تفاصيل Recommended
   final showRecipeDetails = false.obs;       // تفاصيل Recipes For You
 
   final selectedRecommendedIndex = 0.obs;    // اندكس الموصى بها
   final selectedRecipeIndex = 0.obs;         // اندكس الوصفات
+
+  // =========================
+  // حالة المفضّلة
+  // =========================
+  // ملاحظة: نستخدم مفاتيح نصية بسيطة:
+  // top|<catIndex>|<name>  —  rec|<catIndex>|<index>  —  recipe|<catIndex>|<index>
+  final RxSet<String> favorites = <String>{}.obs;
+
+  String _topKey(int cat, String name)   => "top|$cat|$name";
+  String _recKey(int cat, int i)         => "rec|$cat|$i";
+  String _recipeKey(int cat, int i)      => "recipe|$cat|$i";
+
+  bool isTopFav(int cat, String name)    => favorites.contains(_topKey(cat, name));
+  bool isRecommendedFav(int cat, int i)  => favorites.contains(_recKey(cat, i));
+  bool isRecipeFav(int cat, int i)       => favorites.contains(_recipeKey(cat, i));
+
+  void toggleTopFav(int cat, String name) {
+    final k = _topKey(cat, name);
+    favorites.contains(k) ? favorites.remove(k) : favorites.add(k);
+    // _persistFavorites(); // إن كنت تريد حفظًا دائمًا
+  }
+
+  void toggleRecommendedFav(int cat, int i) {
+    final k = _recKey(cat, i);
+    favorites.contains(k) ? favorites.remove(k) : favorites.add(k);
+    // _persistFavorites();
+  }
+
+  void toggleRecipeFav(int cat, int i) {
+    final k = _recipeKey(cat, i);
+    favorites.contains(k) ? favorites.remove(k) : favorites.add(k);
+    // _persistFavorites();
+  }
+
+  // =========================
+  // بيانات الوجبات
+  // =========================
 
   // ==== Breakfast ====
   final Map<String, dynamic> breakfastTop = {
@@ -245,7 +288,9 @@ class MealIdeaController extends GetxController {
     },
   ];
 
-  // اختيار تبويب
+  // =========================
+  // تبديل التبويب
+  // =========================
   void selectdCategory(int index) {
     currentCategory.value = index;
     // إعادة ضبط التفاصيل عند التبديل
@@ -256,7 +301,9 @@ class MealIdeaController extends GetxController {
     selectedRecipeIndex.value = 0;
   }
 
+  // =========================
   // فتح/إغلاق التفاصيل
+  // =========================
   void openTop() {
     showTopDetails.value = true;
     showRecommendedDetails.value = false;
@@ -282,4 +329,21 @@ class MealIdeaController extends GetxController {
     showRecommendedDetails.value = false;
     showRecipeDetails.value = false;
   }
+
+  // =========================
+  // (اختياري) حفظ/تحميل المفضلة محليًا
+  // =========================
+  // final _box = GetStorage();
+  // static const _favKey = 'meal_favorites';
+
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   final saved = _box.read<List>(_favKey) ?? [];
+  //   favorites.addAll(saved.map((e) => e.toString()));
+  // }
+
+  // void _persistFavorites() {
+  //   _box.write(_favKey, favorites.toList());
+  // }
 }
