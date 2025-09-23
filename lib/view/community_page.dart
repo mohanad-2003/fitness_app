@@ -257,7 +257,26 @@ class CommunityPage extends StatelessWidget {
                     ],
                   );
                 } else if (comunityController.currentCategory.value == 1) {
-                  return SizedBox();
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 10.h,
+                      horizontal: 20.w,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Challenges and competitions",
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            color: Color(0xffE2F163),
+                          ),
+                        ),
+                        SizedBox(height: 10.h),
+                        _buildChallenges(),
+                      ],
+                    ),
+                  );
                 } else {
                   return SizedBox();
                 }
@@ -265,6 +284,79 @@ class CommunityPage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildChallenges() {
+    return SizedBox(
+      height: 600.h,
+      child: ListView.separated(
+        itemBuilder: (context, index) {
+          final item = comunityController.challenges[index];
+          return Container(
+            height: 110.h,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+              color: Colors.white,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 5.h,
+                      horizontal: 15.w,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item['name'] ?? " ",
+                          maxLines: 2,
+                          style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 16.sp,
+                            color: Color(0xff232323),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        Flexible(
+                          child: Text(
+                            item['details'] ?? " ",
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+
+                              color: Color(0xff232323),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: -1,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.r),
+                    child: Image.asset(
+                      item['image'] ?? " ",
+                      width: 148.w,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        separatorBuilder: (c, i) => SizedBox(height: 5.h),
+        itemCount: comunityController.challenges.length,
       ),
     );
   }
