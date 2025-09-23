@@ -1,4 +1,4 @@
-import 'package:fitness_app/view/mealIdeaPage.dart';
+import 'package:fitness_app/view/community_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
      
-      child: MealIdeaPage(),
+      child: CommunityPage(),
       builder: (context, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
