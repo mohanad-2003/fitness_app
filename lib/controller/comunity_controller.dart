@@ -34,4 +34,31 @@ class ComunityController extends GetxController {
           "Lorem ipsum dolor sit amet consectetur. Magnis pellentesque felis ullamcorper imperdiet.",
     },
   ];
+  final List<Map<String, String>> forums = [
+    {
+      "title": "Strength Training Techniques",
+      "subtitle": " Discussion on training methods",
+      "all": "See All",
+      "date": "Today 17:05",
+    },
+    {
+      "title": "Nutrition and Diet Strategies",
+      "subtitle": " Discussion on training methods",
+      "all": "See All",
+      "date": "Today 17:05",
+    },
+    {
+      "title": "Cardiovascular Fitness",
+      "subtitle": " Discussion on training methods",
+      "all": "See All",
+      "date": "Today 17:05",
+    },
+    {
+      "title": "Strength Training Techniques",
+      "subtitle": " Discussion on training methods",
+      "all": "See All",
+      "date": "Today 17:05",
+    },
+  ];
+  
 }

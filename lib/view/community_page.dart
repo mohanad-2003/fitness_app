@@ -6,9 +6,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 
-class CommunityPage extends StatelessWidget {
-  ComunityController comunityController = Get.put(ComunityController());
+class CommunityPage extends StatefulWidget {
   CommunityPage({super.key});
+
+  @override
+  State<CommunityPage> createState() => _CommunityPageState();
+}
+
+class _CommunityPageState extends State<CommunityPage> {
+  final ComunityController comunityController = Get.put(ComunityController());
+  Rx<Map<String, String>?> selectedForum = Rx<Map<String, String>?>(null);
+  bool isFavorit = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +40,11 @@ class CommunityPage extends StatelessWidget {
                         height: 32.h,
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
-
+                          itemCount: comunityController.categories.length,
+                          separatorBuilder: (c, i) => SizedBox(width: 5.w),
                           itemBuilder: (context, index) {
                             final isSelected = current == index;
                             final item = comunityController.categories[index];
-
                             return GestureDetector(
                               onTap:
                                   () =>
@@ -68,8 +76,6 @@ class CommunityPage extends StatelessWidget {
                               ),
                             );
                           },
-                          separatorBuilder: (c, i) => SizedBox(width: 5.w),
-                          itemCount: comunityController.categories.length,
                         ),
                       );
                     }),
@@ -79,39 +85,36 @@ class CommunityPage extends StatelessWidget {
               SizedBox(height: 20.h),
               Obx(() {
                 if (comunityController.currentCategory.value == 0) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 347.h,
-                        color: Color(0xffB3A0FF),
-                        child: Center(
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(20.r),
-                                child: Image.asset(
-                                  "assets/comm.png",
-                                  width: 323.w,
-                                  height: 310.h,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                left: 0,
-                                child: Container(
+                  // Category "Discussion Forum"
+                  if (selectedForum.value != null) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10.h,
+                        horizontal: 20.w,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Forum Details",
+                            style: TextStyle(
+                              fontSize: 20.sp,
+                              color: Color(0xffE2F163),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 10.h),
+                          SizedBox(
+                            height: 500.h,
+                            child: ListView.separated(
+                              itemBuilder: (contex, index) {
+                                return Container(
                                   width: double.infinity,
-                                  //  height: 40.h,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(20.r),
-                                      bottomRight: Radius.circular(20.r),
+                                    border: Border.all(
+                                      color: Color(0xffE2F163),
                                     ),
-                                    color: Colors.black.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(20.r),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
@@ -123,58 +126,91 @@ class CommunityPage extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
                                           children: [
+                                            CircleAvatar(
+                                              backgroundImage: AssetImage(
+                                                "assets/profile.png",
+                                              ),
+                                              radius: 35.r,
+                                            ),
+                                            SizedBox(width: 5.w),
                                             Text(
-                                              "Cycling Challenge",
+                                              "Madison",
                                               style: TextStyle(
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15.sp,
                                                 color: Color(0xffE2F163),
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
+                                            Spacer(),
                                             GestureDetector(
                                               onTap: () => "",
                                               child: Icon(
-                                                Icons.star,
-                                                color: Colors.white,
+                                                Icons.star_border,
+                                                color: Color(0xffE2F163),
                                               ),
                                             ),
                                           ],
                                         ),
                                         SizedBox(height: 10.h),
+                                        Text(
+                                          maxLines: 2,
+                                          "Lorem ipsum dolor sit amet consectetur. Tortor aenean suspendisse pretium nunc non facilisi.",
+                                          style: TextStyle(
+                                            fontSize: 13.sp,
+                                            color: Color(0xffE2F163),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10.h),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Row(
                                               children: [
-                                                Image.asset(
-                                                  "assets/time.png",
-                                                  color: Colors.white,
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Color(0xff896CFE),
                                                 ),
                                                 SizedBox(width: 5.w),
                                                 Text(
-                                                  "15 Minutes",
+                                                  "30,254",
                                                   style: TextStyle(
-                                                    fontSize: 12.sp,
-                                                    color: Colors.white,
+                                                    fontSize: 13.sp,
+                                                    color: Color(0xffE2F163),
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            SizedBox(width: 20.w),
                                             Row(
                                               children: [
-                                                Image.asset(
-                                                  "assets/calories.png",
-                                                  color: Colors.white,
+                                                Icon(
+                                                  Icons.message,
+                                                  color: Color(0xff896CFE),
                                                 ),
                                                 SizedBox(width: 5.w),
                                                 Text(
-                                                  "100 Kcal",
+                                                  "12,254",
                                                   style: TextStyle(
-                                                    fontSize: 12.sp,
-                                                    color: Colors.white,
+                                                    fontSize: 13.sp,
+                                                    color: Color(0xffE2F163),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.visibility,
+                                                  color: Color(0xff896CFE),
+                                                ),
+                                                SizedBox(width: 5.w),
+                                                Text(
+                                                  "1,254",
+                                                  style: TextStyle(
+                                                    fontSize: 13.sp,
+                                                    color: Color(0xffE2F163),
                                                   ),
                                                 ),
                                               ],
@@ -184,79 +220,140 @@ class CommunityPage extends StatelessWidget {
                                       ],
                                     ),
                                   ),
+                                );
+                              },
+                              separatorBuilder:
+                                  (c, i) => SizedBox(height: 10.h),
+                              itemCount: 5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    // Show default image + forums list
+                    return Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 347.h,
+                          color: Color(0xffB3A0FF),
+                          child: Center(
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  child: Image.asset(
+                                    "assets/comm.png",
+                                    width: 323.w,
+                                    height: 310.h,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  left: 0,
+                                  child: Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20.r),
+                                        bottomRight: Radius.circular(20.r),
+                                      ),
+                                      color: Colors.black.withOpacity(0.5),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 5.h,
+                                        horizontal: 10.w,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Cycling Challenge",
+                                                style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xffE2F163),
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                onTap:
+                                                    () => setState(() {
+                                                      isFavorit = !isFavorit;
+                                                    }),
+                                                child: Icon(
+                                                  Icons.star,
+                                                  color:
+                                                      isFavorit
+                                                          ? Colors.red
+                                                          : Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 10.h),
+                                          Row(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Image.asset(
+                                                    "assets/time.png",
+                                                    color: Colors.white,
+                                                  ),
+                                                  SizedBox(width: 5.w),
+                                                  Text(
+                                                    "15 Minutes",
+                                                    style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(width: 20.w),
+                                              Row(
+                                                children: [
+                                                  Image.asset(
+                                                    "assets/calories.png",
+                                                    color: Colors.white,
+                                                  ),
+                                                  SizedBox(width: 5.w),
+                                                  Text(
+                                                    "100 Kcal",
+                                                    style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 10.h),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10.h,
-                          horizontal: 20.w,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Forums",
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                color: Color(0xffE2F163),
-                              ),
-                            ),
-                            SizedBox(height: 10.h),
-                            Container(
-                              width: double.infinity,
-                              height: 300.h,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.r),
-                                color: Color(0xff896CFE),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 15.h,
-                                  horizontal: 20.w,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    _buildForums(
-                                      "Strength Training Techniques",
-                                      " Discussion on training methods",
-                                      "See All",
-                                      "Today 17:05",
-                                    ),
-                                    SizedBox(height: 5.h),
-                                    _buildForums(
-                                      "Nutrition and Diet Strategies",
-                                      "Meal planning, supplementation preferences",
-                                      "See All",
-                                      "Today 17:05",
-                                    ),
-                                    _buildForums(
-                                      "Cardiovascular Fitness",
-                                      "About different types of cardio workouts",
-                                      "See All",
-                                      "Today 17:05",
-                                    ),
-                                    _buildForums(
-                                      "Strength Training Techniques",
-                                      "Strategies for improving flexibility and joint mobility to prevent injuries",
-                                      "See All",
-                                      "Today 17:05",
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
+                        SizedBox(height: 10.h),
+                        _buildForums(),
+                      ],
+                    );
+                  }
                 } else if (comunityController.currentCategory.value == 1) {
+                  // Category "Challenges"
                   return Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: 10.h,
@@ -272,7 +369,7 @@ class CommunityPage extends StatelessWidget {
                             color: Color(0xffE2F163),
                           ),
                         ),
-                        SizedBox(height: 10.h),
+                        SizedBox(height: 20.h),
                         _buildChallenges(),
                       ],
                     ),
@@ -292,6 +389,8 @@ class CommunityPage extends StatelessWidget {
     return SizedBox(
       height: 600.h,
       child: ListView.separated(
+        itemCount: comunityController.challenges.length,
+        separatorBuilder: (c, i) => SizedBox(height: 20.h),
         itemBuilder: (context, index) {
           final item = comunityController.challenges[index];
           return Container(
@@ -330,7 +429,6 @@ class CommunityPage extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontSize: 13.sp,
-
                               color: Color(0xff232323),
                             ),
                           ),
@@ -340,7 +438,7 @@ class CommunityPage extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: -1,
+                  flex: 0,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.r),
                     child: Image.asset(
@@ -355,69 +453,97 @@ class CommunityPage extends StatelessWidget {
             ),
           );
         },
-        separatorBuilder: (c, i) => SizedBox(height: 5.h),
-        itemCount: comunityController.challenges.length,
       ),
     );
   }
-}
 
-Widget _buildForums(String title, String subtitl, String all, String date) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      // العنوان + See All
-      Row(
+  Widget _buildForums() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // العنوان يتمدّد ويقص لو طال
-          Expanded(
-            child: Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(width: 8.w),
           Text(
-            all,
+            "Forums",
             style: TextStyle(
-              fontSize: 13.sp,
-              color: Colors.white,
+              fontSize: 20.sp,
+              color: Color(0xffE2F163),
               fontWeight: FontWeight.bold,
             ),
           ),
-        ],
-      ),
-
-      // السطر الثاني: subtitle + التاريخ
-      Row(
-        children: [
-          // خلي السب تايتل يتمدّد ويقصّ
-          Expanded(
-            child: Text(
-              subtitl,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 13.sp, color: Colors.white),
-              softWrap: false,
+          SizedBox(height: 10.h),
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+              color: Color(0xff896CFE),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+              child: SizedBox(
+                height: 300.h,
+                child: ListView.separated(
+                  itemCount: comunityController.forums.length,
+                  separatorBuilder: (c, i) => SizedBox(height: 5.h),
+                  itemBuilder: (context, index) {
+                    final item = comunityController.forums[index];
+                    return GestureDetector(
+                      onTap: () => selectedForum.value = item,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                item['title'] ?? "",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                item['all'] ?? " ",
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                item['subtitle'] ?? "",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                item['date'] ?? "",
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10.h),
+                          Divider(color: Colors.white),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
           ),
-          SizedBox(width: 8.w),
-          // التاريخ ثابت على اليمين
-          Text(
-            date,
-            style: TextStyle(fontSize: 13.sp, color: Colors.white),
-            softWrap: false,
-          ),
         ],
       ),
-
-      Divider(color: Colors.white),
-    ],
-  );
+    );
+  }
 }
