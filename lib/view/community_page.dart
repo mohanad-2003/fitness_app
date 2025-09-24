@@ -7,7 +7,7 @@ import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 
 class CommunityPage extends StatefulWidget {
-  CommunityPage({super.key});
+  const CommunityPage({super.key});
 
   @override
   State<CommunityPage> createState() => _CommunityPageState();
@@ -95,17 +95,30 @@ class _CommunityPageState extends State<CommunityPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Forum Details",
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              color: Color(0xffE2F163),
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () => selectedForum.value = null,
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  color: Color(0xff896CFE),
+                                ),
+                              ),
+                              SizedBox(width: 5.w),
+
+                              Text(
+                                "Forum Details",
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  color: Color(0xffE2F163),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(height: 10.h),
                           SizedBox(
-                            height: 500.h,
+                            height: 600.h,
                             child: ListView.separated(
                               itemBuilder: (contex, index) {
                                 return Container(
@@ -131,7 +144,7 @@ class _CommunityPageState extends State<CommunityPage> {
                                               backgroundImage: AssetImage(
                                                 "assets/profile.png",
                                               ),
-                                              radius: 35.r,
+                                              radius: 25.r,
                                             ),
                                             SizedBox(width: 5.w),
                                             Text(
