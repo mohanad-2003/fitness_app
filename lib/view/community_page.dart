@@ -1,13 +1,23 @@
 import 'package:fitness_app/controller/comunity_controller.dart';
 import 'package:fitness_app/view/appColor.dart';
+import 'package:fitness_app/view/challenge_page.dart';
 import 'package:fitness_app/view/header_workout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 
 class CommunityPage extends StatefulWidget {
-  const CommunityPage({super.key});
+  final String image;
+  final String name;
+  final String details;
+  CommunityPage({
+    super.key,
+    required this.image,
+    required this.name,
+    required this.details,
+  });
 
   @override
   State<CommunityPage> createState() => _CommunityPageState();
@@ -406,63 +416,73 @@ class _CommunityPageState extends State<CommunityPage> {
         separatorBuilder: (c, i) => SizedBox(height: 20.h),
         itemBuilder: (context, index) {
           final item = comunityController.challenges[index];
-          return Container(
-            height: 110.h,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.r),
-              color: Colors.white,
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 5.h,
-                      horizontal: 15.w,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item['name'] ?? " ",
-                          maxLines: 2,
-                          style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontSize: 16.sp,
-                            color: Color(0xff232323),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 5.h),
-                        Flexible(
-                          child: Text(
-                            item['details'] ?? " ",
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
+          return GestureDetector(
+            onTap:
+                () => Get.to(
+                  ChallengePage(
+                    image: "assets/cy1.png",
+                    name: item['name'] ?? "",
+                    details: item['details'] ?? "",
+                  ),
+                ),
+            child: Container(
+              height: 110.h,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+                color: Colors.white,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 5.h,
+                        horizontal: 15.w,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item['name'] ?? " ",
+                            maxLines: 2,
                             style: TextStyle(
-                              fontSize: 13.sp,
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: 16.sp,
                               color: Color(0xff232323),
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 5.h),
+                          Flexible(
+                            child: Text(
+                              item['details'] ?? " ",
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 13.sp,
+                                color: Color(0xff232323),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  flex: 0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.r),
-                    child: Image.asset(
-                      item['image'] ?? " ",
-                      width: 148.w,
-                      height: double.infinity,
-                      fit: BoxFit.cover,
+                  Expanded(
+                    flex: 0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: Image.asset(
+                        item['image'] ?? " ",
+                        width: 148.w,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

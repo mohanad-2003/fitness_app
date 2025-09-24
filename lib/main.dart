@@ -14,17 +14,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      
       designSize: const Size(393, 852),
       minTextAdapt: true,
       splitScreenMode: true,
-     
-      child: CommunityPage(),
       builder: (context, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           useInheritedMediaQuery: true,
-          home: child,
+          home: CommunityPage(
+            // ✅ هنا حط الصفحة الأساسية
+            image: "assets/comm.png",
+            name: "Community",
+            details: "Welcome to the community",
+          ),
         );
       },
     );
