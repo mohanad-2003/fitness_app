@@ -8,7 +8,7 @@ class WeeklyChallenge extends StatelessWidget {
   final String image;
   final String name;
 
-  WeeklyChallenge({super.key, required this.image, required this.name});
+  const WeeklyChallenge({super.key, required this.image, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +44,7 @@ class WeeklyChallenge extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                         ),
+
                         Positioned(
                           bottom: 0,
                           right: 0,

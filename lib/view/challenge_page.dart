@@ -12,7 +12,7 @@ class ChallengePage extends StatelessWidget {
   final String image;
   final String name;
   final String details;
-  ChallengePage({
+  const ChallengePage({
     super.key,
     required this.image,
     required this.name,

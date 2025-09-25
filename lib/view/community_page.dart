@@ -12,7 +12,7 @@ class CommunityPage extends StatefulWidget {
   final String image;
   final String name;
   final String details;
-  CommunityPage({
+  const CommunityPage({
     super.key,
     required this.image,
     required this.name,
