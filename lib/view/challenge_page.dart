@@ -1,6 +1,7 @@
 import 'package:fitness_app/view/appColor.dart';
 import 'package:fitness_app/view/notification_page.dart';
 import 'package:fitness_app/view/profile_page.dart';
+import 'package:fitness_app/view/weekly_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -121,9 +122,12 @@ class ChallengePage extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 SizedBox(height: 10.h),
+
                 GestureDetector(
-                  onTap: () => "",
+                  onTap:
+                      () => Get.to(WeeklyChallenge(image: image, name: name)),
                   child: Container(
                     width: 250.w,
                     height: 40.h,
