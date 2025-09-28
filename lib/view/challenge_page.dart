@@ -3,10 +3,8 @@ import 'package:fitness_app/view/notification_page.dart';
 import 'package:fitness_app/view/profile_page.dart';
 import 'package:fitness_app/view/weekly_challenge.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class ChallengePage extends StatelessWidget {
   final String image;

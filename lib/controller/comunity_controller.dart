@@ -60,5 +60,5 @@ class ComunityController extends GetxController {
       "date": "Today 17:05",
     },
   ];
-  
+ 
 }

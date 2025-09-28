@@ -5,8 +5,6 @@ import 'package:fitness_app/view/header_workout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
-import 'package:get/state_manager.dart';
 
 class CommunityPage extends StatefulWidget {
   final String image;
