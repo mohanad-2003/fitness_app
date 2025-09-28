@@ -547,13 +547,18 @@ class _CommunityPageState extends State<CommunityPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                item['subtitle'] ?? "",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: Colors.white,
+                              Expanded(
+                                child: Text(
+                                  maxLines: 1,
+                                  item['subtitle'] ?? "",
+                                  style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: 14.sp,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
+                              SizedBox(width: 10.w),
                               Text(
                                 item['date'] ?? "",
                                 style: TextStyle(

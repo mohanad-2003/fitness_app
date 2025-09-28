@@ -22,27 +22,39 @@ class HeaderWorkout extends StatelessWidget {
         ),
         SizedBox(width: 5),
         Text(
+          maxLines: 1,
           name,
           style: TextStyle(
+            overflow: TextOverflow.ellipsis,
             color: Color(0xff896CFE),
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
         Spacer(),
-        GestureDetector(
-          onTap: () => Get.to(SearchPage()),
-          child: Icon(Icons.search, color: Color(0xff896CFE), size: 20),
+        Expanded(
+          child: GestureDetector(
+            onTap: () => Get.to(SearchPage()),
+            child: Icon(Icons.search, color: Color(0xff896CFE), size: 20),
+          ),
         ),
         SizedBox(width: 5),
-        GestureDetector(
-          onTap: () => Get.to(NotificationPage()),
-          child: Icon(Icons.notifications, color: Color(0xff896CFE), size: 20),
+        Expanded(
+          child: GestureDetector(
+            onTap: () => Get.to(NotificationPage()),
+            child: Icon(
+              Icons.notifications,
+              color: Color(0xff896CFE),
+              size: 20,
+            ),
+          ),
         ),
         SizedBox(width: 5),
-        GestureDetector(
-          onTap: () => Get.to(ProfilePage()),
-          child: Icon(Icons.person, color: Color(0xff896CFE), size: 20),
+        Expanded(
+          child: GestureDetector(
+            onTap: () => Get.to(ProfilePage()),
+            child: Icon(Icons.person, color: Color(0xff896CFE), size: 20),
+          ),
         ),
       ],
     );

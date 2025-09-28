@@ -72,8 +72,10 @@ class WeeklyChallenge extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
+                                      maxLines: 1,
                                       name,
                                       style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
                                         fontSize: 14.sp,
                                         color: Color(0xffE2F163),
                                         fontWeight: FontWeight.bold,
@@ -113,11 +115,15 @@ class WeeklyChallenge extends StatelessWidget {
                                           color: Colors.white,
                                         ),
                                         SizedBox(width: 5.w),
-                                        Text(
-                                          "5 Exercises",
-                                          style: TextStyle(
-                                            fontSize: 14.sp,
-                                            color: Colors.white,
+                                        Expanded(
+                                          child: Text(
+                                            "5 Exercises",
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 14.sp,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ],
