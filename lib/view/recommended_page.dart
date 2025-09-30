@@ -1,15 +1,25 @@
 import 'package:fitness_app/controller/most_popular_controller.dart';
 import 'package:fitness_app/view/appColor.dart';
+import 'package:fitness_app/view/details_dumple_setup.dart';
 import 'package:fitness_app/view/header_workout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 
 class RecommendedPage extends StatelessWidget {
+  final String image;
+  final String name;
+  final String time;
   MostPopularController mostPopularController = Get.put(
     MostPopularController(),
   );
-  RecommendedPage({super.key});
+  RecommendedPage({
+    super.key,
+    required this.image,
+    required this.name,
+    required this.time,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,88 +69,97 @@ class RecommendedPage extends StatelessWidget {
       child: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 30.w),
-          child: Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10.r),
-                child: Image.asset(
-                  "assets/dum.png",
-                  width: double.infinity.w,
-                  height: 336.h,
-                  fit: BoxFit.cover,
+          child: GestureDetector(
+            onTap:
+                () => Get.to(
+                  DetailsDumpleSetup(image: image, name: name, time: time),
                 ),
-              ),
-              Positioned(
-                top: 0,
-                right: 0,
-                child: Container(
-                  width: 130.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.r),
-                      topRight: Radius.circular(10.r),
-                      bottomLeft: Radius.circular(10.r),
-                    ),
-                    color: Color(0xffE2F163),
-                  ),
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    "dumbbell step up",
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: Color(0xff232323),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10.r),
+                  child: Image.asset(
+                    "assets/dum.png",
+                    width: double.infinity.w,
+                    height: 336.h,
+                    fit: BoxFit.cover,
                   ),
                 ),
-              ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                left: 0,
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10.h,
-                      horizontal: 15.w,
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Container(
+                    width: 130.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.r),
+                        topRight: Radius.circular(10.r),
+                        bottomLeft: Radius.circular(10.r),
+                      ),
+                      color: Color(0xffE2F163),
                     ),
-                    child: Row(
-                      children: [
-                        Image.asset("assets/time.png", color: Colors.white),
-                        SizedBox(width: 5.w),
-                        Text(
-                          "12 Minute",
-                          style: TextStyle(
-                            fontSize: 14.sp,
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      "dumbbell step up",
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Color(0xff232323),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.3),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10.h,
+                        horizontal: 15.w,
+                      ),
+                      child: Row(
+                        children: [
+                          Image.asset("assets/time.png", color: Colors.white),
+                          SizedBox(width: 5.w),
+                          Text(
+                            "12 Minute",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(width: 20.w),
+                          Image.asset(
+                            "assets/calories.png",
                             color: Colors.white,
                           ),
-                        ),
-                        SizedBox(width: 20.w),
-                        Image.asset("assets/calories.png", color: Colors.white),
-                        SizedBox(width: 5.w),
-                        Text(
-                          "120 Kcal",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.white,
+                          SizedBox(width: 5.w),
+                          Text(
+                            "120 Kcal",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        Spacer(),
-                        InkWell(
-                          onTap: () => "",
-                          child: Icon(Icons.star, color: Color(0xffE2F163)),
-                        ),
-                      ],
+                          Spacer(),
+                          InkWell(
+                            onTap: () => "",
+                            child: Icon(Icons.star, color: Color(0xffE2F163)),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

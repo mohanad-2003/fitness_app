@@ -1,5 +1,6 @@
 import 'package:fitness_app/view/onboardingScreen.dart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class SplashScreen2 extends StatelessWidget {
@@ -10,16 +11,17 @@ class SplashScreen2 extends StatelessWidget {
     Future.delayed(Duration(seconds: 3), () => Get.to(OnboardingScreen()));
     return Scaffold(
       body: Stack(
+        alignment: Alignment.center,
         children: [
           Image.asset(
             "assets/ob1.png",
-            width: double.maxFinite,
-            height: double.maxFinite,
+            width: double.infinity.w,
+            height: double.infinity.h,
             fit: BoxFit.cover,
           ),
           Container(
-            width: double.maxFinite,
-            height: double.maxFinite,
+            width: double.infinity.w,
+            height: double.infinity.h,
             color: Colors.black.withOpacity(0.4),
           ),
 
@@ -32,21 +34,21 @@ class SplashScreen2 extends StatelessWidget {
                   "Welcome to",
                   style: TextStyle(
                     color: Color(0xffE2F163),
-                    fontSize: 25,
+                    fontSize: 25.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Image.asset(
                   "assets/FB.png",
-                  height: 84,
-                  width: 182,
+                  height: 84.h,
+                  width: 182.w,
                   fit: BoxFit.cover,
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 RichText(
                   text: TextSpan(
-                    style: TextStyle(color: Color(0xffE2F163), fontSize: 54),
+                    style: TextStyle(color: Color(0xffE2F163), fontSize: 54.sp),
                     children: [
                       TextSpan(
                         text: "FIT",
