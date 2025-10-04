@@ -8,7 +8,7 @@ class SplashScreen2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 3), () => Get.to(OnboardingScreen()));
+    Future.delayed(Duration(seconds: 3), () => Get.to(Onboardingscreen()));
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,

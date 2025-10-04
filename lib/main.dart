@@ -1,5 +1,3 @@
-import 'package:fitness_app/view/recommended_page.dart';
-import 'package:fitness_app/view/splash_screen.dart';
 import 'package:fitness_app/view/splash_screen2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
