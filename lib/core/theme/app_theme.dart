@@ -1,0 +1,161 @@
+import 'package:flutter/material.dart';
+
+import 'app_colors.dart';
+import 'app_spacing.dart';
+import 'app_theme_extension.dart';
+import 'app_typography.dart';
+
+/// Builds the app's light/dark [ThemeData] from the shared brand seed colors.
+abstract final class AppTheme {
+  static ThemeData light() => _build(Brightness.light);
+  static ThemeData dark() => _build(Brightness.dark);
+
+  static ThemeData _build(Brightness brightness) {
+    final isDark = brightness == Brightness.dark;
+
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: AppColors.seedInk,
+      brightness: brightness,
+      primary: isDark ? AppColors.seedLime : AppColors.seedInk,
+      secondary: isDark ? AppColors.electricOrange : AppColors.seedViolet,
+      surface: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+      surfaceContainerHighest:
+          isDark ? AppColors.darkSurfaceVariant : AppColors.lightSurfaceVariant,
+      outline: isDark ? AppColors.darkOutline : AppColors.lightOutline,
+      error: AppColors.danger,
+    );
+
+    final textTheme = AppTypography.textTheme(colorScheme.onSurface);
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: brightness,
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: colorScheme.surface,
+      textTheme: textTheme,
+      splashFactory: InkSparkle.splashFactory,
+      appBarTheme: AppBarTheme(
+        backgroundColor: colorScheme.surface,
+        foregroundColor: colorScheme.onSurface,
+        elevation: 0,
+        centerTitle: true,
+        titleTextStyle: textTheme.titleLarge,
+      ),
+      cardTheme: CardThemeData(
+        color:
+            isDark ? AppColors.graphite : colorScheme.surfaceContainerHighest,
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: colorScheme.primary,
+          foregroundColor: colorScheme.onPrimary,
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.xl,
+            vertical: AppSpacing.md,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.pill),
+          ),
+          textStyle: textTheme.labelLarge?.copyWith(letterSpacing: 0.4),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: colorScheme.onSurface,
+          side: BorderSide(color: colorScheme.outline),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.xl,
+            vertical: AppSpacing.md,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.pill),
+          ),
+          textStyle: textTheme.labelLarge,
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor:
+            isDark
+                ? Colors.white.withValues(alpha: 0.08)
+                : colorScheme.surfaceContainerHighest,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          borderSide: BorderSide(
+            color:
+                isDark
+                    ? Colors.white.withValues(alpha: 0.08)
+                    : colorScheme.outline.withValues(alpha: 0.35),
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          borderSide: BorderSide(
+            color:
+                isDark
+                    ? Colors.white.withValues(alpha: 0.10)
+                    : colorScheme.outline.withValues(alpha: 0.35),
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          borderSide: BorderSide(color: colorScheme.primary, width: 1.6),
+        ),
+        labelStyle: TextStyle(
+          color: isDark ? Colors.white.withValues(alpha: 0.72) : null,
+        ),
+        hintStyle: TextStyle(
+          color:
+              isDark
+                  ? Colors.white.withValues(alpha: 0.38)
+                  : colorScheme.onSurfaceVariant,
+        ),
+        prefixIconColor:
+            isDark
+                ? Colors.white.withValues(alpha: 0.64)
+                : colorScheme.onSurfaceVariant,
+        suffixIconColor:
+            isDark
+                ? Colors.white.withValues(alpha: 0.64)
+                : colorScheme.onSurfaceVariant,
+      ),
+      extensions: [
+        AppThemeExtension(
+          cardColor:
+              isDark ? AppColors.graphite : colorScheme.surfaceContainerHighest,
+          cardBorderColor:
+              isDark
+                  ? Colors.white.withValues(alpha: 0.10)
+                  : colorScheme.outline.withValues(alpha: 0.3),
+          cardShadow:
+              isDark
+                  ? const []
+                  : [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 24,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
+          accentGradient: LinearGradient(
+            colors: [AppColors.seedLime, AppColors.electricOrange],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          success: AppColors.success,
+          warning: AppColors.warning,
+          danger: AppColors.danger,
+        ),
+      ],
+    );
+  }
+}

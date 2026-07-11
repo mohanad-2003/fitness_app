@@ -1,0 +1,57 @@
+/// Typed, centralized route paths. Never hardcode a path string at a call site.
+abstract final class AppRoutes {
+  static const splash = '/splash';
+  static const welcome = '/welcome';
+  static const onboarding = '/onboarding';
+  static const login = '/login';
+  static const signup = '/signup';
+  static const forgotPassword = '/forgot-password';
+  static const setPassword = '/set-password';
+  static const fingerprint = '/fingerprint';
+
+  static const setup = '/setup';
+  static const setupGender = '/setup/gender';
+  static const setupAge = '/setup/age';
+  static const setupWeight = '/setup/weight';
+  static const setupHeight = '/setup/height';
+  static const setupGoal = '/setup/goal';
+  static const setupPhysical = '/setup/physical';
+  static const setupFillProfile = '/setup/fill-profile';
+
+  static const search = '/search';
+  static const notifications = '/notifications';
+
+  static const home = '/home';
+  static const workout = '/workout';
+  static const nutrition = '/nutrition';
+  static const community = '/community';
+  static const profile = '/profile';
+
+  static const workoutCategoryDetail = '/workout/category';
+  static const exerciseDetail = '/workout/exercise';
+  static const createRoutine = '/workout/create-routine';
+  static const yourRoutine = '/workout/your-routine';
+  static const workoutLogs = '/workout/logs';
+  static const workoutCharts = '/workout/charts';
+  static const workoutRecommended = '/workout/recommended';
+  static const weeklyChallenge = '/workout/weekly-challenge';
+
+  static const mealPlanIntro = '/nutrition/meal-plan';
+  static const mealPlanPreferences = '/nutrition/meal-plan/preferences';
+  static const mealPlanGoals = '/nutrition/meal-plan/goals';
+  static const mealPlanGenerating = '/nutrition/meal-plan/generating';
+  static const mealPlanBreakfast = '/nutrition/meal-plan/breakfast';
+  static const mealDetail = '/nutrition/meal';
+  static const mealIdea = '/nutrition/meal-idea';
+  static const mealIdeaDiscover = '/nutrition/meal-idea/discover';
+
+  static const communityChallenge = '/community/challenge';
+
+  static const editProfile = '/profile/edit';
+  static const settings = '/profile/settings';
+  static const passwordSettings = '/profile/settings/password';
+  static const notificationSettings = '/profile/settings/notifications';
+  static const help = '/profile/help';
+  static const document = '/profile/document';
+  static const favorite = '/favorite';
+}
