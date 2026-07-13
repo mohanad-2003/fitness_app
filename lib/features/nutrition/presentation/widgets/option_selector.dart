@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 
 /// Radio-style option list, previously duplicated six times across
 /// meals_planesPage1 and meal_plane_page2 (dietary preference, allergies,
@@ -26,6 +26,8 @@ class OptionSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
     return Wrap(
       spacing: width * 0.03,
       runSpacing: width * 0.04,
@@ -43,7 +45,10 @@ class OptionSelector extends StatelessWidget {
                     height: width * 0.058,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.seedViolet, width: 2),
+                      border: Border.all(
+                        color: theme.colorScheme.secondary,
+                        width: 2,
+                      ),
                     ),
                     child:
                         option == selected
@@ -51,8 +56,8 @@ class OptionSelector extends StatelessWidget {
                               child: Container(
                                 width: width * 0.03,
                                 height: width * 0.03,
-                                decoration: const BoxDecoration(
-                                  color: AppColors.seedLime,
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.primary,
                                   shape: BoxShape.circle,
                                 ),
                               ),
@@ -63,7 +68,7 @@ class OptionSelector extends StatelessWidget {
                   Flexible(
                     child: Text(
                       option,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                      style: TextStyle(color: ext.textPrimary, fontSize: 14),
                     ),
                   ),
                 ],

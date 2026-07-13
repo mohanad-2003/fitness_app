@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../core/widgets/selectable_option_card.dart';
 import '../providers/onboarding_profile_controller.dart';
 import '../widgets/wizard_scaffold.dart';
 
-const _goals = [
-  'Lose Weight',
-  'Gain Weight',
-  'Muscle Mass Gain',
-  'Shape Body',
-  'Others',
-];
+String _goalLabel(AppLocalizations l10n, FitnessGoal goal) => switch (goal) {
+  FitnessGoal.loseWeight => l10n.goalLoseWeight,
+  FitnessGoal.gainWeight => l10n.goalGainWeight,
+  FitnessGoal.muscleMassGain => l10n.goalMuscleMassGain,
+  FitnessGoal.shapeBody => l10n.goalShapeBody,
+  FitnessGoal.others => l10n.goalOthers,
+};
 
 class GoalPage extends ConsumerWidget {
   const GoalPage({super.key});
@@ -22,24 +25,29 @@ class GoalPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedGoal = ref.watch(onboardingProfileControllerProvider).goal;
     final controller = ref.read(onboardingProfileControllerProvider.notifier);
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return WizardScaffold(
-      title: 'What Is Your Goal?',
-      description:
-          'Choose your fitness goal to personalize your workout and diet plan.',
+      step: 5,
+      totalSteps: 6,
+      title: l10n.onboardingGoalTitle,
+      description: l10n.onboardingGoalBody,
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 24),
         padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.1),
+          color: ext.glassFill,
           borderRadius: BorderRadius.circular(25),
+          border: Border.all(color: ext.glassBorder),
         ),
         child: Column(
           children: [
-            for (final goal in _goals) ...[
-              _GoalItem(
-                goal: goal,
+            for (final goal in FitnessGoal.values) ...[
+              SelectableOptionCard(
+                label: _goalLabel(l10n, goal),
                 isSelected: selectedGoal == goal,
+                showCheckmark: true,
                 onTap: () => controller.selectGoal(goal),
               ),
               const SizedBox(height: 20),
@@ -50,66 +58,8 @@ class GoalPage extends ConsumerWidget {
       button: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: PrimaryButton(
-          label: 'Continue',
+          label: l10n.actionContinue,
           onPressed: () => context.push(AppRoutes.setupPhysical),
-        ),
-      ),
-    );
-  }
-}
-
-class _GoalItem extends StatelessWidget {
-  const _GoalItem({
-    required this.goal,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final String goal;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-        decoration: BoxDecoration(
-          color:
-              isSelected
-                  ? const Color(0xFFE2F163)
-                  : Colors.white.withValues(alpha: 0.2),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              goal,
-              style: TextStyle(
-                color: isSelected ? Colors.black : Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Container(
-              width: 34,
-              height: 34,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected ? Colors.black : Colors.white,
-                  width: 3,
-                ),
-                color: isSelected ? Colors.white : Colors.transparent,
-              ),
-              child:
-                  isSelected
-                      ? const Icon(Icons.check, color: Colors.black, size: 20)
-                      : null,
-            ),
-          ],
         ),
       ),
     );

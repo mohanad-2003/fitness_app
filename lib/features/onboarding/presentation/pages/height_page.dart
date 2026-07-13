@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../providers/onboarding_profile_controller.dart';
 import '../widgets/wizard_scaffold.dart';
@@ -33,25 +35,29 @@ class _HeightPageState extends ConsumerState<HeightPage> {
     final height = ref.watch(onboardingProfileControllerProvider).heightCm;
     final controller = ref.read(onboardingProfileControllerProvider.notifier);
     final screenHeight = MediaQuery.of(context).size.height;
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return WizardScaffold(
-      title: 'What Is Your Height',
-      description:
-          'Enter your height to personalize your fitness plan and track your progress accurately.',
+      step: 4,
+      totalSteps: 6,
+      title: l10n.onboardingHeightTitle,
+      description: l10n.onboardingHeightBody,
       body: Column(
         children: [
           Text(
-            '$height cm',
-            style: const TextStyle(
+            '$height ${l10n.unitCm}',
+            style: TextStyle(
               fontSize: 60,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: ext.textPrimary,
             ),
           ),
-          const Icon(
+          Icon(
             Icons.arrow_drop_up_outlined,
             size: 60,
-            color: Color(0xFFE2F163),
+            color: theme.colorScheme.primary,
           ),
           const SizedBox(height: 20),
           SizedBox(
@@ -71,7 +77,7 @@ class _HeightPageState extends ConsumerState<HeightPage> {
                     '$value',
                     style: TextStyle(
                       fontSize: isSelected ? 40 : 30,
-                      color: isSelected ? Colors.white : Colors.white54,
+                      color: isSelected ? ext.textPrimary : ext.textMuted,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -84,7 +90,7 @@ class _HeightPageState extends ConsumerState<HeightPage> {
       button: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: PrimaryButton(
-          label: 'Continue',
+          label: l10n.actionContinue,
           onPressed: () => context.push(AppRoutes.setupGoal),
         ),
       ),

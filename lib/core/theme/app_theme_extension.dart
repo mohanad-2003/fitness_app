@@ -12,6 +12,13 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     required this.success,
     required this.warning,
     required this.danger,
+    required this.backgroundGradient,
+    required this.glassFill,
+    required this.glassBorder,
+    required this.textPrimary,
+    required this.textMuted,
+    required this.onAccent,
+    required this.accentGlow,
   });
 
   final Color cardColor;
@@ -22,6 +29,28 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   final Color warning;
   final Color danger;
 
+  /// Full-bleed screen backdrop gradient (the "premium hero" background).
+  final Gradient backgroundGradient;
+
+  /// Translucent glass-card fill/border pair used by cards drawn directly
+  /// over [backgroundGradient] (as opposed to [cardColor], which is an
+  /// opaque surface for `CardTheme`).
+  final Color glassFill;
+  final Color glassBorder;
+
+  /// Primary/secondary text color for content drawn over
+  /// [backgroundGradient] or glass cards.
+  final Color textPrimary;
+  final Color textMuted;
+
+  /// Foreground drawn on top of [accentGradient] (buttons, medallions,
+  /// selected cards). The gradient uses fixed brand colors, so this stays
+  /// the same in light and dark mode.
+  final Color onAccent;
+
+  /// Brand accent used for glows/badges paired with [accentGradient].
+  final Color accentGlow;
+
   @override
   AppThemeExtension copyWith({
     Color? cardColor,
@@ -31,6 +60,13 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     Color? success,
     Color? warning,
     Color? danger,
+    Gradient? backgroundGradient,
+    Color? glassFill,
+    Color? glassBorder,
+    Color? textPrimary,
+    Color? textMuted,
+    Color? onAccent,
+    Color? accentGlow,
   }) {
     return AppThemeExtension(
       cardColor: cardColor ?? this.cardColor,
@@ -40,6 +76,13 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       success: success ?? this.success,
       warning: warning ?? this.warning,
       danger: danger ?? this.danger,
+      backgroundGradient: backgroundGradient ?? this.backgroundGradient,
+      glassFill: glassFill ?? this.glassFill,
+      glassBorder: glassBorder ?? this.glassBorder,
+      textPrimary: textPrimary ?? this.textPrimary,
+      textMuted: textMuted ?? this.textMuted,
+      onAccent: onAccent ?? this.onAccent,
+      accentGlow: accentGlow ?? this.accentGlow,
     );
   }
 
@@ -54,6 +97,14 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       success: Color.lerp(success, other.success, t)!,
       warning: Color.lerp(warning, other.warning, t)!,
       danger: Color.lerp(danger, other.danger, t)!,
+      backgroundGradient:
+          Gradient.lerp(backgroundGradient, other.backgroundGradient, t)!,
+      glassFill: Color.lerp(glassFill, other.glassFill, t)!,
+      glassBorder: Color.lerp(glassBorder, other.glassBorder, t)!,
+      textPrimary: Color.lerp(textPrimary, other.textPrimary, t)!,
+      textMuted: Color.lerp(textMuted, other.textMuted, t)!,
+      onAccent: Color.lerp(onAccent, other.onAccent, t)!,
+      accentGlow: Color.lerp(accentGlow, other.accentGlow, t)!,
     );
   }
 }

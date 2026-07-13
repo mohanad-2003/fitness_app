@@ -22,7 +22,7 @@ abstract final class AppTheme {
       surfaceContainerHighest:
           isDark ? AppColors.darkSurfaceVariant : AppColors.lightSurfaceVariant,
       outline: isDark ? AppColors.darkOutline : AppColors.lightOutline,
-      error: AppColors.danger,
+      error: isDark ? AppColors.danger : AppColors.dangerOnLight,
     );
 
     final textTheme = AppTypography.textTheme(colorScheme.onSurface);
@@ -151,9 +151,43 @@ abstract final class AppTheme {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          success: AppColors.success,
-          warning: AppColors.warning,
-          danger: AppColors.danger,
+          success: isDark ? AppColors.success : AppColors.successOnLight,
+          warning: isDark ? AppColors.warning : AppColors.warningOnLight,
+          danger: isDark ? AppColors.danger : AppColors.dangerOnLight,
+          backgroundGradient:
+              isDark
+                  ? const LinearGradient(
+                    colors: [
+                      AppColors.midnight,
+                      AppColors.seedInk,
+                      AppColors.graphite,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                  : LinearGradient(
+                    colors: [
+                      AppColors.lightSurface,
+                      AppColors.lightSurfaceVariant,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+          glassFill:
+              isDark
+                  ? Colors.white.withValues(alpha: 0.08)
+                  : Colors.black.withValues(alpha: 0.055),
+          glassBorder:
+              isDark
+                  ? Colors.white.withValues(alpha: 0.10)
+                  : Colors.black.withValues(alpha: 0.14),
+          textPrimary: isDark ? Colors.white : AppColors.seedInk,
+          textMuted:
+              isDark
+                  ? Colors.white.withValues(alpha: 0.62)
+                  : AppColors.seedInk.withValues(alpha: 0.6),
+          onAccent: AppColors.seedInk,
+          accentGlow: AppColors.seedLime,
         ),
       ],
     );

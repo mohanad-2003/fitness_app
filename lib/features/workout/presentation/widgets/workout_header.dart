@@ -1,3 +1,4 @@
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,12 +11,13 @@ class WorkoutHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
     return Row(
       children: [
         if (context.canPop())
           PremiumIconButton(
             icon: Icons.arrow_back_ios_new_rounded,
-            onTap: () => context.pop(),
+            onTap: () => context.canPop() ? context.pop() : null,
           ),
         if (context.canPop()) const SizedBox(width: 12),
         Expanded(
@@ -24,7 +26,7 @@ class WorkoutHeader extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: Colors.white,
+              color: ext.textPrimary,
               fontWeight: FontWeight.w900,
             ),
           ),

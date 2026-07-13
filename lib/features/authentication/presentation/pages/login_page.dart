@@ -1,17 +1,20 @@
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
+import 'package:fitness_app/core/routing/app_routes.dart';
+import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
+import 'package:fitness_app/core/utils/validators.dart';
+import 'package:fitness_app/core/widgets/app_text_field.dart';
+import 'package:fitness_app/core/widgets/primary_button.dart';
+import 'package:fitness_app/features/authentication/presentation/providers/login_controller.dart';
+import 'package:fitness_app/features/authentication/presentation/widgets/auth_background.dart';
+import 'package:fitness_app/features/authentication/presentation/widgets/auth_divider_label.dart';
+import 'package:fitness_app/features/authentication/presentation/widgets/auth_header.dart';
+import 'package:fitness_app/features/authentication/presentation/widgets/auth_password_field.dart';
+import 'package:fitness_app/features/authentication/presentation/widgets/auth_switch_link.dart';
+import 'package:fitness_app/features/authentication/presentation/widgets/social_login_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/validators.dart';
-import '../../../../core/widgets/app_text_field.dart';
-import '../../../../core/widgets/primary_button.dart';
-import '../providers/login_controller.dart';
-import '../widgets/auth_background.dart';
-import '../widgets/auth_header.dart';
-import '../widgets/auth_password_field.dart';
-import '../widgets/social_login_row.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -27,6 +30,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     final controller = ref.watch(loginControllerProvider.notifier);
     final isSubmitting = ref.watch(loginControllerProvider).isLoading;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: AuthBackground(
@@ -34,17 +38,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           padding: const EdgeInsets.only(bottom: 28),
           child: Column(
             children: [
-              const AuthHeader(title: 'Log In'),
+              AuthHeader(title: l10n.authLoginTitle),
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const _AuthHero(
-                      title: 'Welcome back, athlete.',
-                      subtitle:
-                          'Pick up your streak, review your progress, and make today count.',
+                    _AuthHero(
+                      title: l10n.authWelcomeBackTitle,
+                      subtitle: l10n.authWelcomeBackBody,
                       image: 'assets/boxing.png',
+                      trainingModeLabel: l10n.authTrainingMode,
                     ),
                     const SizedBox(height: 22),
                     _GlassPanel(
@@ -55,39 +59,40 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           children: [
                             AppTextField(
                               controller: controller.emailController,
-                              label: 'Email',
-                              hint: 'you@example.com',
+                              label: l10n.authEmail,
+                              hint: l10n.authEmailHint,
                               prefixIcon: Icons.email_outlined,
                               keyboardType: TextInputType.emailAddress,
-                              validator: Validators.email,
+                              validator: Validators.email(l10n),
                             ),
                             const SizedBox(height: 16),
                             AuthPasswordField(
                               controller: controller.passwordController,
-                              label: 'Password',
-                              hint: 'Enter your password',
-                              validator: Validators.password,
+                              label: l10n.authPassword,
+                              hint: l10n.authPasswordHint,
+                              validator: Validators.password(l10n),
                             ),
                             const SizedBox(height: 8),
                             Align(
-                              alignment: Alignment.centerRight,
+                              alignment: AlignmentDirectional.centerEnd,
                               child: TextButton(
                                 onPressed:
                                     () =>
                                         context.push(AppRoutes.forgotPassword),
-                                child: const Text('Forgot Password?'),
+                                child: Text(l10n.authForgotPassword),
                               ),
                             ),
                             const SizedBox(height: 8),
                             PrimaryButton(
-                              label: 'Log In',
+                              label: l10n.authLoginTitle,
                               icon: Icons.arrow_forward_rounded,
                               isLoading: isSubmitting,
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   await controller.submit();
-                                  if (context.mounted)
+                                  if (context.mounted) {
                                     context.go(AppRoutes.setup);
+                                  }
                                 }
                               },
                             ),
@@ -96,13 +101,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                     ),
                     const SizedBox(height: 22),
-                    const _DividerLabel(label: 'or continue with'),
+                    AuthDividerLabel(label: l10n.authOrContinueWith),
                     const SizedBox(height: 16),
                     const SocialLoginRow(),
                     const SizedBox(height: 22),
-                    _AuthSwitchLink(
-                      text: "Don't have an account?",
-                      action: 'Create account',
+                    AuthSwitchLink(
+                      text: l10n.authNoAccount,
+                      action: l10n.authCreateAccount,
                       onTap: () => context.push(AppRoutes.signup),
                     ),
                   ],
@@ -116,19 +121,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 }
 
+/// Photo hero with a fixed dark scrim: the overlay content intentionally
+/// keeps white/lime foregrounds because the scrim guarantees contrast in
+/// both light and dark themes.
 class _AuthHero extends StatelessWidget {
   const _AuthHero({
     required this.title,
     required this.subtitle,
     required this.image,
+    required this.trainingModeLabel,
   });
 
   final String title;
   final String subtitle;
   final String image;
+  final String trainingModeLabel;
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+
     return Container(
       height: 220,
       width: double.infinity,
@@ -161,7 +173,15 @@ class _AuthHero extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const _Kicker(text: 'TRAINING MODE'),
+            Text(
+              trainingModeLabel,
+              style: TextStyle(
+                color: ext.accentGlow,
+                fontSize: 12,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 1.3,
+              ),
+            ),
             const SizedBox(height: 10),
             Text(
               title,
@@ -192,94 +212,16 @@ class _GlassPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.08),
+        color: ext.glassFill,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+        border: Border.all(color: ext.glassBorder),
       ),
       child: child,
-    );
-  }
-}
-
-class _Kicker extends StatelessWidget {
-  const _Kicker({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(
-        color: AppColors.seedLime,
-        fontSize: 12,
-        fontWeight: FontWeight.w900,
-        letterSpacing: 1.3,
-      ),
-    );
-  }
-}
-
-class _DividerLabel extends StatelessWidget {
-  const _DividerLabel({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(child: Divider(color: Colors.white.withValues(alpha: 0.16))),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Text(
-            label,
-            style: TextStyle(color: Colors.white.withValues(alpha: 0.62)),
-          ),
-        ),
-        Expanded(child: Divider(color: Colors.white.withValues(alpha: 0.16))),
-      ],
-    );
-  }
-}
-
-class _AuthSwitchLink extends StatelessWidget {
-  const _AuthSwitchLink({
-    required this.text,
-    required this.action,
-    required this.onTap,
-  });
-
-  final String text;
-  final String action;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Wrap(
-        alignment: WrapAlignment.center,
-        children: [
-          Text(
-            text,
-            style: TextStyle(color: Colors.white.withValues(alpha: 0.70)),
-          ),
-          const SizedBox(width: 6),
-          GestureDetector(
-            onTap: onTap,
-            child: Text(
-              action,
-              style: TextStyle(
-                color: AppColors.seedLime,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -75,6 +75,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authForgotPassword => 'نسيت كلمة المرور؟';
 
   @override
+  String get authWelcomeBackTitle => 'مرحبًا بك مرة أخرى، أيها الرياضي.';
+
+  @override
+  String get authWelcomeBackBody => 'تابع مسارك، راجع تقدمك، وابدأ اليوم بقوة.';
+
+  @override
+  String get authOrContinueWith => 'أو تابع باستخدام';
+
+  @override
+  String get authCreateAccount => 'إنشاء حساب';
+
+  @override
+  String get authTrainingMode => 'وضع التدريب';
+
+  @override
+  String get authEmailHint => 'you@example.com';
+
+  @override
+  String get authPasswordHint => 'أدخل كلمة المرور';
+
+  @override
   String get authSignupTitle => 'إنشاء حساب';
 
   @override
@@ -128,6 +149,164 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authResetPassword => 'إعادة تعيين كلمة المرور';
 
   @override
+  String get authStartTraining => 'ابدأ التدريب';
+
+  @override
+  String get authNewSeason => 'موسم جديد';
+
+  @override
+  String get authSignupHeroTitle => 'لنبنِ روتينك الأقوى.';
+
+  @override
+  String get authSignupHeroBody =>
+      'أنشئ ملفك الشخصي واحصل على خطط مصممة حول أهدافك.';
+
+  @override
+  String get authFullNameHint => 'اسمك الكامل';
+
+  @override
+  String get authPasswordCreateHint => 'أنشئ كلمة مرور قوية';
+
+  @override
+  String get authConfirmPasswordHint => 'أعد إدخال كلمة المرور';
+
+  @override
+  String get authRecoveryHeadline => 'أعد التعيين دون أن تفقد حماسك.';
+
+  @override
+  String get authRecoveryBody =>
+      'أدخل بريدك الإلكتروني وسنرشدك خلال إنشاء كلمة مرور جديدة وآمنة.';
+
+  @override
+  String get authSetPasswordHeadline => 'أنشئ مفتاح تدريبك الجديد.';
+
+  @override
+  String get authNewPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get authNewPasswordHint => 'أدخل كلمة المرور الجديدة';
+
+  @override
+  String get authConfirmNewPasswordHint => 'أعد إدخال كلمة المرور الجديدة';
+
+  @override
+  String get authBiometricTitle => 'الدخول بالبصمة';
+
+  @override
+  String get authBiometricHeadline => 'افتح خطتك بشكل أسرع.';
+
+  @override
+  String get authBiometricBody =>
+      'أضف الدخول بالبصمة لبداية آمنة وسلسة قبل كل تمرين.';
+
+  @override
+  String get authEnableFingerprint => 'تفعيل البصمة';
+
+  @override
+  String get authSkipForNow => 'تخطَّ الآن';
+
+  @override
+  String get validationEmailRequired => 'البريد الإلكتروني مطلوب';
+
+  @override
+  String get validationEmailInvalid => 'يرجى إدخال بريد إلكتروني صحيح';
+
+  @override
+  String get validationPasswordRequired => 'كلمة المرور مطلوبة';
+
+  @override
+  String get validationPasswordTooShort =>
+      'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل';
+
+  @override
+  String get validationFieldRequired => 'هذا الحقل مطلوب';
+
+  @override
+  String get validationFullNameRequired => 'الاسم الكامل مطلوب';
+
+  @override
+  String get validationPasswordMismatch => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get splashBrandFit => 'FIT';
+
+  @override
+  String get splashBrandBody => 'BODY';
+
+  @override
+  String get splashTagline => 'لياقة + قوة + صحة + تقدم.';
+
+  @override
+  String get splashMetricWorkouts => 'تمارين';
+
+  @override
+  String get splashMetricPlans => 'خطط';
+
+  @override
+  String get welcomeTagline => 'لوحة التدريب المتميزة لديك جاهزة.';
+
+  @override
+  String get welcomeBadgeEnergy => 'الطاقة';
+
+  @override
+  String get welcomeBadgeProgress => 'التقدم';
+
+  @override
+  String get onboardingBrand => 'FITBODY';
+
+  @override
+  String get onboardingSkip => 'تخطى';
+
+  @override
+  String get onboardingGetStarted => 'ابدأ الآن';
+
+  @override
+  String get onboardingNext => 'التالي';
+
+  @override
+  String get onboardingSlide1Kicker => 'ابدأ بقوة';
+
+  @override
+  String get onboardingSlide1Title => 'ابنِ جسمًا يواكب طموحك.';
+
+  @override
+  String get onboardingSlide1Description =>
+      'تساعدك التدفقات التدريبية المخصصة على البدء اليوم والبقاء ثابتًا غدًا.';
+
+  @override
+  String get onboardingSlide2Kicker => 'تابع كل تكرار';
+
+  @override
+  String get onboardingSlide2Title =>
+      'شاهد تمارينك والمسارات والتقدم في مكان واحد.';
+
+  @override
+  String get onboardingSlide2Description =>
+      'حوّل الجهد إلى رؤى باستخدام المقاييس اليومية وملاحظات الأداء الواضحة.';
+
+  @override
+  String get onboardingSlide3Kicker => 'تدرب بذكاء';
+
+  @override
+  String get onboardingSlide3Title =>
+      'اعثر على تمارين القوة والكارديو واليوغا وHIIT بسرعة.';
+
+  @override
+  String get onboardingSlide3Description =>
+      'اختر المستوى المناسب ليومك وحرك جسمك بثقة.';
+
+  @override
+  String get onboardingSlide4Kicker => 'حقق الأهداف';
+
+  @override
+  String get onboardingSlide4Title =>
+      'تصبح العادات الصحية ميزة لا يملكها غيرك.';
+
+  @override
+  String get onboardingSlide4Description =>
+      'ابقَ متحفزًا مع معالم التقدم والتحديات والروتينات المصممة للحياة الواقعية.';
+
+  @override
   String get onboardingGenderTitle => 'ما هو جنسك';
 
   @override
@@ -177,4 +356,773 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onboardingStart => 'ابدأ';
+
+  @override
+  String get onboardingMale => 'ذكر';
+
+  @override
+  String get onboardingFemale => 'أنثى';
+
+  @override
+  String get onboardingNickname => 'الاسم المستعار';
+
+  @override
+  String get onboardingNicknameHint => 'بماذا نناديك؟';
+
+  @override
+  String get onboardingMobileHint => '+123 567 89000';
+
+  @override
+  String get setupIntroHeadline => 'الاستمرارية هي\nمفتاح التقدم.\nلا تستسلم!';
+
+  @override
+  String get setupIntroBody =>
+      'ابدأ رحلتك الرياضية اليوم!\nتتبع تقدمك، وحافظ على استمراريتك، وحقق أهدافك خطوة بخطوة.';
+
+  @override
+  String get setupIntroCta => 'هيا نبدأ';
+
+  @override
+  String get goalLoseWeight => 'خسارة الوزن';
+
+  @override
+  String get goalGainWeight => 'زيادة الوزن';
+
+  @override
+  String get goalMuscleMassGain => 'زيادة الكتلة العضلية';
+
+  @override
+  String get goalShapeBody => 'نحت الجسم';
+
+  @override
+  String get goalOthers => 'أخرى';
+
+  @override
+  String get unitKg => 'كجم';
+
+  @override
+  String get unitCm => 'سم';
+
+  @override
+  String homeGreeting(String name) {
+    return 'صباح الخير، $name';
+  }
+
+  @override
+  String get homeTagline => 'تدرّب بجد. تعافَ بذكاء. كرّر.';
+
+  @override
+  String get homeTodayPlanLabel => 'خطة اليوم';
+
+  @override
+  String get homeWorkoutCategories => 'فئات التمارين';
+
+  @override
+  String get actionExplore => 'استكشف';
+
+  @override
+  String get homeRecommended => 'موصى به';
+
+  @override
+  String get actionSeeAll => 'عرض الكل';
+
+  @override
+  String get homeRecommendedBadge => 'موصى به';
+
+  @override
+  String get homeWeeklyProgress => 'التقدم الأسبوعي';
+
+  @override
+  String homeWeeklyProgressSummary(int workouts, int sessions) {
+    return 'أُنجزت $workouts تمارين · $sessions جلسات تعافٍ مُخطَّطة';
+  }
+
+  @override
+  String get homeArticlesAndTips => 'مقالات ونصائح';
+
+  @override
+  String get homeHeroTitle => 'قوة الجزء العلوي';
+
+  @override
+  String homeHeroSubtitle(int minutes, int moves, String level) {
+    return '$minutes دقيقة · $moves حركات · شدة $level';
+  }
+
+  @override
+  String homeHeroDuration(int minutes) {
+    return '$minutes دقيقة';
+  }
+
+  @override
+  String homeHeroCalories(int kcal) {
+    return '~$kcal سعرة';
+  }
+
+  @override
+  String homeWeeklyProgressPercent(int percent) {
+    return '$percent٪';
+  }
+
+  @override
+  String get homeMetricCalories => 'السعرات';
+
+  @override
+  String get homeMetricSteps => 'الخطوات';
+
+  @override
+  String get homeMetricDuration => 'المدة';
+
+  @override
+  String get homeUnitKcal => 'سعرة';
+
+  @override
+  String get homeUnitToday => 'اليوم';
+
+  @override
+  String get homeUnitMin => 'دقيقة';
+
+  @override
+  String get workoutTitle => 'التمارين';
+
+  @override
+  String get workoutSubtitle => 'اختر مستواك وتحرّك بهدف.';
+
+  @override
+  String get workoutYourRoutine => 'روتينك';
+
+  @override
+  String get workoutCreateRoutine => 'إنشاء روتين';
+
+  @override
+  String get workoutTrainingOfTheDay => 'تمرين اليوم';
+
+  @override
+  String get workoutStartWorkout => 'ابدأ التمرين';
+
+  @override
+  String get workoutDifficultyLabel => 'الصعوبة';
+
+  @override
+  String get workoutLevelBeginner => 'مبتدئ';
+
+  @override
+  String get workoutLevelIntermediate => 'متوسط';
+
+  @override
+  String get workoutLevelAdvanced => 'متقدم';
+
+  @override
+  String get workoutRecommendationsTitle => 'توصيات';
+
+  @override
+  String get workoutMostPopular => 'الأكثر شيوعًا';
+
+  @override
+  String get workoutWeeklyChallengeTitle => 'التحدي الأسبوعي';
+
+  @override
+  String workoutRoundNumber(int number) {
+    return 'الجولة $number';
+  }
+
+  @override
+  String get workoutCreateRoutineTitle => 'أنشئ روتينك';
+
+  @override
+  String get workoutCreateRoutineSubtitle =>
+      'اختر التمارين وابنِ خطة تدريبك القادمة.';
+
+  @override
+  String get workoutYourRoutineTitle => 'روتينك';
+
+  @override
+  String get workoutYourRoutineSubtitle =>
+      'اضغط على أي تمرين لمعاينة التفاصيل والبدء.';
+
+  @override
+  String get workoutProfileAge => 'العمر';
+
+  @override
+  String get workoutProfileWeight => 'الوزن';
+
+  @override
+  String get workoutProfileHeight => 'الطول';
+
+  @override
+  String get progressTitle => 'تتبع التقدم';
+
+  @override
+  String get progressTabLogs => 'سجل التمارين';
+
+  @override
+  String get progressTabCharts => 'الرسوم البيانية';
+
+  @override
+  String get progressActivities => 'الأنشطة';
+
+  @override
+  String get progressEmptyState => 'لا يوجد نشاط مُسجَّل بعد.';
+
+  @override
+  String get progressChooseDate => 'اختر التاريخ';
+
+  @override
+  String get progressMonth => 'الشهر';
+
+  @override
+  String get progressDuration => 'المدة';
+
+  @override
+  String get progressMyProgress => 'تقدمي';
+
+  @override
+  String get progressSteps => 'الخطوات';
+
+  @override
+  String get navSearch => 'بحث';
+
+  @override
+  String get searchHint => 'ابحث عن تمارين ووجبات ومقالات…';
+
+  @override
+  String get searchTabAll => 'الكل';
+
+  @override
+  String get searchTabWorkout => 'تمارين';
+
+  @override
+  String get searchTabNutrition => 'تغذية';
+
+  @override
+  String get searchWorkoutSuggestions => 'اقتراحات تمارين';
+
+  @override
+  String get searchNutritionSuggestions => 'اقتراحات تغذية';
+
+  @override
+  String get searchNoResultsTitle => 'لا توجد نتائج';
+
+  @override
+  String get searchNoResultsBody => 'جرّب كلمة مختلفة أو تصفّح فئة أخرى.';
+
+  @override
+  String get navFavorites => 'المفضلة';
+
+  @override
+  String get favoriteFilterAll => 'الكل';
+
+  @override
+  String get favoriteFilterWorkouts => 'تمارين';
+
+  @override
+  String get favoriteFilterNutrition => 'تغذية';
+
+  @override
+  String get favoriteTagWorkout => 'تمرين';
+
+  @override
+  String get favoriteTagNutrition => 'تغذية';
+
+  @override
+  String get favoriteEmptyTitle => 'لا توجد عناصر مفضلة بعد';
+
+  @override
+  String get favoriteEmptyBody =>
+      'اضغط على النجمة في أي تمرين أو وجبة لحفظها هنا للوصول السريع لاحقًا.';
+
+  @override
+  String get favoriteBrowseWorkouts => 'تصفّح التمارين';
+
+  @override
+  String get favoriteBrowseNutrition => 'تصفّح التغذية';
+
+  @override
+  String get profileMyProfile => 'ملفي الشخصي';
+
+  @override
+  String get profileBirthdayLabel => 'تاريخ الميلاد: ';
+
+  @override
+  String get profileSectionAccount => 'الحساب';
+
+  @override
+  String get profileSectionPreferences => 'التفضيلات';
+
+  @override
+  String get profileMenuProfile => 'الملف الشخصي';
+
+  @override
+  String get profileMenuFavorite => 'المفضلة';
+
+  @override
+  String get profileMenuPrivacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get profileMenuSetting => 'الإعدادات';
+
+  @override
+  String get profileMenuHelp => 'المساعدة';
+
+  @override
+  String get profileMenuLogout => 'تسجيل الخروج';
+
+  @override
+  String get profileLogoutConfirm => 'هل أنت متأكد أنك تريد\nتسجيل الخروج؟';
+
+  @override
+  String get profileLogoutYes => 'نعم، تسجيل الخروج';
+
+  @override
+  String get editProfileTitle => 'تعديل الملف الشخصي';
+
+  @override
+  String get editProfileFullName => 'الاسم الكامل';
+
+  @override
+  String get editProfileMobileNumber => 'رقم الجوال';
+
+  @override
+  String get editProfileDateOfBirth => 'تاريخ الميلاد';
+
+  @override
+  String get editProfileWeight => 'الوزن';
+
+  @override
+  String get editProfileHeight => 'الطول';
+
+  @override
+  String get editProfileUpdate => 'تحديث الملف الشخصي';
+
+  @override
+  String get privacyTitle => 'الخصوصية';
+
+  @override
+  String get privacySectionLegal => 'قانوني';
+
+  @override
+  String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get privacyTerms => 'الشروط والأحكام';
+
+  @override
+  String get privacySectionYourData => 'بياناتك';
+
+  @override
+  String get privacyManagePersonalData => 'إدارة البيانات الشخصية';
+
+  @override
+  String get privacyAppPermissions => 'أذونات التطبيق';
+
+  @override
+  String get privacyDataCollection => 'جمع البيانات';
+
+  @override
+  String get privacyDownloadMyData => 'تنزيل بياناتي';
+
+  @override
+  String get privacySectionAccount => 'الحساب';
+
+  @override
+  String get privacyDeleteAccount => 'حذف حسابي';
+
+  @override
+  String get privacyContactSupport => 'التواصل مع الدعم';
+
+  @override
+  String privacyComingSoon(String feature) {
+    return '$feature قريبًا';
+  }
+
+  @override
+  String get privacyDeleteConfirmTitle => 'حذف حسابك؟';
+
+  @override
+  String get privacyDeleteConfirmBody =>
+      'سيؤدي هذا إلى إزالة ملفك الشخصي وسجل تمارينك وبياناتك المحفوظة نهائيًا. لا يمكن التراجع عن هذا الإجراء.';
+
+  @override
+  String get privacyDelete => 'حذف';
+
+  @override
+  String get legalPrivacyPolicyBody =>
+      'نجمع فقط المعلومات اللازمة لتشغيل خطتك التدريبية: تفاصيل ملفك الشخصي، نشاط التمارين والتغذية، وإعدادات الجهاز مثل المظهر واللغة. تُخزَّن هذه البيانات بأمان ولا تُباع أبدًا لأطراف ثالثة.\n\nيمكنك مراجعة بياناتك أو تصديرها أو حذفها في أي وقت من الملف الشخصي ← الخصوصية ← إدارة بياناتك. يتم تجميع بيانات التحليلات وإخفاء هويتها قبل استخدامها، ويمكنك إلغاء الاشتراك في أي وقت من نفس الشاشة.\n\nإذا كانت لديك أسئلة حول كيفية التعامل مع بياناتك، تواصل معنا من الملف الشخصي ← المساعدة والأسئلة الشائعة ← تواصل معنا.';
+
+  @override
+  String get legalTermsBody =>
+      'باستخدامك لتطبيق FitBody فإنك توافق على استخدام التطبيق لتتبع لياقتك الشخصية فقط، والحفاظ على أمان بيانات حسابك، واحترام إرشادات المجتمع عند النشر في قسم المجتمع.\n\nإرشادات التمارين والتغذية في هذا التطبيق هي لأغراض إعلامية عامة وليست بديلاً عن الاستشارة الطبية المتخصصة — استشر طبيبًا قبل البدء ببرنامج لياقة أو تغذية جديد.\n\nقد نقوم بتحديث هذه الشروط مع تطور التطبيق؛ واستمرارك في الاستخدام بعد أي تحديث يعني موافقتك على الشروط المعدَّلة. يمكنك حذف حسابك في أي وقت من الملف الشخصي ← الخصوصية ← حذف حسابي.';
+
+  @override
+  String get manageDataTitle => 'إدارة بياناتك';
+
+  @override
+  String get manageDataPermissionsSection => 'أذونات التطبيق';
+
+  @override
+  String get manageDataCameraAccess => 'الكاميرا';
+
+  @override
+  String get manageDataCameraAccessBody => 'تُستخدم لتحديث صورة ملفك الشخصي.';
+
+  @override
+  String get manageDataLocationAccess => 'الموقع';
+
+  @override
+  String get manageDataLocationAccessBody =>
+      'تُستخدم لاقتراح مسارات خارجية قريبة منك.';
+
+  @override
+  String get manageDataNotificationsAccess => 'الإشعارات';
+
+  @override
+  String get manageDataNotificationsAccessBody =>
+      'تُستخدم للتذكيرات وتحديثات التقدم.';
+
+  @override
+  String get manageDataCollectionSection => 'جمع البيانات';
+
+  @override
+  String get manageDataAnalyticsToggle => 'تحليلات الاستخدام';
+
+  @override
+  String get manageDataAnalyticsToggleBody =>
+      'تساعدنا على تحسين التمارين والتوصيات.';
+
+  @override
+  String get manageDataPersonalizedToggle => 'توصيات مخصصة';
+
+  @override
+  String get manageDataPersonalizedToggleBody =>
+      'تستخدم نشاطك لتخصيص التمارين المقترحة.';
+
+  @override
+  String get manageDataExportSection => 'بياناتك';
+
+  @override
+  String get manageDataExportBody =>
+      'نزّل نسخة من ملفك الشخصي وسجل تمارينك وسجلات التغذية.';
+
+  @override
+  String get manageDataExportAction => 'طلب التصدير';
+
+  @override
+  String get manageDataExportConfirmation =>
+      'تم طلب تصدير بياناتك. سنُعلمك عند جاهزيتها.';
+
+  @override
+  String get helpContactCustomerService => 'خدمة العملاء';
+
+  @override
+  String get helpContactWebsite => 'الموقع الإلكتروني';
+
+  @override
+  String get helpContactWhatsapp => 'واتساب';
+
+  @override
+  String get helpContactFacebook => 'فيسبوك';
+
+  @override
+  String get helpContactInstagram => 'إنستغرام';
+
+  @override
+  String helpContactCopied(String value) {
+    return 'تم النسخ: $value';
+  }
+
+  @override
+  String get helpFaqQ1 => 'كيف أنشئ روتين تمارين مخصصاً؟';
+
+  @override
+  String get helpFaqA1 =>
+      'اذهب إلى التمارين ← إنشاء روتين، ثم اختر التمارين من القائمة لبناء روتينك الخاص. اضغط على النجمة لإضافة التمارين التي تستخدمها كثيرًا إلى المفضلة.';
+
+  @override
+  String get helpFaqQ2 => 'كيف يُحسب هدف السعرات اليومي؟';
+
+  @override
+  String get helpFaqA2 =>
+      'نستخدم العمر والوزن والطول ومستوى النشاط الذي أدخلته أثناء الإعداد. يمكنك تحديث هذه البيانات في أي وقت من الملف الشخصي ← تعديل الملف الشخصي.';
+
+  @override
+  String get helpFaqQ3 => 'هل يمكنني التبديل بين الوضع الفاتح والداكن؟';
+
+  @override
+  String get helpFaqA3 =>
+      'نعم — اذهب إلى الملف الشخصي ← الإعدادات ← المظهر واختر فاتح أو داكن أو النظام لمتابعة جهازك تلقائيًا.';
+
+  @override
+  String get helpFaqQ4 => 'كيف أغيّر لغة التطبيق؟';
+
+  @override
+  String get helpFaqA4 =>
+      'اذهب إلى الملف الشخصي ← الإعدادات ← اللغة، أو استخدم مفتاح تبديل اللغة الظاهر في شاشتي تسجيل الدخول والتعريف بالتطبيق.';
+
+  @override
+  String get helpFaqQ5 => 'كيف أحذف حسابي؟';
+
+  @override
+  String get helpFaqA5 =>
+      'اذهب إلى الملف الشخصي ← سياسة الخصوصية ← حذف حسابي. سيؤدي ذلك إلى إزالة ملفك الشخصي وسجل تمارينك وبياناتك المحفوظة نهائيًا.';
+
+  @override
+  String get notificationSettingsTitle => 'إعدادات الإشعارات';
+
+  @override
+  String get notificationToggleGeneral => 'الإشعارات العامة';
+
+  @override
+  String get notificationToggleSound => 'الصوت';
+
+  @override
+  String get notificationToggleDoNotDisturb => 'وضع عدم الإزعاج';
+
+  @override
+  String get notificationToggleVibrate => 'الاهتزاز';
+
+  @override
+  String get notificationToggleLockScreen => 'شاشة القفل';
+
+  @override
+  String get notificationToggleReminders => 'التذكيرات';
+
+  @override
+  String get passwordSettingsTitle => 'إعدادات كلمة المرور';
+
+  @override
+  String get passwordCurrentPassword => 'كلمة المرور الحالية';
+
+  @override
+  String get passwordForgot => 'نسيت كلمة المرور؟';
+
+  @override
+  String get passwordNew => 'كلمة المرور الجديدة';
+
+  @override
+  String get passwordConfirmNew => 'تأكيد كلمة المرور الجديدة';
+
+  @override
+  String get documentsTitle => 'المستندات';
+
+  @override
+  String get settingsTitle => 'الإعدادات';
+
+  @override
+  String get settingsSectionAccount => 'الحساب';
+
+  @override
+  String get settingsNotification => 'إعدادات الإشعارات';
+
+  @override
+  String get settingsPassword => 'إعدادات كلمة المرور';
+
+  @override
+  String get settingsDeleteAccount => 'حذف الحساب';
+
+  @override
+  String get helpTitle => 'المساعدة والأسئلة الشائعة';
+
+  @override
+  String get helpHowCanWeHelp => 'كيف يمكننا مساعدتك؟';
+
+  @override
+  String get helpFaqTab => 'الأسئلة الشائعة';
+
+  @override
+  String get helpContactUsTab => 'تواصل معنا';
+
+  @override
+  String get helpTabGeneral => 'عام';
+
+  @override
+  String get helpTabAccount => 'الحساب';
+
+  @override
+  String get helpTabServices => 'الخدمات';
+
+  @override
+  String get helpSearchHint => 'بحث';
+
+  @override
+  String get helpFaqPlaceholder => 'أسئلة شائعة نموذجية؟';
+
+  @override
+  String get nutritionSubtitle => 'غذِّ تدريبك بوجبات تناسب يومك فعليًا.';
+
+  @override
+  String get nutritionTabMealPlans => 'خطط الوجبات';
+
+  @override
+  String get nutritionTabMealIdeas => 'أفكار وجبات';
+
+  @override
+  String get nutritionRecipeOfTheDay => 'وصفة اليوم';
+
+  @override
+  String get nutritionFeaturedRecipeName => 'سموذي الجزر والبرتقال';
+
+  @override
+  String get nutritionFeaturedRecipeDuration => '10 دقائق';
+
+  @override
+  String get nutritionFeaturedRecipeCalories => '70 سعرة';
+
+  @override
+  String get nutritionRecommended => 'موصى به';
+
+  @override
+  String get nutritionRecipesForYou => 'وصفات لك';
+
+  @override
+  String get mealIdeaTitle => 'أفكار وجبات';
+
+  @override
+  String get mealCategoryBreakfast => 'الفطور';
+
+  @override
+  String get mealCategoryLunch => 'الغداء';
+
+  @override
+  String get mealCategoryDinner => 'العشاء';
+
+  @override
+  String get mealIngredients => 'المكونات';
+
+  @override
+  String get mealPreparation => 'التحضير';
+
+  @override
+  String get mealIdeasDiscoverTitle => 'أفكار وجبات';
+
+  @override
+  String get mealIdeasDiscoverBody =>
+      'تصفّح مجموعة مختارة من الوصفات المناسبة لأهدافك — من العصائر السريعة إلى وجبات العشاء الكاملة، مع خطوات تحضير واضحة وقيم غذائية.';
+
+  @override
+  String get actionDiscover => 'استكشف';
+
+  @override
+  String get mealPlanTitle => 'خطة الوجبات';
+
+  @override
+  String get mealPlanIntroBody =>
+      'أجب عن بضعة أسئلة سريعة حول نظامك الغذائي وأهدافك، وسنُعدّ لك خطة وجبات مخصصة لأسبوعك.';
+
+  @override
+  String get mealPlanKnowYourPlan => 'تعرّف على خطتك';
+
+  @override
+  String get mealPlanDietaryPreferences => 'التفضيلات الغذائية';
+
+  @override
+  String get mealPlanDietaryPreferencesQuestion => 'ما هي تفضيلاتك الغذائية؟';
+
+  @override
+  String get mealPlanAllergies => 'الحساسية الغذائية';
+
+  @override
+  String get mealPlanAllergiesQuestion =>
+      'هل لديك أي حساسية غذائية يجب أن نعرفها؟';
+
+  @override
+  String get mealPlanMealTypes => 'أنواع الوجبات';
+
+  @override
+  String get mealPlanMealTypesQuestion =>
+      'ما هي الوجبات التي تريد التخطيط لها؟';
+
+  @override
+  String get mealPlanCaloricGoal => 'هدف السعرات';
+
+  @override
+  String get mealPlanCaloricGoalQuestion =>
+      'ما هو هدفك اليومي من السعرات الحرارية؟';
+
+  @override
+  String get mealPlanCookingTime => 'وقت الطهي المفضل';
+
+  @override
+  String get mealPlanCookingTimeQuestion =>
+      'كم من الوقت ترغب في قضائه في طهي كل وجبة؟';
+
+  @override
+  String get mealPlanServings => 'عدد الحصص';
+
+  @override
+  String get mealPlanServingsQuestion => 'كم عدد الحصص التي تحتاجها لكل وجبة؟';
+
+  @override
+  String get mealPlanCreate => 'إنشاء';
+
+  @override
+  String get mealPlanGeneratingTitle => 'جارٍ إنشاء خطة لك';
+
+  @override
+  String get mealPlanBreakfastTitle => 'خطة فطور لك';
+
+  @override
+  String get mealPlanBreakfastBody =>
+      'خيارات فطور مختارة بعناية بناءً على تفضيلاتك الغذائية وهدف السعرات الخاص بك.';
+
+  @override
+  String get mealPlanSeeRecipe => 'عرض الوصفة';
+
+  @override
+  String get navCommunityTitle => 'المجتمع';
+
+  @override
+  String get communitySubtitle =>
+      'تدرّبوا معًا، شاركوا إنجازاتكم، وانضموا للتحديات.';
+
+  @override
+  String get communityTabForum => 'منتدى النقاش';
+
+  @override
+  String get communityTabChallenges => 'التحديات';
+
+  @override
+  String get communityForums => 'المنتديات';
+
+  @override
+  String get communityChallengesAndCompetitions => 'التحديات والمسابقات';
+
+  @override
+  String get communityStartNow => 'ابدأ الآن';
+
+  @override
+  String get communityFeaturedChallengeName => 'تحدي ركوب الدراجات';
+
+  @override
+  String get communityFeaturedChallengeDuration => '15 دقيقة';
+
+  @override
+  String get communityFeaturedChallengeCalories => '100 سعرة';
+
+  @override
+  String get communityChallengeBadge => 'تحدي المجتمع';
+
+  @override
+  String get communityTopContribution => 'أفضل مساهمة';
+
+  @override
+  String get communityMember => 'عضو في المجتمع';
+
+  @override
+  String get communityPost1 =>
+      'أنهيت للتو الأسبوع الثالث من خطة القوة — تمارين الجلوس على المقعد المائل بدأت تصبح أسهل أخيرًا! هل يوجد أحد آخر في مسار المبتدئين؟';
+
+  @override
+  String get communityPost2 =>
+      'استبدلت مشيتي في يوم الراحة بجلسة كارديو لمدة 20 دقيقة اليوم وشعرت بتحسن كبير بعدها. الإنجازات الصغيرة تتراكم.';
+
+  @override
+  String get communityPost3 =>
+      'سؤال للمجموعة: كيف تحافظون على الاستمرارية في تحضير الوجبات خلال الأسابيع المزدحمة؟ أبحث عن أفكار سريعة وغنية بالبروتين.';
+
+  @override
+  String get communityPost4 =>
+      'حققت رقمًا قياسيًا جديدًا في تمرين أرجحة الكيتلبل هذا الصباح. التحدي الأسبوعي دفعني فعلًا للمواظبة.';
+
+  @override
+  String get communityPost5 =>
+      'أحببت أداة بناء الروتين الجديدة — أنشأت تمرينًا كاملاً للجزء العلوي في أقل من دقيقتين.';
 }

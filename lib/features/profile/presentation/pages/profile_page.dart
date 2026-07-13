@@ -1,7 +1,9 @@
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
 import 'package:fitness_app/core/routing/app_routes.dart';
-import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:fitness_app/features/profile/presentation/providers/profile_controller.dart';
+import 'package:fitness_app/features/profile/presentation/widgets/profile_menu_tile.dart';
 import 'package:fitness_app/features/profile/presentation/widgets/profile_stat_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,217 +15,274 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(currentUserProfileProvider);
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return PremiumScaffold(
-      padding: EdgeInsets.zero,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              clipBehavior: Clip.none,
+      // One CustomScrollView: the header/avatar/stats card lives in a
+      // SliverToBoxAdapter, and each menu section is its own SliverList —
+      // a single real scroll view, so vertical overflow is structurally
+      // impossible regardless of device or content length.
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: double.infinity,
-                  height: 380,
-                  decoration: const BoxDecoration(
-                    color: Color(0xffB3A0FF),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
+                Row(
+                  children: [
+                    if (context.canPop())
+                      PremiumIconButton(
+                        icon: Icons.arrow_back_ios_new_rounded,
+                        onTap: () => context.pop(),
+                      ),
+                    const Spacer(),
+                    Text(
+                      l10n.profileMyProfile,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.headlineSmall?.copyWith(
+                        color: ext.textPrimary,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 10,
-                  ),
-                  child: Column(
+                    const Spacer(),
+                    PremiumIconButton(
+                      icon: Icons.edit_rounded,
+                      onTap: () => context.push(AppRoutes.editProfile),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                Center(
+                  child: Stack(
+                    clipBehavior: Clip.none,
                     children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap:
-                                () => context.canPop() ? context.pop() : null,
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              size: 28,
-                              color: AppColors.seedLime,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          const Text(
-                            'My Profile',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      CircleAvatar(
-                        backgroundImage: AssetImage(profile.avatar),
-                        radius: 50,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        profile.name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: ext.accentGradient,
+                        ),
+                        child: CircleAvatar(
+                          radius: 52,
+                          backgroundColor: ext.cardColor,
+                          backgroundImage: AssetImage(profile.avatar),
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        profile.email,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            const TextSpan(
-                              text: 'Birthday: ',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: ext.cardColor,
+                            border: Border.all(
+                              color: ext.glassBorder,
+                              width: 2,
                             ),
-                            TextSpan(
-                              text: profile.birthday,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
+                          ),
+                          child: Icon(
+                            Icons.verified_rounded,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 16,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Positioned(
-                  bottom: -30,
-                  left: 16,
-                  right: 16,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: AppColors.seedViolet,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.3),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
+                const SizedBox(height: 14),
+                Center(
+                  child: Text(
+                    profile.name,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: ext.textPrimary,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Center(
+                  child: Text(
+                    profile.email,
+                    style: TextStyle(fontSize: 13, color: ext.textMuted),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Center(
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: l10n.profileBirthdayLabel,
+                          style: TextStyle(
+                            color: ext.textMuted,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                        TextSpan(
+                          text: profile.birthday,
+                          style: TextStyle(
+                            color: ext.textMuted,
+                            fontSize: 12,
+                          ),
                         ),
                       ],
                     ),
-                    child: ProfileStatRow(profile: profile),
                   ),
                 ),
+                const SizedBox(height: 22),
+                PremiumGlassCard(
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  child: ProfileStatRow(profile: profile),
+                ),
+                const SizedBox(height: 26),
+                PremiumSectionHeader(title: l10n.profileSectionAccount),
+                const SizedBox(height: 12),
               ],
             ),
-            const SizedBox(height: 60),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  _ProfileTile(
-                    icon: Icons.person,
-                    title: 'Profile',
+          ),
+          SliverList.separated(
+            itemCount: 3,
+            separatorBuilder: (_, _) => const SizedBox(height: 10),
+            itemBuilder: (context, index) {
+              switch (index) {
+                case 0:
+                  return ProfileMenuTile(
+                    icon: Icons.person_outline_rounded,
+                    title: l10n.profileMenuProfile,
                     onTap: () => context.push(AppRoutes.editProfile),
-                  ),
-                  const SizedBox(height: 10),
-                  _ProfileTile(
-                    icon: Icons.star,
-                    title: 'Favorite',
+                  );
+                case 1:
+                  return ProfileMenuTile(
+                    icon: Icons.star_border_rounded,
+                    title: l10n.profileMenuFavorite,
                     onTap: () => context.push(AppRoutes.favorite),
-                  ),
-                  const SizedBox(height: 10),
-                  const _ProfileTile(
-                    icon: Icons.lock_open,
-                    title: 'Privacy Policy',
-                  ),
-                  const SizedBox(height: 10),
-                  _ProfileTile(
-                    icon: Icons.settings,
-                    title: 'Setting',
-                    onTap: () => context.push(AppRoutes.settings),
-                  ),
-                  const SizedBox(height: 10),
-                  _ProfileTile(
-                    icon: Icons.support_agent,
-                    title: 'Help',
-                    onTap: () => context.push(AppRoutes.help),
-                  ),
-                  const SizedBox(height: 10),
-                  _ProfileTile(
-                    icon: Icons.logout,
-                    title: 'Log out',
-                    onTap: () => _showLogoutConfirmation(context),
-                  ),
-                ],
-              ),
+                  );
+                default:
+                  return ProfileMenuTile(
+                    icon: Icons.lock_outline_rounded,
+                    title: l10n.profileMenuPrivacyPolicy,
+                    onTap: () => context.push(AppRoutes.privacy),
+                  );
+              }
+            },
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                PremiumSectionHeader(title: l10n.profileSectionPreferences),
+                const SizedBox(height: 12),
+              ],
             ),
-            const SizedBox(height: 104),
-          ],
-        ),
+          ),
+          SliverList.separated(
+            itemCount: 3,
+            separatorBuilder: (_, _) => const SizedBox(height: 10),
+            itemBuilder: (context, index) {
+              switch (index) {
+                case 0:
+                  return ProfileMenuTile(
+                    icon: Icons.settings_outlined,
+                    title: l10n.profileMenuSetting,
+                    onTap: () => context.push(AppRoutes.settings),
+                  );
+                case 1:
+                  return ProfileMenuTile(
+                    icon: Icons.support_agent_rounded,
+                    title: l10n.profileMenuHelp,
+                    onTap: () => context.push(AppRoutes.help),
+                  );
+                default:
+                  return ProfileMenuTile(
+                    icon: Icons.logout_rounded,
+                    title: l10n.profileMenuLogout,
+                    iconColor: ext.danger,
+                    onTap: () => _showLogoutConfirmation(context),
+                  );
+              }
+            },
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 8)),
+        ],
       ),
     );
   }
 
   void _showLogoutConfirmation(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
     showModalBottomSheet<void>(
       isDismissible: false,
+      backgroundColor: Colors.transparent,
+      // Without this, the sheet is pushed onto the shell branch's nested
+      // Navigator, whose Overlay sits *below* the outer Scaffold's
+      // bottomNavigationBar slot — the floating nav bar then paints over
+      // the bottom of the sheet. The root Navigator's Overlay sits above
+      // the whole app shell, so the sheet renders fully on top of it.
+      useRootNavigator: true,
       context: context,
       builder: (context) {
-        return Container(
-          height: 220,
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-          decoration: BoxDecoration(
-            color: const Color(0xffB3A0FF),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Column(
-            children: [
-              const Text(
-                'Are you sure you want to\n log out?',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+        return SafeArea(
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            decoration: BoxDecoration(
+              color: ext.cardColor,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(28),
+              ),
+              border: Border.all(color: ext.glassBorder),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 44,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: ext.glassBorder,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _LogoutButton(
-                    text: 'Cancel',
-                    color: Colors.white,
-                    textColor: AppColors.seedViolet,
-                    onTap: () => context.pop(),
+                const SizedBox(height: 20),
+                Text(
+                  l10n.profileLogoutConfirm,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: ext.textPrimary,
                   ),
-                  const SizedBox(width: 10),
-                  _LogoutButton(
-                    text: 'Yes, logout',
-                    color: AppColors.seedLime,
-                    textColor: Colors.black,
-                    onTap: () {
-                      context.pop();
-                      context.go(AppRoutes.login);
-                    },
-                  ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(height: 26),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _LogoutButton(
+                      text: l10n.actionCancel,
+                      isPrimary: false,
+                      onTap: () => context.pop(),
+                    ),
+                    const SizedBox(width: 10),
+                    _LogoutButton(
+                      text: l10n.profileLogoutYes,
+                      isPrimary: true,
+                      onTap: () {
+                        context.pop();
+                        context.go(AppRoutes.login);
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -231,67 +290,36 @@ class ProfilePage extends ConsumerWidget {
   }
 }
 
-class _ProfileTile extends StatelessWidget {
-  const _ProfileTile({required this.icon, required this.title, this.onTap});
-  final IconData icon;
-  final String title;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      leading: Container(
-        width: 40,
-        height: 40,
-        decoration: const BoxDecoration(
-          color: AppColors.seedViolet,
-          shape: BoxShape.circle,
-        ),
-        child: Center(child: Icon(icon, color: Colors.white, size: 28)),
-      ),
-      title: Text(
-        title,
-        style: const TextStyle(fontSize: 16, color: Colors.white),
-      ),
-      trailing: const Icon(
-        Icons.arrow_right,
-        color: AppColors.seedLime,
-        size: 28,
-      ),
-    );
-  }
-}
-
 class _LogoutButton extends StatelessWidget {
   const _LogoutButton({
     required this.text,
-    required this.color,
-    required this.textColor,
+    required this.isPrimary,
     required this.onTap,
   });
   final String text;
-  final Color color;
-  final Color textColor;
+  final bool isPrimary;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 150,
-        height: 38,
+        height: 44,
         decoration: BoxDecoration(
-          color: color,
+          gradient: isPrimary ? ext.accentGradient : null,
+          color: isPrimary ? null : ext.glassFill,
           borderRadius: BorderRadius.circular(20),
+          border: isPrimary ? null : Border.all(color: ext.glassBorder),
         ),
         child: Center(
           child: Text(
             text,
             style: TextStyle(
-              color: textColor,
-              fontSize: 16,
+              color: isPrimary ? ext.onAccent : ext.textPrimary,
+              fontSize: 15,
               fontWeight: FontWeight.bold,
             ),
           ),

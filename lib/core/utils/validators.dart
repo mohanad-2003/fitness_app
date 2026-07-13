@@ -1,36 +1,51 @@
 import 'package:flutter/widgets.dart';
 
-/// Shared form validators, previously duplicated near-verbatim across
-/// login/signup/forgot-password/set-password controllers.
+import '../localization/generated/app_localizations.dart';
+
+/// Shared, localized form validators. Each factory takes the current
+/// [AppLocalizations] so error messages follow the active locale.
 abstract final class Validators {
   static final _emailPattern = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
-  static String? email(String? value) {
-    if (value == null || value.trim().isEmpty) return 'Email is required';
-    if (!_emailPattern.hasMatch(value)) return 'Please enter a valid email';
-    return null;
+  static String? Function(String?) email(AppLocalizations l10n) {
+    return (value) {
+      if (value == null || value.trim().isEmpty) {
+        return l10n.validationEmailRequired;
+      }
+      if (!_emailPattern.hasMatch(value)) return l10n.validationEmailInvalid;
+      return null;
+    };
   }
 
-  static String? password(String? value) {
-    if (value == null || value.isEmpty) return 'Password is required';
-    if (value.length < 8) {
-      return 'Password must be at least 8 characters long';
-    }
-    return null;
+  static String? Function(String?) password(AppLocalizations l10n) {
+    return (value) {
+      if (value == null || value.isEmpty) return l10n.validationPasswordRequired;
+      if (value.length < 8) return l10n.validationPasswordTooShort;
+      return null;
+    };
   }
 
-  static String? required(String? value, {String field = 'This field'}) {
-    if (value == null || value.trim().isEmpty) return '$field is required';
-    return null;
+  /// Non-empty check. Pass a specific [message] (e.g.
+  /// `l10n.validationFullNameRequired`) to override the generic one.
+  static String? Function(String?) requiredField(
+    AppLocalizations l10n, {
+    String? message,
+  }) {
+    return (value) {
+      if (value == null || value.trim().isEmpty) {
+        return message ?? l10n.validationFieldRequired;
+      }
+      return null;
+    };
   }
 
   static String? Function(String?) matches(
-    TextEditingController other, {
-    String mismatchMessage = 'Passwords do not match',
-  }) {
+    AppLocalizations l10n,
+    TextEditingController other,
+  ) {
     return (value) {
-      if (value == null || value.isEmpty) return 'This field is required';
-      if (value != other.text) return mismatchMessage;
+      if (value == null || value.isEmpty) return l10n.validationFieldRequired;
+      if (value != other.text) return l10n.validationPasswordMismatch;
       return null;
     };
   }

@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../core/widgets/selectable_option_card.dart';
 import '../providers/onboarding_profile_controller.dart';
 import '../widgets/wizard_scaffold.dart';
 
-const _levels = {
-  ActivityLevel.beginner: 'Beginner',
-  ActivityLevel.intermediate: 'Intermediate',
-  ActivityLevel.advanced: 'Advance',
-};
+String _levelLabel(AppLocalizations l10n, ActivityLevel level) =>
+    switch (level) {
+      ActivityLevel.beginner => l10n.workoutLevelBeginner,
+      ActivityLevel.intermediate => l10n.workoutLevelIntermediate,
+      ActivityLevel.advanced => l10n.workoutLevelAdvanced,
+    };
 
 class PhysicalActivityPage extends ConsumerWidget {
   const PhysicalActivityPage({super.key});
@@ -21,20 +24,23 @@ class PhysicalActivityPage extends ConsumerWidget {
     final selected =
         ref.watch(onboardingProfileControllerProvider).activityLevel;
     final controller = ref.read(onboardingProfileControllerProvider.notifier);
+    final l10n = AppLocalizations.of(context);
 
     return WizardScaffold(
-      title: 'Physical Activity Level',
-      description:
-          'Select your physical activity level to personalize your fitness plan.',
+      step: 6,
+      totalSteps: 6,
+      title: l10n.onboardingPhysicalTitle,
+      description: l10n.onboardingPhysicalBody,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            for (final entry in _levels.entries) ...[
-              _ActivityButton(
-                label: entry.value,
-                isSelected: selected == entry.key,
-                onTap: () => controller.selectActivityLevel(entry.key),
+            for (final level in ActivityLevel.values) ...[
+              SelectableOptionCard(
+                label: _levelLabel(l10n, level),
+                isSelected: selected == level,
+                centered: true,
+                onTap: () => controller.selectActivityLevel(level),
               ),
               const SizedBox(height: 20),
             ],
@@ -44,48 +50,8 @@ class PhysicalActivityPage extends ConsumerWidget {
       button: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: PrimaryButton(
-          label: 'Continue',
+          label: l10n.actionContinue,
           onPressed: () => context.push(AppRoutes.setupFillProfile),
-        ),
-      ),
-    );
-  }
-}
-
-class _ActivityButton extends StatelessWidget {
-  const _ActivityButton({
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color:
-              isSelected
-                  ? const Color(0xFFE2F163)
-                  : Colors.white.withValues(alpha: 0.2),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? Colors.black : Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
         ),
       ),
     );

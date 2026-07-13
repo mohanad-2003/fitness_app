@@ -1,56 +1,51 @@
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
+import 'package:fitness_app/core/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
 
 class _OnboardingSlide {
   const _OnboardingSlide({
     required this.image,
-    required this.kicker,
-    required this.title,
-    required this.description,
+    required this.kickerKey,
+    required this.titleKey,
+    required this.descriptionKey,
     required this.icon,
   });
 
   final String image;
-  final String kicker;
-  final String title;
-  final String description;
+  final String kickerKey;
+  final String titleKey;
+  final String descriptionKey;
   final IconData icon;
 }
 
 const _slides = [
   _OnboardingSlide(
     image: 'assets/ob1.png',
-    kicker: 'START STRONG',
-    title: 'Build a body that keeps up with your ambition.',
-    description:
-        'Personalized training flows help you start today and stay consistent tomorrow.',
+    kickerKey: 'onboardingSlide1Kicker',
+    titleKey: 'onboardingSlide1Title',
+    descriptionKey: 'onboardingSlide1Description',
     icon: Icons.bolt_rounded,
   ),
   _OnboardingSlide(
     image: 'assets/ob2.png',
-    kicker: 'TRACK EVERY REP',
-    title: 'See your workouts, streaks, and progress in one place.',
-    description:
-        'Turn effort into insight with daily metrics and clear performance feedback.',
+    kickerKey: 'onboardingSlide2Kicker',
+    titleKey: 'onboardingSlide2Title',
+    descriptionKey: 'onboardingSlide2Description',
     icon: Icons.monitor_heart_rounded,
   ),
   _OnboardingSlide(
     image: 'assets/ob3.png',
-    kicker: 'TRAIN SMARTER',
-    title: 'Find strength, cardio, yoga, and HIIT sessions fast.',
-    description:
-        'Choose the right intensity for your day and move with confidence.',
+    kickerKey: 'onboardingSlide3Kicker',
+    titleKey: 'onboardingSlide3Title',
+    descriptionKey: 'onboardingSlide3Description',
     icon: Icons.fitness_center_rounded,
   ),
   _OnboardingSlide(
     image: 'assets/ob4.png',
-    kicker: 'REACH GOALS',
-    title: 'Healthy habits become your unfair advantage.',
-    description:
-        'Stay motivated with progress milestones, challenges, and routines built for real life.',
+    kickerKey: 'onboardingSlide4Kicker',
+    titleKey: 'onboardingSlide4Title',
+    descriptionKey: 'onboardingSlide4Description',
     icon: Icons.emoji_events_rounded,
   ),
 ];
@@ -87,10 +82,12 @@ class _OnboardingCarouselPageState extends State<OnboardingCarouselPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     final isLast = _currentIndex == _slides.length - 1;
 
     return Scaffold(
-      backgroundColor: AppColors.seedInk,
+      backgroundColor: theme.colorScheme.surface,
       body: Stack(
         children: [
           PageView.builder(
@@ -112,16 +109,19 @@ class _OnboardingCarouselPageState extends State<OnboardingCarouselPage> {
                           vertical: 9,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.10),
+                          color: theme.colorScheme.surfaceContainerHighest
+                              .withValues(alpha: 0.10),
                           borderRadius: BorderRadius.circular(999),
                           border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.12),
+                            color: theme.colorScheme.outline.withValues(
+                              alpha: 0.12,
+                            ),
                           ),
                         ),
-                        child: const Text(
-                          'FITBODY',
+                        child: Text(
+                          l10n.onboardingBrand,
                           style: TextStyle(
-                            color: AppColors.seedLime,
+                            color: theme.colorScheme.primary,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 1,
                           ),
@@ -131,9 +131,11 @@ class _OnboardingCarouselPageState extends State<OnboardingCarouselPage> {
                       TextButton(
                         onPressed: _finish,
                         child: Text(
-                          'Skip',
+                          l10n.onboardingSkip,
                           style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.78),
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.78,
+                            ),
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -147,14 +149,15 @@ class _OnboardingCarouselPageState extends State<OnboardingCarouselPage> {
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 260),
                           curve: Curves.easeOutCubic,
-                          margin: const EdgeInsets.only(right: 8),
+                          margin: const EdgeInsetsDirectional.only(end: 8),
                           width: i == _currentIndex ? 34 : 9,
                           height: 9,
                           decoration: BoxDecoration(
                             color:
                                 i == _currentIndex
-                                    ? AppColors.seedLime
-                                    : Colors.white.withValues(alpha: 0.28),
+                                    ? theme.colorScheme.primary
+                                    : theme.colorScheme.surfaceContainerHighest
+                                        .withValues(alpha: 0.28),
                             borderRadius: BorderRadius.circular(999),
                           ),
                         ),
@@ -162,8 +165,8 @@ class _OnboardingCarouselPageState extends State<OnboardingCarouselPage> {
                       FilledButton.icon(
                         onPressed: _goToNextSlide,
                         style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.seedLime,
-                          foregroundColor: AppColors.seedInk,
+                          backgroundColor: theme.colorScheme.primary,
+                          foregroundColor: theme.colorScheme.onPrimary,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 18,
                             vertical: 15,
@@ -177,7 +180,11 @@ class _OnboardingCarouselPageState extends State<OnboardingCarouselPage> {
                               ? Icons.check_rounded
                               : Icons.arrow_forward_rounded,
                         ),
-                        label: Text(isLast ? 'Get Started' : 'Next'),
+                        label: Text(
+                          isLast
+                              ? l10n.onboardingGetStarted
+                              : l10n.onboardingNext,
+                        ),
                       ),
                     ],
                   ),
@@ -198,6 +205,31 @@ class _SlidePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+
+    final kicker = switch (slide.kickerKey) {
+      'onboardingSlide1Kicker' => l10n.onboardingSlide1Kicker,
+      'onboardingSlide2Kicker' => l10n.onboardingSlide2Kicker,
+      'onboardingSlide3Kicker' => l10n.onboardingSlide3Kicker,
+      'onboardingSlide4Kicker' => l10n.onboardingSlide4Kicker,
+      _ => '',
+    };
+    final title = switch (slide.titleKey) {
+      'onboardingSlide1Title' => l10n.onboardingSlide1Title,
+      'onboardingSlide2Title' => l10n.onboardingSlide2Title,
+      'onboardingSlide3Title' => l10n.onboardingSlide3Title,
+      'onboardingSlide4Title' => l10n.onboardingSlide4Title,
+      _ => '',
+    };
+    final description = switch (slide.descriptionKey) {
+      'onboardingSlide1Description' => l10n.onboardingSlide1Description,
+      'onboardingSlide2Description' => l10n.onboardingSlide2Description,
+      'onboardingSlide3Description' => l10n.onboardingSlide3Description,
+      'onboardingSlide4Description' => l10n.onboardingSlide4Description,
+      _ => '',
+    };
+
     return Stack(
       children: [
         Positioned.fill(child: Image.asset(slide.image, fit: BoxFit.cover)),
@@ -206,9 +238,9 @@ class _SlidePage extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  AppColors.seedInk.withValues(alpha: 0.40),
-                  AppColors.seedInk.withValues(alpha: 0.56),
-                  AppColors.seedInk.withValues(alpha: 0.98),
+                  theme.colorScheme.surface.withValues(alpha: 0.40),
+                  theme.colorScheme.surface.withValues(alpha: 0.56),
+                  theme.colorScheme.surface.withValues(alpha: 0.98),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -223,12 +255,16 @@ class _SlidePage extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: AppColors.graphite.withValues(alpha: 0.74),
+              color: theme.colorScheme.surfaceContainerHighest.withValues(
+                alpha: 0.74,
+              ),
               borderRadius: BorderRadius.circular(32),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+              border: Border.all(
+                color: theme.colorScheme.outline.withValues(alpha: 0.12),
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.34),
+                  color: theme.colorScheme.shadow.withValues(alpha: 0.34),
                   blurRadius: 30,
                   offset: const Offset(0, 18),
                 ),
@@ -243,22 +279,25 @@ class _SlidePage extends StatelessWidget {
                     Container(
                       width: 46,
                       height: 46,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         gradient: LinearGradient(
                           colors: [
-                            AppColors.seedLime,
-                            AppColors.electricOrange,
+                            theme.colorScheme.primary,
+                            theme.colorScheme.secondary,
                           ],
                         ),
                       ),
-                      child: Icon(slide.icon, color: AppColors.seedInk),
+                      child: Icon(
+                        slide.icon,
+                        color: theme.colorScheme.onPrimary,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      slide.kicker,
-                      style: const TextStyle(
-                        color: AppColors.seedLime,
+                      kicker,
+                      style: TextStyle(
+                        color: theme.colorScheme.primary,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.2,
                       ),
@@ -267,17 +306,17 @@ class _SlidePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 18),
                 Text(
-                  slide.title,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Colors.white,
+                  title,
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    color: theme.colorScheme.onSurface,
                     height: 1.02,
                   ),
                 ),
                 const SizedBox(height: 14),
                 Text(
-                  slide.description,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.74),
+                  description,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.74),
                     height: 1.45,
                   ),
                 ),

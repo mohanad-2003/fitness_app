@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/localization/generated/app_localizations.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 
 /// Replaces the legacy `HeaderWidget`/`HeaderBack` (lib/view/headerApge.dart,
 /// lib/view/header_back.dart) — back arrow now pops via GoRouter instead of
@@ -13,38 +14,40 @@ class AuthHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final accent = Theme.of(context).colorScheme.primary;
+    final l10n = AppLocalizations.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: Stack(
         alignment: Alignment.center,
         children: [
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             child: GestureDetector(
               onTap: () => context.canPop() ? context.pop() : null,
               child: Container(
                 height: 42,
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.08),
+                  color: ext.glassFill,
                   borderRadius: BorderRadius.circular(999),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.10),
-                  ),
+                  border: Border.all(color: ext.glassBorder),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
                       Icons.arrow_back_ios_new_rounded,
                       size: 16,
-                      color: AppColors.seedLime,
+                      color: accent,
                     ),
-                    SizedBox(width: 6),
+                    const SizedBox(width: 6),
                     Text(
-                      'Back',
+                      l10n.actionBack,
                       style: TextStyle(
-                        color: AppColors.seedLime,
+                        color: accent,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -57,9 +60,9 @@ class AuthHeader extends StatelessWidget {
           if (title != null)
             Text(
               title!,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
-                color: Colors.white,
+                color: ext.textPrimary,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 0.4,
               ),

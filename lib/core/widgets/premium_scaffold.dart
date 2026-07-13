@@ -2,39 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_spacing.dart';
+import '../theme/app_theme_extension.dart';
+import 'pressable_scale.dart';
 
 class PremiumScaffold extends StatelessWidget {
   const PremiumScaffold({
     super.key,
     required this.child,
-    this.padding = const EdgeInsets.fromLTRB(20, 18, 20, 104),
+    this.padding = const EdgeInsets.fromLTRB(20, 18, 20, 20),
     this.safeArea = true,
   });
 
   final Widget child;
+
+  /// Nav-bar clearance note: no manual reservation is needed here. For the
+  /// five tab-root screens the app shell uses `Scaffold(extendBody: true)`,
+  /// which reports the floating nav bar's full height through the body's
+  /// `MediaQuery.padding.bottom` — the [SafeArea] below consumes it, so
+  /// content always stops above the bar automatically. Adding extra manual
+  /// padding on top of that double-counts and leaves a large dead zone.
   final EdgeInsetsGeometry padding;
   final bool safeArea;
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
     final content = Padding(padding: padding, child: child);
     return Scaffold(
-      backgroundColor: AppColors.seedInk,
       body: Stack(
         children: [
-          const Positioned.fill(
+          Positioned.fill(
             child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.midnight,
-                    AppColors.seedInk,
-                    AppColors.graphite,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
+              decoration: BoxDecoration(gradient: ext.backgroundGradient),
             ),
           ),
           Positioned(
@@ -74,6 +74,7 @@ class PremiumHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
     return Row(
       children: [
         if (showBack) ...[
@@ -90,7 +91,7 @@ class PremiumHeader extends StatelessWidget {
               Text(
                 title,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: Colors.white,
+                  color: ext.textPrimary,
                   fontWeight: FontWeight.w900,
                   height: 1,
                 ),
@@ -99,9 +100,9 @@ class PremiumHeader extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   subtitle!,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.62),
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: ext.textMuted),
                 ),
               ],
             ],
@@ -118,7 +119,7 @@ class PremiumGlassCard extends StatelessWidget {
     super.key,
     required this.child,
     this.padding = const EdgeInsets.all(18),
-    this.radius = 28,
+    this.radius = AppRadius.card,
     this.color,
     this.onTap,
   });
@@ -131,12 +132,13 @@ class PremiumGlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
     final card = Container(
       padding: padding,
       decoration: BoxDecoration(
-        color: color ?? Colors.white.withValues(alpha: 0.08),
+        color: color ?? ext.glassFill,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+        border: Border.all(color: ext.glassBorder),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.18),
@@ -149,10 +151,12 @@ class PremiumGlassCard extends StatelessWidget {
     );
 
     if (onTap == null) return card;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(radius),
-      child: card,
+    return PressableScale(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(radius),
+        child: card,
+      ),
     );
   }
 }
@@ -165,6 +169,7 @@ class PremiumIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(18),
@@ -172,11 +177,11 @@ class PremiumIconButton extends StatelessWidget {
         width: 44,
         height: 44,
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.08),
+          color: ext.glassFill,
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+          border: Border.all(color: ext.glassBorder),
         ),
-        child: Icon(icon, color: Colors.white, size: 22),
+        child: Icon(icon, color: ext.textPrimary, size: 22),
       ),
     );
   }
@@ -196,16 +201,20 @@ class PremiumSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
     return Row(
       children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.w900,
+        Expanded(
+          child: Text(
+            title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: ext.textPrimary,
+              fontWeight: FontWeight.w900,
+            ),
           ),
         ),
-        const Spacer(),
         if (action != null)
           TextButton(onPressed: onActionTap, child: Text(action!)),
       ],
@@ -229,45 +238,69 @@ class PremiumPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final child = AnimatedContainer(
-      duration: const Duration(milliseconds: 220),
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      decoration: BoxDecoration(
-        gradient:
-            selected
-                ? const LinearGradient(
-                  colors: [AppColors.seedLime, AppColors.electricOrange],
-                )
-                : null,
-        color: selected ? null : Colors.white.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(
-          color:
-              selected
-                  ? Colors.transparent
-                  : Colors.white.withValues(alpha: 0.12),
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon != null) ...[
-            Icon(
-              icon,
-              size: 17,
-              color: selected ? AppColors.seedInk : AppColors.seedLime,
-            ),
-            const SizedBox(width: 7),
-          ],
-          Text(
-            label,
-            style: TextStyle(
-              color: selected ? AppColors.seedInk : Colors.white,
-              fontWeight: FontWeight.w800,
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final child = LayoutBuilder(
+      builder: (context, constraints) {
+        final isBounded = constraints.hasBoundedWidth;
+
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 220),
+          width: isBounded ? double.infinity : null,
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          decoration: BoxDecoration(
+            gradient:
+                selected
+                    ? const LinearGradient(
+                      colors: [AppColors.seedLime, AppColors.electricOrange],
+                    )
+                    : null,
+            color: selected ? null : ext.glassFill,
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(
+              color: selected ? Colors.transparent : ext.glassBorder,
             ),
           ),
-        ],
-      ),
+          child: Row(
+            mainAxisSize: isBounded ? MainAxisSize.max : MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (icon != null) ...[
+                Icon(
+                  icon,
+                  size: 17,
+                  color: selected ? AppColors.seedInk : AppColors.seedLime,
+                ),
+                const SizedBox(width: 7),
+              ],
+              if (isBounded)
+                Flexible(
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: selected ? AppColors.seedInk : ext.textPrimary,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                )
+              else
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 170),
+                  child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: selected ? AppColors.seedInk : ext.textPrimary,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
     );
 
     if (onTap == null) return child;
@@ -281,7 +314,7 @@ class PremiumImageCard extends StatelessWidget {
     required this.image,
     required this.child,
     this.height = 220,
-    this.radius = 30,
+    this.radius = AppRadius.card,
     this.onTap,
   });
 
@@ -293,6 +326,7 @@ class PremiumImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
     final card = Container(
       height: height,
       decoration: BoxDecoration(
@@ -305,7 +339,7 @@ class PremiumImageCard extends StatelessWidget {
             BlendMode.darken,
           ),
         ),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+        border: Border.all(color: ext.glassBorder),
       ),
       child: Container(
         padding: const EdgeInsets.all(18),
@@ -314,6 +348,8 @@ class PremiumImageCard extends StatelessWidget {
           gradient: LinearGradient(
             colors: [
               Colors.transparent,
+              // Photo cards always scrim to near-black regardless of theme
+              // so the (always-white) overlaid text stays legible.
               AppColors.seedInk.withValues(alpha: 0.92),
             ],
             begin: Alignment.topCenter,

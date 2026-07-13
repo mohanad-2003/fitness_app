@@ -1,5 +1,6 @@
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
 import 'package:fitness_app/core/routing/app_routes.dart';
-import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:fitness_app/features/workout/domain/exercise_detail_models.dart';
 import 'package:fitness_app/features/workout/presentation/providers/popular_exercises_controller.dart';
@@ -8,22 +9,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-const _defaultFeatured = ExerciseDetailData(
-  headerTitle: 'Recommendations',
-  heroImage: 'assets/dum.png',
-  title: 'dumbbell step up',
-  duration: '12 Minute',
-  reps: '120 Kcal',
-);
-
 class WorkoutRecommendedPage extends ConsumerWidget {
-  const WorkoutRecommendedPage({super.key, this.featured = _defaultFeatured});
+  const WorkoutRecommendedPage({super.key, this.featured});
 
-  final ExerciseDetailData featured;
+  final ExerciseDetailData? featured;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final popular = ref.watch(popularExercisesProvider);
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
+    final featuredData =
+        featured ??
+        ExerciseDetailData(
+          headerTitle: l10n.workoutRecommendationsTitle,
+          heroImage: 'assets/dum.png',
+          title: 'dumbbell step up',
+          duration: '12 Minute',
+          reps: '120 Kcal',
+        );
 
     return PremiumScaffold(
       padding: EdgeInsets.zero,
@@ -31,23 +36,28 @@ class WorkoutRecommendedPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: WorkoutHeader(title: 'Recommendations'),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 10,
+              ),
+              child: WorkoutHeader(title: l10n.workoutRecommendationsTitle),
             ),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
               child: GestureDetector(
                 onTap:
-                    () =>
-                        context.push(AppRoutes.exerciseDetail, extra: featured),
+                    () => context.push(
+                      AppRoutes.exerciseDetail,
+                      extra: featuredData,
+                    ),
                 child: Stack(
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.asset(
-                        featured.heroImage,
+                        featuredData.heroImage,
                         width: double.infinity,
                         height: 300,
                         fit: BoxFit.cover,
@@ -62,18 +72,18 @@ class WorkoutRecommendedPage extends ConsumerWidget {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10),
                             bottomLeft: Radius.circular(10),
                           ),
-                          color: AppColors.seedLime,
+                          color: ext.accentGlow,
                         ),
                         child: Text(
-                          featured.title,
-                          style: const TextStyle(
+                          featuredData.title,
+                          style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.seedInk,
+                            color: ext.onAccent,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -94,7 +104,7 @@ class WorkoutRecommendedPage extends ConsumerWidget {
                             Image.asset('assets/time.png', color: Colors.white),
                             const SizedBox(width: 5),
                             Text(
-                              featured.duration,
+                              featuredData.duration,
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -107,14 +117,14 @@ class WorkoutRecommendedPage extends ConsumerWidget {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              featured.reps,
+                              featuredData.reps,
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
                               ),
                             ),
                             const Spacer(),
-                            const Icon(Icons.star, color: AppColors.seedLime),
+                            Icon(Icons.star, color: ext.accentGlow),
                           ],
                         ),
                       ),
@@ -128,11 +138,11 @@ class WorkoutRecommendedPage extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Most Popular',
+                  Text(
+                    l10n.workoutMostPopular,
                     style: TextStyle(
                       fontSize: 20,
-                      color: AppColors.seedLime,
+                      color: theme.colorScheme.primary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -155,7 +165,7 @@ class WorkoutRecommendedPage extends ConsumerWidget {
                             () => context.push(
                               AppRoutes.exerciseDetail,
                               extra: ExerciseDetailData(
-                                headerTitle: 'Recommendations',
+                                headerTitle: l10n.workoutRecommendationsTitle,
                                 heroImage: item.image,
                                 title: item.name,
                                 duration: item.time,
@@ -165,10 +175,8 @@ class WorkoutRecommendedPage extends ConsumerWidget {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            color: Colors.white.withValues(alpha: 0.06),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.10),
-                            ),
+                            color: ext.glassFill,
+                            border: Border.all(color: ext.glassBorder),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,13 +203,13 @@ class WorkoutRecommendedPage extends ConsumerWidget {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  const Positioned(
+                                  Positioned(
                                     bottom: -10,
                                     right: 5,
                                     child: CircleAvatar(
                                       radius: 12.5,
-                                      backgroundColor: AppColors.seedViolet,
-                                      child: Icon(
+                                      backgroundColor: theme.colorScheme.secondary,
+                                      child: const Icon(
                                         Icons.play_arrow,
                                         color: Colors.white,
                                         size: 16,
@@ -222,9 +230,9 @@ class WorkoutRecommendedPage extends ConsumerWidget {
                                       item.name,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 12,
-                                        color: AppColors.seedLime,
+                                        color: theme.colorScheme.primary,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -233,14 +241,14 @@ class WorkoutRecommendedPage extends ConsumerWidget {
                                       children: [
                                         Image.asset(
                                           'assets/time.png',
-                                          color: AppColors.seedViolet,
+                                          color: theme.colorScheme.secondary,
                                         ),
                                         const SizedBox(width: 2),
                                         Text(
                                           item.time,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontSize: 12,
-                                            color: AppColors.seedLime,
+                                            color: theme.colorScheme.primary,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../widgets/auth_background.dart';
 import '../widgets/auth_header.dart';
@@ -12,28 +13,32 @@ class FingerPrintPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       body: AuthBackground(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
           child: Column(
             children: [
-              const AuthHeader(title: 'Biometric Access'),
+              AuthHeader(title: l10n.authBiometricTitle),
               const SizedBox(height: 28),
               Text(
-                'Unlock your plan faster.',
+                l10n.authBiometricHeadline,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: Colors.white,
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  color: ext.textPrimary,
                   height: 1.04,
                 ),
               ),
               const SizedBox(height: 12),
               Text(
-                'Add fingerprint access for a secure, frictionless start before every workout.',
+                l10n.authBiometricBody,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.white.withValues(alpha: 0.72),
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: ext.textMuted,
                   height: 1.45,
                 ),
               ),
@@ -45,16 +50,14 @@ class FingerPrintPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(36),
                   gradient: LinearGradient(
                     colors: [
-                      AppColors.seedLime.withValues(alpha: 0.20),
-                      AppColors.aquaBlue.withValues(alpha: 0.16),
-                      Colors.white.withValues(alpha: 0.06),
+                      theme.colorScheme.primary.withValues(alpha: 0.18),
+                      theme.colorScheme.secondary.withValues(alpha: 0.14),
+                      ext.glassFill,
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.12),
-                  ),
+                  border: Border.all(color: ext.glassBorder),
                 ),
                 child: Stack(
                   alignment: Alignment.center,
@@ -64,7 +67,9 @@ class FingerPrintPage extends StatelessWidget {
                       height: 230,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.seedLime.withValues(alpha: 0.08),
+                        color: theme.colorScheme.primary.withValues(
+                          alpha: 0.08,
+                        ),
                       ),
                     ),
                     Image.asset(
@@ -78,7 +83,7 @@ class FingerPrintPage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               PrimaryButton(
-                label: 'Enable Fingerprint',
+                label: l10n.authEnableFingerprint,
                 icon: Icons.fingerprint_rounded,
                 onPressed: () => context.go(AppRoutes.setup),
               ),
@@ -86,9 +91,9 @@ class FingerPrintPage extends StatelessWidget {
               TextButton(
                 onPressed: () => context.go(AppRoutes.setup),
                 child: Text(
-                  'Skip for now',
+                  l10n.authSkipForNow,
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.72),
+                    color: ext.textMuted,
                     fontWeight: FontWeight.w700,
                   ),
                 ),

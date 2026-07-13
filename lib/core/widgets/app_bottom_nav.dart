@@ -111,8 +111,11 @@ class _NavItemButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Active tab is marked with a light ring + soft lime tint (instead of a
+    // heavy filled bubble) so all five items keep the same visual weight
+    // and position regardless of which one is selected.
     final color =
-        selected ? AppColors.seedInk : Colors.white.withValues(alpha: 0.62);
+        selected ? AppColors.seedLime : Colors.white.withValues(alpha: 0.62);
 
     return Expanded(
       child: InkWell(
@@ -123,12 +126,17 @@ class _NavItemButton extends StatelessWidget {
           curve: Curves.easeOutCubic,
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
           decoration: BoxDecoration(
-            gradient:
+            color:
                 selected
-                    ? const LinearGradient(
-                      colors: [AppColors.seedLime, AppColors.electricOrange],
-                    )
+                    ? AppColors.seedLime.withValues(alpha: 0.10)
                     : null,
+            border:
+                selected
+                    ? Border.all(
+                      color: AppColors.seedLime.withValues(alpha: 0.55),
+                      width: 1.2,
+                    )
+                    : Border.all(color: Colors.transparent, width: 1.2),
             borderRadius: BorderRadius.circular(AppRadius.pill),
           ),
           child: Column(

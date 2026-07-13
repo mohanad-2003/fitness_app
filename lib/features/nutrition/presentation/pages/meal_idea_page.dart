@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/premium_scaffold.dart';
 import '../../domain/nutrition_models.dart';
 import '../../../workout/presentation/widgets/workout_header.dart';
@@ -19,6 +20,9 @@ class MealIdeaPage extends ConsumerWidget {
     final section = ref.watch(mealIdeaSectionProvider(category));
     final favorites = ref.watch(mealIdeaFavoritesProvider.notifier);
     final favSet = ref.watch(mealIdeaFavoritesProvider);
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return PremiumScaffold(
       padding: EdgeInsets.zero,
@@ -32,7 +36,7 @@ class MealIdeaPage extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const WorkoutHeader(title: 'Meal Idea'),
+                  WorkoutHeader(title: l10n.mealIdeaTitle),
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -53,21 +57,27 @@ class MealIdeaPage extends ConsumerWidget {
                               margin: const EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color:
+                                gradient:
                                     cat == category
-                                        ? AppColors.seedLime
-                                        : Colors.white,
+                                        ? ext.accentGradient
+                                        : null,
+                                color:
+                                    cat == category ? null : ext.glassFill,
+                                border:
+                                    cat == category
+                                        ? null
+                                        : Border.all(color: ext.glassBorder),
                               ),
                               child: Center(
                                 child: Text(
-                                  _label(cat),
+                                  _label(l10n, cat),
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     color:
                                         cat == category
-                                            ? const Color(0xff232323)
-                                            : AppColors.seedViolet,
+                                            ? ext.onAccent
+                                            : ext.textPrimary,
                                   ),
                                 ),
                               ),
@@ -94,9 +104,10 @@ class MealIdeaPage extends ConsumerWidget {
     );
   }
 
-  String _label(MealCategory category) => switch (category) {
-    MealCategory.breakfast => 'Breakfast',
-    MealCategory.lunch => 'Lunch',
-    MealCategory.dinner => 'Dinner',
-  };
+  String _label(AppLocalizations l10n, MealCategory category) =>
+      switch (category) {
+        MealCategory.breakfast => l10n.mealCategoryBreakfast,
+        MealCategory.lunch => l10n.mealCategoryLunch,
+        MealCategory.dinner => l10n.mealCategoryDinner,
+      };
 }

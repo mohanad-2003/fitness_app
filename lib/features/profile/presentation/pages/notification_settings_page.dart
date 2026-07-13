@@ -1,4 +1,5 @@
-import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -21,8 +22,21 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
     'Reminders': false,
   };
 
+  String _label(AppLocalizations l10n, String key) => switch (key) {
+    'General Notification' => l10n.notificationToggleGeneral,
+    'Sound' => l10n.notificationToggleSound,
+    "Don't Disturb Mode" => l10n.notificationToggleDoNotDisturb,
+    'Vibrate' => l10n.notificationToggleVibrate,
+    'Lock Screen' => l10n.notificationToggleLockScreen,
+    'Reminders' => l10n.notificationToggleReminders,
+    _ => key,
+  };
+
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     return PremiumScaffold(
       child: SingleChildScrollView(
         child: Column(
@@ -34,14 +48,14 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                   onTap: () => context.canPop() ? context.pop() : null,
                   child: Icon(
                     Icons.arrow_back_ios_new,
-                    color: AppColors.seedLime,
+                    color: theme.colorScheme.primary,
                   ),
                 ),
                 const SizedBox(width: 5),
-                const Text(
-                  'Notification Setting',
+                Text(
+                  l10n.notificationSettingsTitle,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: ext.textPrimary,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -53,8 +67,8 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
               Row(
                 children: [
                   Text(
-                    entry.key,
-                    style: const TextStyle(fontSize: 20, color: Colors.white),
+                    _label(l10n, entry.key),
+                    style: TextStyle(fontSize: 20, color: ext.textPrimary),
                   ),
                   const Spacer(),
                   Transform.scale(
@@ -64,9 +78,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                       onChanged:
                           (value) =>
                               setState(() => _toggles[entry.key] = value),
-                      activeThumbColor: AppColors.seedLime,
-                      inactiveThumbColor: Colors.white,
-                      inactiveTrackColor: const Color(0xffB3A0FF),
+                      activeThumbColor: theme.colorScheme.primary,
                     ),
                   ),
                 ],

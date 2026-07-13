@@ -18,13 +18,15 @@ class NutritionTabController extends _$NutritionTabController {
 List<MealItem> nutritionRecommended(Ref ref) => const [
   MealItem(
     image: 'assets/fruit.png',
-    name: 'fruit smoothie',
+    name: 'Fruit smoothie',
+    subtitle: 'Berry blend with banana and oat milk.',
     time: '12 Minutes',
     calories: '120 Cal',
   ),
   MealItem(
     image: 'assets/salad.png',
     name: 'Salads with quinoa',
+    subtitle: 'Fresh greens, quinoa, and lemon dressing.',
     time: '12 Minutes',
     calories: '120 Cal',
   ),

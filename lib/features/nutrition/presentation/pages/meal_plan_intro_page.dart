@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
+import '../../../../core/theme/app_theme_extension.dart';
+import '../../../../core/widgets/premium_scaffold.dart';
 import '../../../../core/widgets/top_icon_actions.dart';
 
 class MealPlanIntroPage extends StatelessWidget {
@@ -11,7 +14,8 @@ class MealPlanIntroPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final boxHeight = height * 0.19;
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: Stack(
@@ -22,10 +26,9 @@ class MealPlanIntroPage extends StatelessWidget {
             height: double.infinity,
             fit: BoxFit.cover,
           ),
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: Colors.black.withValues(alpha: 0.3),
+          DecoratedBox(
+            decoration: BoxDecoration(gradient: ext.backgroundGradient),
+            child: SizedBox(width: double.infinity, height: double.infinity),
           ),
           SafeArea(
             child: Padding(
@@ -51,19 +54,15 @@ class MealPlanIntroPage extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: width * 2,
-                  height: boxHeight,
-                  color: const Color(0xffB3A0FF),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: height * 0.02,
-                      horizontal: width * 0.1,
-                    ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: width * 0.06),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  PremiumGlassCard(
+                    color: ext.cardColor.withValues(alpha: 0.92),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -74,10 +73,10 @@ class MealPlanIntroPage extends StatelessWidget {
                             ),
                             SizedBox(width: width * 0.03),
                             Text(
-                              'Meal Plans',
+                              l10n.mealPlanTitle,
                               style: TextStyle(
                                 fontSize: width * 0.05,
-                                color: Colors.white,
+                                color: ext.textPrimary,
                               ),
                             ),
                           ],
@@ -85,41 +84,39 @@ class MealPlanIntroPage extends StatelessWidget {
                         SizedBox(height: height * 0.015),
                         Text(
                           textAlign: TextAlign.center,
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+                          l10n.mealPlanIntroBody,
                           style: TextStyle(
                             fontSize: width * 0.035,
-                            color: const Color(0xff232323),
+                            color: ext.textMuted,
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
-                SizedBox(height: height * 0.03),
-                InkWell(
-                  onTap: () => context.push(AppRoutes.mealPlanPreferences),
-                  child: Container(
-                    width: width * 0.55,
-                    height: height * 0.05,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.38),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.5),
+                  SizedBox(height: height * 0.03),
+                  InkWell(
+                    onTap: () => context.push(AppRoutes.mealPlanPreferences),
+                    child: Container(
+                      width: width * 0.55,
+                      height: height * 0.05,
+                      decoration: BoxDecoration(
+                        color: ext.glassFill,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: ext.glassBorder),
                       ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Know Your Plan',
-                        style: TextStyle(
-                          fontSize: width * 0.05,
-                          color: Colors.white,
+                      child: Center(
+                        child: Text(
+                          l10n.mealPlanKnowYourPlan,
+                          style: TextStyle(
+                            fontSize: width * 0.05,
+                            color: ext.textPrimary,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

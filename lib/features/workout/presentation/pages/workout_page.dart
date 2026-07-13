@@ -1,10 +1,12 @@
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
 import 'package:fitness_app/core/routing/app_routes.dart';
-import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/theme/app_spacing.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
+import 'package:fitness_app/core/widgets/featured_card.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:fitness_app/features/workout/data/workout_category_data.dart';
 import 'package:fitness_app/features/workout/domain/workout_models.dart';
 import 'package:fitness_app/features/workout/presentation/providers/workout_controller.dart';
-import 'package:fitness_app/features/workout/presentation/widgets/training_hero_card.dart';
 import 'package:fitness_app/features/workout/presentation/widgets/workout_header.dart';
 import 'package:fitness_app/features/workout/presentation/widgets/workout_list_card.dart';
 import 'package:flutter/material.dart';
@@ -25,110 +27,137 @@ class WorkoutPage extends ConsumerWidget {
       time,
       calories,
     ) = WorkoutCategoryData.heroCopy(level);
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
+    final compact = MediaQuery.sizeOf(context).height < 720;
+    final spacing = compact ? 10.0 : 14.0;
+    // Sized so the header, chips, buttons, hero, section title, and at
+    // least the first workout card or two all land within the first
+    // viewport on typical phones — CustomScrollView still lets the page
+    // scroll naturally for the rest, and on unusually short viewports,
+    // rather than overflowing.
+    final heroHeight = compact ? 200.0 : 230.0;
+    final listCardHeight = compact ? 104.0 : 117.0;
 
     return PremiumScaffold(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const WorkoutHeader(title: 'Train'),
-            const SizedBox(height: 8),
-            Text(
-              'Pick your level and move with purpose.',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.white.withValues(alpha: 0.62),
-              ),
-            ),
-            const SizedBox(height: 18),
-            SizedBox(
-              height: 42,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: WorkoutLevel.values.length,
-                separatorBuilder: (_, _) => const SizedBox(width: 10),
-                itemBuilder: (context, index) {
-                  final tabLevel = WorkoutLevel.values[index];
-                  final isSelected = tabLevel == level;
-                  return PremiumPill(
-                    label: _label(tabLevel),
-                    selected: isSelected,
-                    onTap:
-                        () => ref
-                            .read(workoutTabProvider.notifier)
-                            .select(tabLevel),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 18),
-            Row(
+      // The whole page is one CustomScrollView: the header/chips/buttons/
+      // hero/section-title live in a single SliverToBoxAdapter, and the
+      // workout list is a SliverList right below it. Because everything
+      // shares one real scroll view, there's no fixed-viewport budget to
+      // get wrong — the page simply scrolls for however much content there
+      // is, which makes vertical overflow structurally impossible.
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: _WorkoutActionButton(
-                    icon: Icons.list_alt_rounded,
-                    label: 'Your Routine',
-                    onTap: () => context.push(AppRoutes.yourRoutine),
+                WorkoutHeader(title: l10n.workoutTitle),
+                const SizedBox(height: 6),
+                Text(
+                  l10n.workoutSubtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: ext.textMuted),
+                ),
+                SizedBox(height: spacing),
+                SizedBox(
+                  height: 40,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: WorkoutLevel.values.length,
+                    separatorBuilder: (_, _) => const SizedBox(width: 10),
+                    itemBuilder: (context, index) {
+                      final tabLevel = WorkoutLevel.values[index];
+                      final isSelected = tabLevel == level;
+                      return PremiumPill(
+                        label: _label(l10n, tabLevel),
+                        selected: isSelected,
+                        onTap:
+                            () => ref
+                                .read(workoutTabProvider.notifier)
+                                .select(tabLevel),
+                      );
+                    },
                   ),
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _WorkoutActionButton(
-                    icon: Icons.add_circle_outline_rounded,
-                    label: 'Create Routine',
-                    onTap: () => context.push(AppRoutes.createRoutine),
-                  ),
+                SizedBox(height: spacing),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _WorkoutActionButton(
+                        icon: Icons.list_alt_rounded,
+                        label: l10n.workoutYourRoutine,
+                        compact: compact,
+                        onTap: () => context.push(AppRoutes.yourRoutine),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: _WorkoutActionButton(
+                        icon: Icons.add_circle_outline_rounded,
+                        label: l10n.workoutCreateRoutine,
+                        compact: compact,
+                        onTap: () => context.push(AppRoutes.createRoutine),
+                      ),
+                    ),
+                  ],
                 ),
+                SizedBox(height: spacing),
+                FeaturedCard(
+                  image: WorkoutCategoryData.heroImage(level),
+                  badge: badge.toUpperCase(),
+                  title: headline,
+                  metas: [
+                    FeaturedCardMeta(icon: 'assets/time.png', label: time),
+                    FeaturedCardMeta(
+                      icon: 'assets/calories.png',
+                      label: calories,
+                    ),
+                    FeaturedCardMeta(
+                      icon: 'assets/run.png',
+                      label: _label(l10n, level),
+                    ),
+                  ],
+                  ctaLabel: l10n.workoutStartWorkout,
+                  height: heroHeight,
+                  onTap:
+                      () => context.push(
+                        AppRoutes.workoutCategoryDetail,
+                        extra: WorkoutCategoryData.forLevel(level),
+                      ),
+                ),
+                SizedBox(height: spacing),
+                PremiumSectionHeader(title: subHeadline),
+                SizedBox(height: compact ? 8 : 12),
               ],
             ),
-            const SizedBox(height: 18),
-            TrainingHeroCard(
-              image: WorkoutCategoryData.heroImage(level),
-              badgeLabel: 'training of the day',
-              time: time,
-              calories: calories,
-              levelLabel: badge,
-              height: 242,
-              onTap:
-                  () => context.push(
-                    AppRoutes.workoutCategoryDetail,
-                    extra: WorkoutCategoryData.forLevel(level),
-                  ),
-            ),
-            const SizedBox(height: 16),
-            PremiumSectionHeader(title: headline),
-            const SizedBox(height: 5),
-            Text(
-              subHeadline,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.white.withValues(alpha: 0.62),
-              ),
-            ),
-            const SizedBox(height: 18),
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.zero,
-              itemCount: items.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
-              itemBuilder:
-                  (context, index) => WorkoutListCard(
-                    item: items[index],
-                    onToggleFavorite:
-                        () => ref
-                            .read(workoutListByLevelProvider(level).notifier)
-                            .toggleFavorite(index),
-                  ),
-            ),
-          ],
-        ),
+          ),
+          SliverList.separated(
+            itemCount: items.length,
+            separatorBuilder: (_, _) => SizedBox(height: spacing),
+            itemBuilder:
+                (context, index) => WorkoutListCard(
+                  item: items[index],
+                  height: listCardHeight,
+                  onToggleFavorite:
+                      () => ref
+                          .read(workoutListByLevelProvider(level).notifier)
+                          .toggleFavorite(index),
+                ),
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 8)),
+        ],
       ),
     );
   }
 
-  String _label(WorkoutLevel level) => switch (level) {
-    WorkoutLevel.beginner => 'Beginner',
-    WorkoutLevel.intermediate => 'Intermediate',
-    WorkoutLevel.advanced => 'Advanced',
+  String _label(AppLocalizations l10n, WorkoutLevel level) => switch (level) {
+    WorkoutLevel.beginner => l10n.workoutLevelBeginner,
+    WorkoutLevel.intermediate => l10n.workoutLevelIntermediate,
+    WorkoutLevel.advanced => l10n.workoutLevelAdvanced,
   };
 }
 
@@ -137,33 +166,38 @@ class _WorkoutActionButton extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.onTap,
+    this.compact = false,
   });
 
   final IconData icon;
   final String label;
   final VoidCallback onTap;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final accent = Theme.of(context).colorScheme.primary;
+    // Pill outline button (design-system button shape) rather than a flat
+    // glass card, so these read as actions instead of content.
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(AppRadius.pill),
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 13),
+        padding: EdgeInsets.symmetric(vertical: compact ? 10 : 13),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.08),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+          borderRadius: BorderRadius.circular(AppRadius.pill),
+          border: Border.all(color: accent.withValues(alpha: 0.55), width: 1.3),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 18, color: AppColors.seedLime),
+            Icon(icon, size: 18, color: accent),
             const SizedBox(width: 8),
             Text(
               label,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: ext.textPrimary,
                 fontWeight: FontWeight.w700,
                 fontSize: 13,
               ),

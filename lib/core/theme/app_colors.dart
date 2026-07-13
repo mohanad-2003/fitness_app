@@ -20,7 +20,18 @@ abstract final class AppColors {
   static const Color darkSurfaceVariant = Color(0xFF121A22);
   static const Color darkOutline = Color(0xFF2A3744);
 
+  // Dark-mode semantic accents: bright/saturated so they read clearly
+  // against the near-black surfaces.
   static const Color success = Color(0xFF4DFF8D);
   static const Color warning = Color(0xFFFFB84D);
   static const Color danger = Color(0xFFFF4D67);
+
+  // Light-mode semantic accents: deepened versions of the same hues so
+  // text/icons drawn in these colors — and white text drawn on top of a
+  // filled button in these colors — meet accessible contrast against the
+  // light, near-white surfaces (the dark-mode values above are too bright
+  // for that role in Light Mode).
+  static const Color successOnLight = Color(0xFF1E8E5A);
+  static const Color warningOnLight = Color(0xFF9A6400);
+  static const Color dangerOnLight = Color(0xFFB3261E);
 }

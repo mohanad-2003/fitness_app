@@ -1,8 +1,7 @@
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
+import 'package:fitness_app/core/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -43,8 +42,11 @@ class _WelcomePageState extends State<WelcomePage>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      backgroundColor: AppColors.seedInk,
+      backgroundColor: theme.colorScheme.surface,
       body: Stack(
         children: [
           Positioned.fill(
@@ -55,9 +57,9 @@ class _WelcomePageState extends State<WelcomePage>
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.seedInk.withValues(alpha: 0.28),
-                    AppColors.seedInk.withValues(alpha: 0.72),
-                    AppColors.seedInk,
+                    theme.colorScheme.surface.withValues(alpha: 0.28),
+                    theme.colorScheme.surface.withValues(alpha: 0.72),
+                    theme.colorScheme.surface,
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -82,16 +84,16 @@ class _WelcomePageState extends State<WelcomePage>
                         TextSpan(
                           children: [
                             TextSpan(
-                              text: 'FIT',
-                              style: TextStyle(color: AppColors.seedLime),
+                              text: l10n.splashBrandFit,
+                              style: TextStyle(
+                                color: theme.colorScheme.primary,
+                              ),
                             ),
-                            const TextSpan(text: 'BODY'),
+                            TextSpan(text: l10n.splashBrandBody),
                           ],
                         ),
-                        style: Theme.of(
-                          context,
-                        ).textTheme.displayLarge?.copyWith(
-                          color: Colors.white,
+                        style: theme.textTheme.displayLarge?.copyWith(
+                          color: theme.colorScheme.onSurface,
                           fontSize: 56,
                           fontWeight: FontWeight.w900,
                           height: 0.95,
@@ -99,24 +101,24 @@ class _WelcomePageState extends State<WelcomePage>
                       ),
                       const SizedBox(height: 14),
                       Text(
-                        'Your premium training dashboard is ready.',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.titleMedium?.copyWith(
-                          color: Colors.white.withValues(alpha: 0.76),
+                        l10n.welcomeTagline,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.76,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 26),
                       Row(
-                        children: const [
+                        children: [
                           _WelcomeBadge(
                             icon: Icons.bolt_rounded,
-                            label: 'Energy',
+                            label: l10n.welcomeBadgeEnergy,
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           _WelcomeBadge(
                             icon: Icons.show_chart_rounded,
-                            label: 'Progress',
+                            label: l10n.welcomeBadgeProgress,
                           ),
                         ],
                       ),
@@ -140,18 +142,24 @@ class _WelcomeBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.10),
+        color: theme.colorScheme.surfaceContainerHighest.withValues(
+          alpha: 0.10,
+        ),
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+        border: Border.all(
+          color: theme.colorScheme.outline.withValues(alpha: 0.12),
+        ),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 18, color: AppColors.seedLime),
+          Icon(icon, size: 18, color: theme.colorScheme.primary),
           const SizedBox(width: 7),
-          Text(label, style: const TextStyle(color: Colors.white)),
+          Text(label, style: TextStyle(color: theme.colorScheme.onSurface)),
         ],
       ),
     );

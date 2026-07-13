@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/premium_scaffold.dart';
 import '../../../workout/presentation/widgets/workout_header.dart';
 import '../providers/meal_plan_wizard_controller.dart';
@@ -16,6 +17,9 @@ class MealPlanGoalsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final prefs = ref.watch(mealPlanWizardControllerProvider);
     final controller = ref.read(mealPlanWizardControllerProvider.notifier);
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return PremiumScaffold(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -23,20 +27,20 @@ class MealPlanGoalsPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const WorkoutHeader(title: 'Meal Plans'),
+            WorkoutHeader(title: l10n.nutritionTabMealPlans),
             const SizedBox(height: 30),
-            const Text(
-              'Caloric Goal',
+            Text(
+              l10n.mealPlanCaloricGoal,
               style: TextStyle(
                 fontSize: 22,
-                color: AppColors.seedLime,
+                color: theme.colorScheme.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 12),
-            const Text(
-              'What is your daily caloric intake goal?',
-              style: TextStyle(color: Colors.white),
+            Text(
+              l10n.mealPlanCaloricGoalQuestion,
+              style: TextStyle(color: ext.textPrimary),
             ),
             const SizedBox(height: 16),
             OptionSelector(
@@ -46,18 +50,18 @@ class MealPlanGoalsPage extends ConsumerWidget {
               itemWidthFraction: 1,
             ),
             const SizedBox(height: 40),
-            const Text(
-              'Cooking Time Preference',
+            Text(
+              l10n.mealPlanCookingTime,
               style: TextStyle(
                 fontSize: 22,
-                color: AppColors.seedLime,
+                color: theme.colorScheme.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 12),
-            const Text(
-              'How much time are you willing to spend cooking each meal?',
-              style: TextStyle(color: Colors.white),
+            Text(
+              l10n.mealPlanCookingTimeQuestion,
+              style: TextStyle(color: ext.textPrimary),
             ),
             const SizedBox(height: 16),
             OptionSelector(
@@ -66,18 +70,18 @@ class MealPlanGoalsPage extends ConsumerWidget {
               onSelected: controller.selectCookingTime,
             ),
             const SizedBox(height: 40),
-            const Text(
-              'Number of Servings',
+            Text(
+              l10n.mealPlanServings,
               style: TextStyle(
                 fontSize: 22,
-                color: AppColors.seedLime,
+                color: theme.colorScheme.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 12),
-            const Text(
-              'How many servings do you need per meal?',
-              style: TextStyle(color: Colors.white),
+            Text(
+              l10n.mealPlanServingsQuestion,
+              style: TextStyle(color: ext.textPrimary),
             ),
             const SizedBox(height: 16),
             OptionSelector(
@@ -93,13 +97,16 @@ class MealPlanGoalsPage extends ConsumerWidget {
                   width: 130,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: AppColors.seedLime,
+                    color: theme.colorScheme.primary,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'Create',
-                      style: TextStyle(fontSize: 18, color: Color(0xff232323)),
+                      l10n.mealPlanCreate,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: theme.colorScheme.onPrimary,
+                      ),
                     ),
                   ),
                 ),

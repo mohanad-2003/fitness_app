@@ -230,6 +230,48 @@ abstract class AppLocalizations {
   /// **'Forgot Password?'**
   String get authForgotPassword;
 
+  /// No description provided for @authWelcomeBackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back, athlete.'**
+  String get authWelcomeBackTitle;
+
+  /// No description provided for @authWelcomeBackBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick up your streak, review your progress, and make today count.'**
+  String get authWelcomeBackBody;
+
+  /// No description provided for @authOrContinueWith.
+  ///
+  /// In en, this message translates to:
+  /// **'or continue with'**
+  String get authOrContinueWith;
+
+  /// No description provided for @authCreateAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get authCreateAccount;
+
+  /// No description provided for @authTrainingMode.
+  ///
+  /// In en, this message translates to:
+  /// **'TRAINING MODE'**
+  String get authTrainingMode;
+
+  /// No description provided for @authEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'you@example.com'**
+  String get authEmailHint;
+
+  /// No description provided for @authPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get authPasswordHint;
+
   /// No description provided for @authSignupTitle.
   ///
   /// In en, this message translates to:
@@ -332,6 +374,300 @@ abstract class AppLocalizations {
   /// **'Reset Password'**
   String get authResetPassword;
 
+  /// No description provided for @authStartTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Training'**
+  String get authStartTraining;
+
+  /// No description provided for @authNewSeason.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW SEASON'**
+  String get authNewSeason;
+
+  /// No description provided for @authSignupHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s build your strongest routine.'**
+  String get authSignupHeroTitle;
+
+  /// No description provided for @authSignupHeroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your profile and unlock plans shaped around your goals.'**
+  String get authSignupHeroBody;
+
+  /// No description provided for @authFullNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your full name'**
+  String get authFullNameHint;
+
+  /// No description provided for @authPasswordCreateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a strong password'**
+  String get authPasswordCreateHint;
+
+  /// No description provided for @authConfirmPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-enter your password'**
+  String get authConfirmPasswordHint;
+
+  /// No description provided for @authRecoveryHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset without losing momentum.'**
+  String get authRecoveryHeadline;
+
+  /// No description provided for @authRecoveryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email and we will guide you through creating a new secure password.'**
+  String get authRecoveryBody;
+
+  /// No description provided for @authSetPasswordHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your new training key.'**
+  String get authSetPasswordHeadline;
+
+  /// No description provided for @authNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get authNewPassword;
+
+  /// No description provided for @authNewPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter new password'**
+  String get authNewPasswordHint;
+
+  /// No description provided for @authConfirmNewPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-enter new password'**
+  String get authConfirmNewPasswordHint;
+
+  /// No description provided for @authBiometricTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Access'**
+  String get authBiometricTitle;
+
+  /// No description provided for @authBiometricHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock your plan faster.'**
+  String get authBiometricHeadline;
+
+  /// No description provided for @authBiometricBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add fingerprint access for a secure, frictionless start before every workout.'**
+  String get authBiometricBody;
+
+  /// No description provided for @authEnableFingerprint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Fingerprint'**
+  String get authEnableFingerprint;
+
+  /// No description provided for @authSkipForNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for now'**
+  String get authSkipForNow;
+
+  /// No description provided for @validationEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required'**
+  String get validationEmailRequired;
+
+  /// No description provided for @validationEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email'**
+  String get validationEmailInvalid;
+
+  /// No description provided for @validationPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is required'**
+  String get validationPasswordRequired;
+
+  /// No description provided for @validationPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters long'**
+  String get validationPasswordTooShort;
+
+  /// No description provided for @validationFieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get validationFieldRequired;
+
+  /// No description provided for @validationFullNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name is required'**
+  String get validationFullNameRequired;
+
+  /// No description provided for @validationPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get validationPasswordMismatch;
+
+  /// No description provided for @splashBrandFit.
+  ///
+  /// In en, this message translates to:
+  /// **'FIT'**
+  String get splashBrandFit;
+
+  /// No description provided for @splashBrandBody.
+  ///
+  /// In en, this message translates to:
+  /// **'BODY'**
+  String get splashBrandBody;
+
+  /// No description provided for @splashTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Fitness + strength + health + progress.'**
+  String get splashTagline;
+
+  /// No description provided for @splashMetricWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts'**
+  String get splashMetricWorkouts;
+
+  /// No description provided for @splashMetricPlans.
+  ///
+  /// In en, this message translates to:
+  /// **'Plans'**
+  String get splashMetricPlans;
+
+  /// No description provided for @welcomeTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Your premium training dashboard is ready.'**
+  String get welcomeTagline;
+
+  /// No description provided for @welcomeBadgeEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy'**
+  String get welcomeBadgeEnergy;
+
+  /// No description provided for @welcomeBadgeProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get welcomeBadgeProgress;
+
+  /// No description provided for @onboardingBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'FITBODY'**
+  String get onboardingBrand;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get onboardingGetStarted;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingSlide1Kicker.
+  ///
+  /// In en, this message translates to:
+  /// **'START STRONG'**
+  String get onboardingSlide1Kicker;
+
+  /// No description provided for @onboardingSlide1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Build a body that keeps up with your ambition.'**
+  String get onboardingSlide1Title;
+
+  /// No description provided for @onboardingSlide1Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalized training flows help you start today and stay consistent tomorrow.'**
+  String get onboardingSlide1Description;
+
+  /// No description provided for @onboardingSlide2Kicker.
+  ///
+  /// In en, this message translates to:
+  /// **'TRACK EVERY REP'**
+  String get onboardingSlide2Kicker;
+
+  /// No description provided for @onboardingSlide2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'See your workouts, streaks, and progress in one place.'**
+  String get onboardingSlide2Title;
+
+  /// No description provided for @onboardingSlide2Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn effort into insight with daily metrics and clear performance feedback.'**
+  String get onboardingSlide2Description;
+
+  /// No description provided for @onboardingSlide3Kicker.
+  ///
+  /// In en, this message translates to:
+  /// **'TRAIN SMARTER'**
+  String get onboardingSlide3Kicker;
+
+  /// No description provided for @onboardingSlide3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Find strength, cardio, yoga, and HIIT sessions fast.'**
+  String get onboardingSlide3Title;
+
+  /// No description provided for @onboardingSlide3Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the right intensity for your day and move with confidence.'**
+  String get onboardingSlide3Description;
+
+  /// No description provided for @onboardingSlide4Kicker.
+  ///
+  /// In en, this message translates to:
+  /// **'REACH GOALS'**
+  String get onboardingSlide4Kicker;
+
+  /// No description provided for @onboardingSlide4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Healthy habits become your unfair advantage.'**
+  String get onboardingSlide4Title;
+
+  /// No description provided for @onboardingSlide4Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay motivated with progress milestones, challenges, and routines built for real life.'**
+  String get onboardingSlide4Description;
+
   /// No description provided for @onboardingGenderTitle.
   ///
   /// In en, this message translates to:
@@ -421,6 +757,1446 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start'**
   String get onboardingStart;
+
+  /// No description provided for @onboardingMale.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get onboardingMale;
+
+  /// No description provided for @onboardingFemale.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get onboardingFemale;
+
+  /// No description provided for @onboardingNickname.
+  ///
+  /// In en, this message translates to:
+  /// **'Nickname'**
+  String get onboardingNickname;
+
+  /// No description provided for @onboardingNicknameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How should we call you?'**
+  String get onboardingNicknameHint;
+
+  /// No description provided for @onboardingMobileHint.
+  ///
+  /// In en, this message translates to:
+  /// **'+123 567 89000'**
+  String get onboardingMobileHint;
+
+  /// No description provided for @setupIntroHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Consistency Is\nthe Key To Progress.\nDon\'t Give Up!'**
+  String get setupIntroHeadline;
+
+  /// No description provided for @setupIntroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Start your fitness journey today!\nTrack your progress, stay consistent, and achieve your goals step by step.'**
+  String get setupIntroBody;
+
+  /// No description provided for @setupIntroCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s Get Started'**
+  String get setupIntroCta;
+
+  /// No description provided for @goalLoseWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Lose Weight'**
+  String get goalLoseWeight;
+
+  /// No description provided for @goalGainWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Gain Weight'**
+  String get goalGainWeight;
+
+  /// No description provided for @goalMuscleMassGain.
+  ///
+  /// In en, this message translates to:
+  /// **'Muscle Mass Gain'**
+  String get goalMuscleMassGain;
+
+  /// No description provided for @goalShapeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Shape Body'**
+  String get goalShapeBody;
+
+  /// No description provided for @goalOthers.
+  ///
+  /// In en, this message translates to:
+  /// **'Others'**
+  String get goalOthers;
+
+  /// No description provided for @unitKg.
+  ///
+  /// In en, this message translates to:
+  /// **'Kg'**
+  String get unitKg;
+
+  /// No description provided for @unitCm.
+  ///
+  /// In en, this message translates to:
+  /// **'cm'**
+  String get unitCm;
+
+  /// Home screen header greeting
+  ///
+  /// In en, this message translates to:
+  /// **'Good Morning, {name}'**
+  String homeGreeting(String name);
+
+  /// No description provided for @homeTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Train hard. Recover smart. Repeat.'**
+  String get homeTagline;
+
+  /// No description provided for @homeTodayPlanLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'TODAY PLAN'**
+  String get homeTodayPlanLabel;
+
+  /// No description provided for @homeWorkoutCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout Categories'**
+  String get homeWorkoutCategories;
+
+  /// No description provided for @actionExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get actionExplore;
+
+  /// No description provided for @homeRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended'**
+  String get homeRecommended;
+
+  /// No description provided for @actionSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See All'**
+  String get actionSeeAll;
+
+  /// No description provided for @homeRecommendedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'RECOMMENDED'**
+  String get homeRecommendedBadge;
+
+  /// No description provided for @homeWeeklyProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Progress'**
+  String get homeWeeklyProgress;
+
+  /// Weekly progress card subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'{workouts} workouts completed · {sessions} recovery sessions planned'**
+  String homeWeeklyProgressSummary(int workouts, int sessions);
+
+  /// No description provided for @homeArticlesAndTips.
+  ///
+  /// In en, this message translates to:
+  /// **'Articles & Tips'**
+  String get homeArticlesAndTips;
+
+  /// No description provided for @homeHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upper Body Strength'**
+  String get homeHeroTitle;
+
+  /// No description provided for @homeHeroSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min · {moves} movements · {level} intensity'**
+  String homeHeroSubtitle(int minutes, int moves, String level);
+
+  /// No description provided for @homeHeroDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String homeHeroDuration(int minutes);
+
+  /// No description provided for @homeHeroCalories.
+  ///
+  /// In en, this message translates to:
+  /// **'~{kcal} kcal'**
+  String homeHeroCalories(int kcal);
+
+  /// No description provided for @homeWeeklyProgressPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}%'**
+  String homeWeeklyProgressPercent(int percent);
+
+  /// No description provided for @homeMetricCalories.
+  ///
+  /// In en, this message translates to:
+  /// **'Calories'**
+  String get homeMetricCalories;
+
+  /// No description provided for @homeMetricSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get homeMetricSteps;
+
+  /// No description provided for @homeMetricDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get homeMetricDuration;
+
+  /// No description provided for @homeUnitKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'kcal'**
+  String get homeUnitKcal;
+
+  /// No description provided for @homeUnitToday.
+  ///
+  /// In en, this message translates to:
+  /// **'today'**
+  String get homeUnitToday;
+
+  /// No description provided for @homeUnitMin.
+  ///
+  /// In en, this message translates to:
+  /// **'min'**
+  String get homeUnitMin;
+
+  /// No description provided for @workoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Train'**
+  String get workoutTitle;
+
+  /// No description provided for @workoutSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick your level and move with purpose.'**
+  String get workoutSubtitle;
+
+  /// No description provided for @workoutYourRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Routine'**
+  String get workoutYourRoutine;
+
+  /// No description provided for @workoutCreateRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Routine'**
+  String get workoutCreateRoutine;
+
+  /// No description provided for @workoutTrainingOfTheDay.
+  ///
+  /// In en, this message translates to:
+  /// **'training of the day'**
+  String get workoutTrainingOfTheDay;
+
+  /// No description provided for @workoutStartWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Workout'**
+  String get workoutStartWorkout;
+
+  /// No description provided for @workoutDifficultyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get workoutDifficultyLabel;
+
+  /// No description provided for @workoutLevelBeginner.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner'**
+  String get workoutLevelBeginner;
+
+  /// No description provided for @workoutLevelIntermediate.
+  ///
+  /// In en, this message translates to:
+  /// **'Intermediate'**
+  String get workoutLevelIntermediate;
+
+  /// No description provided for @workoutLevelAdvanced.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get workoutLevelAdvanced;
+
+  /// No description provided for @workoutRecommendationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendations'**
+  String get workoutRecommendationsTitle;
+
+  /// No description provided for @workoutMostPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'Most Popular'**
+  String get workoutMostPopular;
+
+  /// No description provided for @workoutWeeklyChallengeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Challenge'**
+  String get workoutWeeklyChallengeTitle;
+
+  /// No description provided for @workoutRoundNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Round {number}'**
+  String workoutRoundNumber(int number);
+
+  /// No description provided for @workoutCreateRoutineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your routine'**
+  String get workoutCreateRoutineTitle;
+
+  /// No description provided for @workoutCreateRoutineSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick exercises and build your next training flow.'**
+  String get workoutCreateRoutineSubtitle;
+
+  /// No description provided for @workoutYourRoutineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Routine'**
+  String get workoutYourRoutineTitle;
+
+  /// No description provided for @workoutYourRoutineSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap any exercise to preview details and start moving.'**
+  String get workoutYourRoutineSubtitle;
+
+  /// No description provided for @workoutProfileAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get workoutProfileAge;
+
+  /// No description provided for @workoutProfileWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get workoutProfileWeight;
+
+  /// No description provided for @workoutProfileHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Height'**
+  String get workoutProfileHeight;
+
+  /// No description provided for @progressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress Tracking'**
+  String get progressTitle;
+
+  /// No description provided for @progressTabLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout Log'**
+  String get progressTabLogs;
+
+  /// No description provided for @progressTabCharts.
+  ///
+  /// In en, this message translates to:
+  /// **'Charts'**
+  String get progressTabCharts;
+
+  /// No description provided for @progressActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'Activities'**
+  String get progressActivities;
+
+  /// No description provided for @progressEmptyState.
+  ///
+  /// In en, this message translates to:
+  /// **'No activity logged yet.'**
+  String get progressEmptyState;
+
+  /// No description provided for @progressChooseDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Date'**
+  String get progressChooseDate;
+
+  /// No description provided for @progressMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get progressMonth;
+
+  /// No description provided for @progressDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get progressDuration;
+
+  /// No description provided for @progressMyProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'My Progress'**
+  String get progressMyProgress;
+
+  /// No description provided for @progressSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get progressSteps;
+
+  /// No description provided for @navSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get navSearch;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search workouts, meals, articles…'**
+  String get searchHint;
+
+  /// No description provided for @searchTabAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get searchTabAll;
+
+  /// No description provided for @searchTabWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout'**
+  String get searchTabWorkout;
+
+  /// No description provided for @searchTabNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition'**
+  String get searchTabNutrition;
+
+  /// No description provided for @searchWorkoutSuggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout Suggestions'**
+  String get searchWorkoutSuggestions;
+
+  /// No description provided for @searchNutritionSuggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition Suggestions'**
+  String get searchNutritionSuggestions;
+
+  /// No description provided for @searchNoResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get searchNoResultsTitle;
+
+  /// No description provided for @searchNoResultsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different keyword or browse a category instead.'**
+  String get searchNoResultsBody;
+
+  /// No description provided for @navFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get navFavorites;
+
+  /// No description provided for @favoriteFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get favoriteFilterAll;
+
+  /// No description provided for @favoriteFilterWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts'**
+  String get favoriteFilterWorkouts;
+
+  /// No description provided for @favoriteFilterNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition'**
+  String get favoriteFilterNutrition;
+
+  /// No description provided for @favoriteTagWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'WORKOUT'**
+  String get favoriteTagWorkout;
+
+  /// No description provided for @favoriteTagNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'NUTRITION'**
+  String get favoriteTagNutrition;
+
+  /// No description provided for @favoriteEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorites yet'**
+  String get favoriteEmptyTitle;
+
+  /// No description provided for @favoriteEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the star on any workout or meal to save it here for quick access later.'**
+  String get favoriteEmptyBody;
+
+  /// No description provided for @favoriteBrowseWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Workouts'**
+  String get favoriteBrowseWorkouts;
+
+  /// No description provided for @favoriteBrowseNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Nutrition'**
+  String get favoriteBrowseNutrition;
+
+  /// No description provided for @profileMyProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'My Profile'**
+  String get profileMyProfile;
+
+  /// No description provided for @profileBirthdayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday: '**
+  String get profileBirthdayLabel;
+
+  /// No description provided for @profileSectionAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get profileSectionAccount;
+
+  /// No description provided for @profileSectionPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get profileSectionPreferences;
+
+  /// No description provided for @profileMenuProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileMenuProfile;
+
+  /// No description provided for @profileMenuFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite'**
+  String get profileMenuFavorite;
+
+  /// No description provided for @profileMenuPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get profileMenuPrivacyPolicy;
+
+  /// No description provided for @profileMenuSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting'**
+  String get profileMenuSetting;
+
+  /// No description provided for @profileMenuHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get profileMenuHelp;
+
+  /// No description provided for @profileMenuLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get profileMenuLogout;
+
+  /// No description provided for @profileLogoutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to\nlog out?'**
+  String get profileLogoutConfirm;
+
+  /// No description provided for @profileLogoutYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, logout'**
+  String get profileLogoutYes;
+
+  /// No description provided for @editProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfileTitle;
+
+  /// No description provided for @editProfileFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get editProfileFullName;
+
+  /// No description provided for @editProfileMobileNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile Number'**
+  String get editProfileMobileNumber;
+
+  /// No description provided for @editProfileDateOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth'**
+  String get editProfileDateOfBirth;
+
+  /// No description provided for @editProfileWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get editProfileWeight;
+
+  /// No description provided for @editProfileHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Height'**
+  String get editProfileHeight;
+
+  /// No description provided for @editProfileUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Profile'**
+  String get editProfileUpdate;
+
+  /// No description provided for @privacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get privacyTitle;
+
+  /// No description provided for @privacySectionLegal.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get privacySectionLegal;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @privacyTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms & Conditions'**
+  String get privacyTerms;
+
+  /// No description provided for @privacySectionYourData.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Data'**
+  String get privacySectionYourData;
+
+  /// No description provided for @privacyManagePersonalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Personal Data'**
+  String get privacyManagePersonalData;
+
+  /// No description provided for @privacyAppPermissions.
+  ///
+  /// In en, this message translates to:
+  /// **'App Permissions'**
+  String get privacyAppPermissions;
+
+  /// No description provided for @privacyDataCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Collection'**
+  String get privacyDataCollection;
+
+  /// No description provided for @privacyDownloadMyData.
+  ///
+  /// In en, this message translates to:
+  /// **'Download My Data'**
+  String get privacyDownloadMyData;
+
+  /// No description provided for @privacySectionAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get privacySectionAccount;
+
+  /// No description provided for @privacyDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete My Account'**
+  String get privacyDeleteAccount;
+
+  /// No description provided for @privacyContactSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Support'**
+  String get privacyContactSupport;
+
+  /// No description provided for @privacyComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'{feature} coming soon'**
+  String privacyComingSoon(String feature);
+
+  /// No description provided for @privacyDeleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account?'**
+  String get privacyDeleteConfirmTitle;
+
+  /// No description provided for @privacyDeleteConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently removes your profile, workout history, and saved data. This action cannot be undone.'**
+  String get privacyDeleteConfirmBody;
+
+  /// No description provided for @privacyDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get privacyDelete;
+
+  /// No description provided for @legalPrivacyPolicyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We collect only the information needed to run your training plan: your profile details, workout and nutrition activity, and device settings like theme and language. This data is stored securely and is never sold to third parties.\n\nYou can review, export, or delete your data at any time from Profile → Privacy → Manage Your Data. Analytics are aggregated and anonymized before use, and you can opt out at any time from the same screen.\n\nIf you have questions about how your data is handled, reach out from Profile → Help & FAQs → Contact Us.'**
+  String get legalPrivacyPolicyBody;
+
+  /// No description provided for @legalTermsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'By using FitBody you agree to use the app for personal fitness tracking only, keep your account credentials secure, and respect the community guidelines when posting in Community.\n\nWorkout and nutrition guidance in this app is for general informational purposes and is not a substitute for professional medical advice — consult a physician before starting a new fitness or nutrition program.\n\nWe may update these terms as the app evolves; continued use after an update means you accept the revised terms. You can delete your account at any time from Profile → Privacy → Delete My Account.'**
+  String get legalTermsBody;
+
+  /// No description provided for @manageDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Your Data'**
+  String get manageDataTitle;
+
+  /// No description provided for @manageDataPermissionsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'App Permissions'**
+  String get manageDataPermissionsSection;
+
+  /// No description provided for @manageDataCameraAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get manageDataCameraAccess;
+
+  /// No description provided for @manageDataCameraAccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Used to update your profile picture.'**
+  String get manageDataCameraAccessBody;
+
+  /// No description provided for @manageDataLocationAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get manageDataLocationAccess;
+
+  /// No description provided for @manageDataLocationAccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Used to suggest nearby outdoor routes.'**
+  String get manageDataLocationAccessBody;
+
+  /// No description provided for @manageDataNotificationsAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get manageDataNotificationsAccess;
+
+  /// No description provided for @manageDataNotificationsAccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Used for reminders and progress updates.'**
+  String get manageDataNotificationsAccessBody;
+
+  /// No description provided for @manageDataCollectionSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Collection'**
+  String get manageDataCollectionSection;
+
+  /// No description provided for @manageDataAnalyticsToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage Analytics'**
+  String get manageDataAnalyticsToggle;
+
+  /// No description provided for @manageDataAnalyticsToggleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Helps us improve workouts and recommendations.'**
+  String get manageDataAnalyticsToggleBody;
+
+  /// No description provided for @manageDataPersonalizedToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalized Recommendations'**
+  String get manageDataPersonalizedToggle;
+
+  /// No description provided for @manageDataPersonalizedToggleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Uses your activity to tailor suggested workouts.'**
+  String get manageDataPersonalizedToggleBody;
+
+  /// No description provided for @manageDataExportSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Data'**
+  String get manageDataExportSection;
+
+  /// No description provided for @manageDataExportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Download a copy of your profile, workout history, and nutrition logs.'**
+  String get manageDataExportBody;
+
+  /// No description provided for @manageDataExportAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Request Export'**
+  String get manageDataExportAction;
+
+  /// No description provided for @manageDataExportConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data export has been requested. We\'ll notify you when it\'s ready.'**
+  String get manageDataExportConfirmation;
+
+  /// No description provided for @helpContactCustomerService.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer Service'**
+  String get helpContactCustomerService;
+
+  /// No description provided for @helpContactWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get helpContactWebsite;
+
+  /// No description provided for @helpContactWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get helpContactWhatsapp;
+
+  /// No description provided for @helpContactFacebook.
+  ///
+  /// In en, this message translates to:
+  /// **'Facebook'**
+  String get helpContactFacebook;
+
+  /// No description provided for @helpContactInstagram.
+  ///
+  /// In en, this message translates to:
+  /// **'Instagram'**
+  String get helpContactInstagram;
+
+  /// No description provided for @helpContactCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied: {value}'**
+  String helpContactCopied(String value);
+
+  /// No description provided for @helpFaqQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I create a custom workout routine?'**
+  String get helpFaqQ1;
+
+  /// No description provided for @helpFaqA1.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Workout → Create Routine, then pick exercises from the list to build your own routine. Tap the star to favorite exercises you use often.'**
+  String get helpFaqA1;
+
+  /// No description provided for @helpFaqQ2.
+  ///
+  /// In en, this message translates to:
+  /// **'How is my daily calorie goal calculated?'**
+  String get helpFaqQ2;
+
+  /// No description provided for @helpFaqA2.
+  ///
+  /// In en, this message translates to:
+  /// **'We use the age, weight, height, and activity level you entered during setup. You can update these anytime from Profile → Edit Profile.'**
+  String get helpFaqA2;
+
+  /// No description provided for @helpFaqQ3.
+  ///
+  /// In en, this message translates to:
+  /// **'Can I switch between light and dark mode?'**
+  String get helpFaqQ3;
+
+  /// No description provided for @helpFaqA3.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes — go to Profile → Settings → Theme and choose Light, Dark, or System to follow your device automatically.'**
+  String get helpFaqA3;
+
+  /// No description provided for @helpFaqQ4.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I change the app language?'**
+  String get helpFaqQ4;
+
+  /// No description provided for @helpFaqA4.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Profile → Settings → Language, or use the language toggle shown on the sign-in and onboarding screens.'**
+  String get helpFaqA4;
+
+  /// No description provided for @helpFaqQ5.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I delete my account?'**
+  String get helpFaqQ5;
+
+  /// No description provided for @helpFaqA5.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Profile → Privacy Policy → Delete My Account. This permanently removes your profile, workout history, and saved data.'**
+  String get helpFaqA5;
+
+  /// No description provided for @notificationSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Setting'**
+  String get notificationSettingsTitle;
+
+  /// No description provided for @notificationToggleGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General Notification'**
+  String get notificationToggleGeneral;
+
+  /// No description provided for @notificationToggleSound.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound'**
+  String get notificationToggleSound;
+
+  /// No description provided for @notificationToggleDoNotDisturb.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t Disturb Mode'**
+  String get notificationToggleDoNotDisturb;
+
+  /// No description provided for @notificationToggleVibrate.
+  ///
+  /// In en, this message translates to:
+  /// **'Vibrate'**
+  String get notificationToggleVibrate;
+
+  /// No description provided for @notificationToggleLockScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock Screen'**
+  String get notificationToggleLockScreen;
+
+  /// No description provided for @notificationToggleReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get notificationToggleReminders;
+
+  /// No description provided for @passwordSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Password Setting'**
+  String get passwordSettingsTitle;
+
+  /// No description provided for @passwordCurrentPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Password'**
+  String get passwordCurrentPassword;
+
+  /// No description provided for @passwordForgot.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get passwordForgot;
+
+  /// No description provided for @passwordNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get passwordNew;
+
+  /// No description provided for @passwordConfirmNew.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm New password'**
+  String get passwordConfirmNew;
+
+  /// No description provided for @documentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get documentsTitle;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsSectionAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get settingsSectionAccount;
+
+  /// No description provided for @settingsNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Setting'**
+  String get settingsNotification;
+
+  /// No description provided for @settingsPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password Setting'**
+  String get settingsPassword;
+
+  /// No description provided for @settingsDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get settingsDeleteAccount;
+
+  /// No description provided for @helpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help & FAQs'**
+  String get helpTitle;
+
+  /// No description provided for @helpHowCanWeHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'How can we help you?'**
+  String get helpHowCanWeHelp;
+
+  /// No description provided for @helpFaqTab.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ'**
+  String get helpFaqTab;
+
+  /// No description provided for @helpContactUsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get helpContactUsTab;
+
+  /// No description provided for @helpTabGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get helpTabGeneral;
+
+  /// No description provided for @helpTabAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get helpTabAccount;
+
+  /// No description provided for @helpTabServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Services'**
+  String get helpTabServices;
+
+  /// No description provided for @helpSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get helpSearchHint;
+
+  /// No description provided for @helpFaqPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Lorem ipsum dolor sit amet?'**
+  String get helpFaqPlaceholder;
+
+  /// No description provided for @nutritionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel your training with meals that actually fit your day.'**
+  String get nutritionSubtitle;
+
+  /// No description provided for @nutritionTabMealPlans.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal Plans'**
+  String get nutritionTabMealPlans;
+
+  /// No description provided for @nutritionTabMealIdeas.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal Ideas'**
+  String get nutritionTabMealIdeas;
+
+  /// No description provided for @nutritionRecipeOfTheDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe of the day'**
+  String get nutritionRecipeOfTheDay;
+
+  /// No description provided for @nutritionFeaturedRecipeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Carrot and orange smoothie'**
+  String get nutritionFeaturedRecipeName;
+
+  /// No description provided for @nutritionFeaturedRecipeDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'10 Minutes'**
+  String get nutritionFeaturedRecipeDuration;
+
+  /// No description provided for @nutritionFeaturedRecipeCalories.
+  ///
+  /// In en, this message translates to:
+  /// **'70 Cal'**
+  String get nutritionFeaturedRecipeCalories;
+
+  /// No description provided for @nutritionRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended'**
+  String get nutritionRecommended;
+
+  /// No description provided for @nutritionRecipesForYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes for you'**
+  String get nutritionRecipesForYou;
+
+  /// No description provided for @mealIdeaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal Idea'**
+  String get mealIdeaTitle;
+
+  /// No description provided for @mealCategoryBreakfast.
+  ///
+  /// In en, this message translates to:
+  /// **'Breakfast'**
+  String get mealCategoryBreakfast;
+
+  /// No description provided for @mealCategoryLunch.
+  ///
+  /// In en, this message translates to:
+  /// **'Lunch'**
+  String get mealCategoryLunch;
+
+  /// No description provided for @mealCategoryDinner.
+  ///
+  /// In en, this message translates to:
+  /// **'Dinner'**
+  String get mealCategoryDinner;
+
+  /// No description provided for @mealIngredients.
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredients'**
+  String get mealIngredients;
+
+  /// No description provided for @mealPreparation.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparation'**
+  String get mealPreparation;
+
+  /// No description provided for @mealIdeasDiscoverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal Ideas'**
+  String get mealIdeasDiscoverTitle;
+
+  /// No description provided for @mealIdeasDiscoverBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse a curated set of recipes matched to your goals — from quick smoothies to full dinners, all with clear prep steps and macros.'**
+  String get mealIdeasDiscoverBody;
+
+  /// No description provided for @actionDiscover.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover'**
+  String get actionDiscover;
+
+  /// No description provided for @mealPlanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal Plan'**
+  String get mealPlanTitle;
+
+  /// No description provided for @mealPlanIntroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer a few quick questions about your diet and goals, and we\'ll put together a personalized meal plan for your week.'**
+  String get mealPlanIntroBody;
+
+  /// No description provided for @mealPlanKnowYourPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Know Your Plan'**
+  String get mealPlanKnowYourPlan;
+
+  /// No description provided for @mealPlanDietaryPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Dietary Preferences'**
+  String get mealPlanDietaryPreferences;
+
+  /// No description provided for @mealPlanDietaryPreferencesQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'What are your dietary preferences?'**
+  String get mealPlanDietaryPreferencesQuestion;
+
+  /// No description provided for @mealPlanAllergies.
+  ///
+  /// In en, this message translates to:
+  /// **'Allergies'**
+  String get mealPlanAllergies;
+
+  /// No description provided for @mealPlanAllergiesQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you have any food allergies we should know about?'**
+  String get mealPlanAllergiesQuestion;
+
+  /// No description provided for @mealPlanMealTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal Types'**
+  String get mealPlanMealTypes;
+
+  /// No description provided for @mealPlanMealTypesQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Which meals do you want to plan?'**
+  String get mealPlanMealTypesQuestion;
+
+  /// No description provided for @mealPlanCaloricGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Caloric Goal'**
+  String get mealPlanCaloricGoal;
+
+  /// No description provided for @mealPlanCaloricGoalQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your daily caloric intake goal?'**
+  String get mealPlanCaloricGoalQuestion;
+
+  /// No description provided for @mealPlanCookingTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Cooking Time Preference'**
+  String get mealPlanCookingTime;
+
+  /// No description provided for @mealPlanCookingTimeQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'How much time are you willing to spend cooking each meal?'**
+  String get mealPlanCookingTimeQuestion;
+
+  /// No description provided for @mealPlanServings.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of Servings'**
+  String get mealPlanServings;
+
+  /// No description provided for @mealPlanServingsQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'How many servings do you need per meal?'**
+  String get mealPlanServingsQuestion;
+
+  /// No description provided for @mealPlanCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get mealPlanCreate;
+
+  /// No description provided for @mealPlanGeneratingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating a plan for you'**
+  String get mealPlanGeneratingTitle;
+
+  /// No description provided for @mealPlanBreakfastTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Breakfast plan for you'**
+  String get mealPlanBreakfastTitle;
+
+  /// No description provided for @mealPlanBreakfastBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand-picked breakfast options based on your dietary preferences and caloric goal.'**
+  String get mealPlanBreakfastBody;
+
+  /// No description provided for @mealPlanSeeRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'See Recipe'**
+  String get mealPlanSeeRecipe;
+
+  /// No description provided for @navCommunityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get navCommunityTitle;
+
+  /// No description provided for @communitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Train together, share wins, and join challenges.'**
+  String get communitySubtitle;
+
+  /// No description provided for @communityTabForum.
+  ///
+  /// In en, this message translates to:
+  /// **'Discussion Forum'**
+  String get communityTabForum;
+
+  /// No description provided for @communityTabChallenges.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenges'**
+  String get communityTabChallenges;
+
+  /// No description provided for @communityForums.
+  ///
+  /// In en, this message translates to:
+  /// **'Forums'**
+  String get communityForums;
+
+  /// No description provided for @communityChallengesAndCompetitions.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenges and competitions'**
+  String get communityChallengesAndCompetitions;
+
+  /// No description provided for @communityStartNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Now'**
+  String get communityStartNow;
+
+  /// No description provided for @communityFeaturedChallengeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycling Challenge'**
+  String get communityFeaturedChallengeName;
+
+  /// No description provided for @communityFeaturedChallengeDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'15 Minutes'**
+  String get communityFeaturedChallengeDuration;
+
+  /// No description provided for @communityFeaturedChallengeCalories.
+  ///
+  /// In en, this message translates to:
+  /// **'100 Kcal'**
+  String get communityFeaturedChallengeCalories;
+
+  /// No description provided for @communityChallengeBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Community challenge'**
+  String get communityChallengeBadge;
+
+  /// No description provided for @communityTopContribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Top contribution'**
+  String get communityTopContribution;
+
+  /// No description provided for @communityMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Community member'**
+  String get communityMember;
+
+  /// No description provided for @communityPost1.
+  ///
+  /// In en, this message translates to:
+  /// **'Just finished week 3 of the strength plan — the incline bench sit-ups are finally starting to feel manageable! Anyone else on the beginner track?'**
+  String get communityPost1;
+
+  /// No description provided for @communityPost2.
+  ///
+  /// In en, this message translates to:
+  /// **'Swapped my rest day walk for a 20-minute cardio session today and felt great afterward. Small wins add up.'**
+  String get communityPost2;
+
+  /// No description provided for @communityPost3.
+  ///
+  /// In en, this message translates to:
+  /// **'Question for the group: how do you stay consistent with meal prep on busy weeks? Looking for quick high-protein ideas.'**
+  String get communityPost3;
+
+  /// No description provided for @communityPost4.
+  ///
+  /// In en, this message translates to:
+  /// **'Hit a new personal best on kettlebell swings this morning. The weekly challenge really pushed me to show up.'**
+  String get communityPost4;
+
+  /// No description provided for @communityPost5.
+  ///
+  /// In en, this message translates to:
+  /// **'Loving the new routine builder — put together a full upper-body session in under two minutes.'**
+  String get communityPost5;
 }
 
 class _AppLocalizationsDelegate

@@ -6,6 +6,10 @@ enum Gender { male, female }
 
 enum ActivityLevel { beginner, intermediate, advanced }
 
+/// Stable identifiers for fitness goals — the UI maps these to localized
+/// labels, so a language switch mid-wizard keeps the selection intact.
+enum FitnessGoal { loseWeight, gainWeight, muscleMassGain, shapeBody, others }
+
 class OnboardingProfile {
   const OnboardingProfile({
     this.gender,
@@ -20,7 +24,7 @@ class OnboardingProfile {
   final int age;
   final int heightCm;
   final int weightKg;
-  final String? goal;
+  final FitnessGoal? goal;
   final ActivityLevel? activityLevel;
 
   OnboardingProfile copyWith({
@@ -28,7 +32,7 @@ class OnboardingProfile {
     int? age,
     int? heightCm,
     int? weightKg,
-    String? goal,
+    FitnessGoal? goal,
     ActivityLevel? activityLevel,
   }) {
     return OnboardingProfile(
@@ -55,7 +59,7 @@ class OnboardingProfileController extends _$OnboardingProfileController {
   void setAge(int age) => state = state.copyWith(age: age);
   void setHeight(int heightCm) => state = state.copyWith(heightCm: heightCm);
   void setWeight(int weightKg) => state = state.copyWith(weightKg: weightKg);
-  void selectGoal(String goal) => state = state.copyWith(goal: goal);
+  void selectGoal(FitnessGoal goal) => state = state.copyWith(goal: goal);
   void selectActivityLevel(ActivityLevel level) =>
       state = state.copyWith(activityLevel: level);
 }

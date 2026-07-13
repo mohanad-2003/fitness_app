@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../theme/app_theme_extension.dart';
 
 /// Full-width filled call-to-action button with a built-in loading state.
 /// Replaces the legacy `CustomButton` (lib/view/custm_button.dart), which
@@ -21,6 +21,7 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
     final disabled = onPressed == null || isLoading;
     final radius = BorderRadius.circular(999);
     return SizedBox(
@@ -29,18 +30,13 @@ class PrimaryButton extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: radius,
-          gradient:
-              disabled
-                  ? null
-                  : const LinearGradient(
-                    colors: [AppColors.seedLime, AppColors.electricOrange],
-                  ),
+          gradient: disabled ? null : ext.accentGradient,
           boxShadow:
               disabled
                   ? const []
                   : [
                     BoxShadow(
-                      color: AppColors.seedLime.withValues(alpha: 0.28),
+                      color: ext.accentGlow.withValues(alpha: 0.28),
                       blurRadius: 24,
                       offset: const Offset(0, 12),
                     ),
@@ -53,7 +49,7 @@ class PrimaryButton extends StatelessWidget {
                     ? Theme.of(context).disabledColor.withValues(alpha: 0.20)
                     : Colors.transparent,
             shadowColor: Colors.transparent,
-            foregroundColor: AppColors.seedInk,
+            foregroundColor: ext.onAccent,
             shape: RoundedRectangleBorder(borderRadius: radius),
           ),
           onPressed: disabled ? null : onPressed,

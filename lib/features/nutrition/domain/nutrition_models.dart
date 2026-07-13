@@ -6,12 +6,17 @@ class MealItem {
     required this.name,
     required this.time,
     required this.calories,
+    this.subtitle = '',
   });
 
   final String image;
   final String name;
   final String time;
   final String calories;
+
+  /// Short one-line description shown under the name on grid cards, so no
+  /// card ever renders as a bare photo without context.
+  final String subtitle;
 }
 
 class MealDetail {

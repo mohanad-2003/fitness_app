@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/localization/generated/app_localizations.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../domain/nutrition_models.dart';
 
 /// Reusable ingredients/preparation layout, replacing the legacy
@@ -11,7 +12,7 @@ class MealDetailHeader extends StatelessWidget {
   const MealDetailHeader({
     super.key,
     required this.meal,
-    this.tagText = 'Recipe Of The Day',
+    required this.tagText,
     this.isFavorite = false,
     this.onFavoriteTap,
   });
@@ -23,6 +24,10 @@ class MealDetailHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,9 +44,9 @@ class MealDetailHeader extends StatelessWidget {
                       meal.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
-                        color: AppColors.seedLime,
+                        color: theme.colorScheme.primary,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -50,7 +55,7 @@ class MealDetailHeader extends StatelessWidget {
                     onTap: onFavoriteTap,
                     child: Icon(
                       isFavorite ? Icons.star : Icons.star_border,
-                      color: isFavorite ? Colors.red : Colors.white,
+                      color: isFavorite ? ext.danger : ext.textMuted,
                     ),
                   ),
                 ],
@@ -58,21 +63,24 @@ class MealDetailHeader extends StatelessWidget {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  Image.asset('assets/time.png', color: AppColors.seedViolet),
+                  Image.asset(
+                    'assets/time.png',
+                    color: theme.colorScheme.secondary,
+                  ),
                   const SizedBox(width: 5),
                   Text(
                     meal.time,
-                    style: const TextStyle(fontSize: 12, color: Colors.white),
+                    style: TextStyle(fontSize: 12, color: ext.textPrimary),
                   ),
                   const SizedBox(width: 20),
                   Image.asset(
                     'assets/calories.png',
-                    color: AppColors.seedViolet,
+                    color: theme.colorScheme.secondary,
                   ),
                   const SizedBox(width: 5),
                   Text(
                     meal.calories,
-                    style: const TextStyle(fontSize: 12, color: Colors.white),
+                    style: TextStyle(fontSize: 12, color: ext.textPrimary),
                   ),
                 ],
               ),
@@ -83,7 +91,11 @@ class MealDetailHeader extends StatelessWidget {
         Container(
           width: double.infinity,
           height: 242,
-          color: const Color(0xffB3A0FF),
+          decoration: BoxDecoration(
+            color: ext.glassFill,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: ext.glassBorder),
+          ),
           child: Center(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
@@ -103,16 +115,17 @@ class MealDetailHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Ingredients',
+                Text(
+                  l10n.mealIngredients,
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppColors.seedLime,
+                    color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: 8),
-                for (final ingredient in meal.ingredients) _bullet(ingredient),
+                for (final ingredient in meal.ingredients)
+                  _bullet(ingredient, theme, ext),
               ],
             ),
           ),
@@ -124,11 +137,11 @@ class MealDetailHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 10),
-                const Text(
-                  'Preparation',
+                Text(
+                  l10n.mealPreparation,
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppColors.seedLime,
+                    color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -140,9 +153,9 @@ class MealDetailHeader extends StatelessWidget {
                       meal.preparation.length > 1
                           ? '${i + 1}. ${meal.preparation[i]}'
                           : meal.preparation[i],
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
-                        color: Colors.white70,
+                        color: ext.textMuted,
                         height: 1.4,
                       ),
                     ),
@@ -155,28 +168,29 @@ class MealDetailHeader extends StatelessWidget {
     );
   }
 
-  Widget _bullet(String text) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: 6,
-          height: 6,
-          margin: const EdgeInsets.only(top: 6),
-          decoration: const BoxDecoration(
-            color: AppColors.seedViolet,
-            shape: BoxShape.circle,
-          ),
+  Widget _bullet(String text, ThemeData theme, AppThemeExtension ext) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 6,
+              height: 6,
+              margin: const EdgeInsets.only(top: 6),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.secondary,
+                shape: BoxShape.circle,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                text,
+                style: TextStyle(fontSize: 13, color: ext.textPrimary),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            text,
-            style: const TextStyle(fontSize: 13, color: Colors.white),
-          ),
-        ),
-      ],
-    ),
-  );
+      );
 }

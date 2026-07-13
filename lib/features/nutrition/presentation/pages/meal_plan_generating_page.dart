@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/premium_scaffold.dart';
 import '../../../workout/presentation/widgets/workout_header.dart';
 
@@ -24,12 +24,15 @@ class _MealPlanGeneratingPageState extends State<MealPlanGeneratingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+
     return PremiumScaffold(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const WorkoutHeader(title: 'Meals Plans'),
+          WorkoutHeader(title: l10n.nutritionTabMealPlans),
           Expanded(
             child: Center(
               child: Column(
@@ -38,22 +41,25 @@ class _MealPlanGeneratingPageState extends State<MealPlanGeneratingPage> {
                   Container(
                     width: 200,
                     height: 200,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.fromBorderSide(
-                        BorderSide(color: AppColors.seedViolet, width: 7),
+                        BorderSide(color: theme.colorScheme.secondary, width: 7),
                       ),
                     ),
-                    child: const Center(
+                    child: Center(
                       child: CircularProgressIndicator(
-                        color: AppColors.seedViolet,
+                        color: theme.colorScheme.secondary,
                       ),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Text(
-                    'Creating a plan for you',
-                    style: TextStyle(color: AppColors.seedLime, fontSize: 18),
+                  Text(
+                    l10n.mealPlanGeneratingTitle,
+                    style: TextStyle(
+                      color: theme.colorScheme.primary,
+                      fontSize: 18,
+                    ),
                   ),
                 ],
               ),

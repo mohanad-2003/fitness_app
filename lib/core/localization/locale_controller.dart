@@ -12,8 +12,18 @@ class LocaleController extends _$LocaleController {
   @override
   Locale build() {
     final stored = ref.watch(preferencesServiceProvider).locale;
-    final match = supportedLocales.where((l) => l.languageCode == stored);
-    return match.isNotEmpty ? match.first : supportedLocales.first;
+    if (stored != null) {
+      final match = supportedLocales.where((l) => l.languageCode == stored);
+      if (match.isNotEmpty) return match.first;
+    }
+    // No saved preference yet (first launch) — follow the device locale if
+    // it's one we support, otherwise fall back to English.
+    final deviceLanguageCode =
+        WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+    final deviceMatch = supportedLocales.where(
+      (l) => l.languageCode == deviceLanguageCode,
+    );
+    return deviceMatch.isNotEmpty ? deviceMatch.first : supportedLocales.first;
   }
 
   Future<void> setLocale(Locale locale) async {

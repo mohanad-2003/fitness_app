@@ -1,4 +1,5 @@
-import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:fitness_app/features/profile/presentation/providers/profile_controller.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,9 @@ class DocumentPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final documents = ref.watch(userDocumentsProvider);
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return PremiumScaffold(
       child: Column(
@@ -22,15 +26,15 @@ class DocumentPage extends ConsumerWidget {
                 onTap: () => context.canPop() ? context.pop() : null,
                 child: Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: AppColors.seedLime,
+                  color: theme.colorScheme.primary,
                   size: 28,
                 ),
               ),
               const SizedBox(width: 10),
-              const Text(
-                'Documents',
+              Text(
+                l10n.documentsTitle,
                 style: TextStyle(
-                  color: AppColors.seedViolet,
+                  color: theme.colorScheme.primary,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -47,15 +51,9 @@ class DocumentPage extends ConsumerWidget {
                 return Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: const Color(0xff3B3B3B),
+                    color: ext.glassFill,
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.3),
-                        blurRadius: 6,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
+                    border: Border.all(color: ext.glassBorder),
                   ),
                   child: Row(
                     children: [
@@ -63,13 +61,15 @@ class DocumentPage extends ConsumerWidget {
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                          color: AppColors.seedViolet,
+                          color: theme.colorScheme.secondary.withValues(
+                            alpha: 0.14,
+                          ),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Icon(
                             Icons.insert_drive_file_rounded,
-                            color: Colors.white,
+                            color: theme.colorScheme.secondary,
                             size: 28,
                           ),
                         ),
@@ -81,10 +81,10 @@ class DocumentPage extends ConsumerWidget {
                           children: [
                             Text(
                               doc.title,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: ext.textPrimary,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -92,9 +92,9 @@ class DocumentPage extends ConsumerWidget {
                             const SizedBox(height: 6),
                             Text(
                               doc.description,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.white70,
+                                color: ext.textMuted,
                               ),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -102,9 +102,9 @@ class DocumentPage extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      const Icon(
+                      Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: AppColors.seedLime,
+                        color: theme.colorScheme.primary,
                         size: 20,
                       ),
                     ],

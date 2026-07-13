@@ -1,7 +1,10 @@
-import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
+import 'package:fitness_app/features/workout/domain/exercise_detail_models.dart';
 import 'package:fitness_app/features/workout/domain/workout_models.dart';
 import 'package:fitness_app/features/workout/presentation/providers/weekly_challenge_controller.dart';
+import 'package:fitness_app/features/workout/presentation/widgets/round_item_tile.dart';
 import 'package:fitness_app/features/workout/presentation/widgets/workout_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +23,9 @@ class WeeklyChallengePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final roundOne = ref.watch(weeklyChallengeRoundOneProvider);
     final roundTwo = ref.watch(weeklyChallengeRoundTwoProvider);
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return PremiumScaffold(
       padding: EdgeInsets.zero,
@@ -27,9 +33,12 @@ class WeeklyChallengePage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: WorkoutHeader(title: 'Weekly Challenge'),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 20,
+              ),
+              child: WorkoutHeader(title: l10n.workoutWeeklyChallengeTitle),
             ),
             const SizedBox(height: 20),
             Padding(
@@ -50,12 +59,12 @@ class WeeklyChallengePage extends ConsumerWidget {
                     right: 0,
                     left: 0,
                     child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(20),
                           bottomRight: Radius.circular(20),
                         ),
-                        color: Colors.black.withValues(alpha: 0.3),
+                        color: Colors.black38,
                       ),
                       padding: const EdgeInsets.symmetric(
                         vertical: 5,
@@ -70,7 +79,7 @@ class WeeklyChallengePage extends ConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontSize: 14,
-                              color: AppColors.seedLime,
+                              color: ext.accentGlow,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -133,9 +142,15 @@ class WeeklyChallengePage extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _RoundSection(title: 'Round 1', rounds: roundOne),
+                  _RoundSection(
+                    title: l10n.workoutRoundNumber(1),
+                    rounds: roundOne,
+                  ),
                   const SizedBox(height: 20),
-                  _RoundSection(title: 'Round 2', rounds: roundTwo),
+                  _RoundSection(
+                    title: l10n.workoutRoundNumber(2),
+                    rounds: roundTwo,
+                  ),
                 ],
               ),
             ),
@@ -154,53 +169,28 @@ class _RoundSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20,
-            color: AppColors.seedLime,
+            color: theme.colorScheme.primary,
             fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(height: 10),
         for (final round in rounds) ...[
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white.withValues(alpha: 0.08),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
-            ),
-            child: ListTile(
-              title: Text(
-                round.name,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              subtitle: Text(
-                round.time,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white.withValues(alpha: 0.6),
-                ),
-              ),
-              leading: const CircleAvatar(
-                backgroundColor: AppColors.seedLime,
-                child: Icon(Icons.play_arrow_rounded, color: AppColors.seedInk),
-              ),
-              trailing: Text(
-                round.intensity,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColors.seedLime,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+          RoundItemTile(
+            item: RoundExerciseItem(
+              name: round.name,
+              time: round.time,
+              reps: round.intensity,
+              accent: ext.accentGlow,
             ),
           ),
           const SizedBox(height: 10),

@@ -1,30 +1,56 @@
-import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
+/// Navigation args for [HelpPage], passed via GoRouter `extra` so callers
+/// (e.g. Privacy → Contact Support) can land directly on the Contact tab.
+class HelpPageArgs {
+  const HelpPageArgs({this.startOnContact = false});
+  final bool startOnContact;
+}
+
 class HelpPage extends StatefulWidget {
-  const HelpPage({super.key});
+  const HelpPage({super.key, this.args = const HelpPageArgs()});
+
+  final HelpPageArgs args;
 
   @override
   State<HelpPage> createState() => _HelpPageState();
 }
 
 class _HelpPageState extends State<HelpPage> {
-  bool _isContactUsExpanded = false;
+  late bool _isContactUsExpanded = widget.args.startOnContact;
   int _selectedTabIndex = 0;
-
-  static const _tabs = ['General', 'Account', 'Services'];
-  static const _contactOptions = [
-    ('Customer Service', 'assets/customer.png'),
-    ('Website', 'assets/website.png'),
-    ('Whatsapp', 'assets/whats.png'),
-    ('Facebook', 'assets/face_help.png'),
-    ('Instagram', 'assets/insta.png'),
-  ];
+  int? _expandedFaqIndex;
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+    final tabs = [
+      l10n.helpTabGeneral,
+      l10n.helpTabAccount,
+      l10n.helpTabServices,
+    ];
+    final contactOptions = [
+      (l10n.helpContactCustomerService, 'assets/customer.png', 'support@fitbody.app'),
+      (l10n.helpContactWebsite, 'assets/website.png', 'www.fitbody.app'),
+      (l10n.helpContactWhatsapp, 'assets/whats.png', '+1 555 010 2024'),
+      (l10n.helpContactFacebook, 'assets/face_help.png', '@fitbody'),
+      (l10n.helpContactInstagram, 'assets/insta.png', '@fitbody'),
+    ];
+    final faqs = [
+      (l10n.helpFaqQ1, l10n.helpFaqA1),
+      (l10n.helpFaqQ2, l10n.helpFaqA2),
+      (l10n.helpFaqQ3, l10n.helpFaqA3),
+      (l10n.helpFaqQ4, l10n.helpFaqA4),
+      (l10n.helpFaqQ5, l10n.helpFaqA5),
+    ];
+
     return PremiumScaffold(
       child: SingleChildScrollView(
         child: Column(
@@ -36,15 +62,15 @@ class _HelpPageState extends State<HelpPage> {
                   onTap: () => context.canPop() ? context.pop() : null,
                   child: Icon(
                     Icons.arrow_back_ios_new_outlined,
-                    color: AppColors.seedLime,
+                    color: theme.colorScheme.primary,
                     size: 28,
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Text(
-                  'Help & FAQs',
+                Text(
+                  l10n.helpTitle,
                   style: TextStyle(
-                    color: AppColors.seedViolet,
+                    color: theme.colorScheme.primary,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
@@ -52,23 +78,23 @@ class _HelpPageState extends State<HelpPage> {
               ],
             ),
             const SizedBox(height: 25),
-            const Center(
+            Center(
               child: Text(
-                'How can we help you?',
-                style: TextStyle(fontSize: 20, color: Colors.white),
+                l10n.helpHowCanWeHelp,
+                style: TextStyle(fontSize: 20, color: ext.textPrimary),
               ),
             ),
             const SizedBox(height: 20),
             Row(
               children: [
                 _ToggleButton(
-                  text: 'FAQ',
+                  text: l10n.helpFaqTab,
                   isSelected: !_isContactUsExpanded,
                   onTap: () => setState(() => _isContactUsExpanded = false),
                 ),
                 const SizedBox(width: 12),
                 _ToggleButton(
-                  text: 'Contact Us',
+                  text: l10n.helpContactUsTab,
                   isSelected: _isContactUsExpanded,
                   onTap: () => setState(() => _isContactUsExpanded = true),
                 ),
@@ -78,55 +104,64 @@ class _HelpPageState extends State<HelpPage> {
             if (_isContactUsExpanded)
               Column(
                 children: [
-                  for (final option in _contactOptions)
+                  for (final option in contactOptions)
                     ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      onTap: () => _copyContact(context, option.$1, option.$3),
                       leading: CircleAvatar(
                         radius: 20,
-                        backgroundColor: AppColors.seedViolet,
+                        backgroundColor: theme.colorScheme.secondary,
                         child: Image.asset(option.$2, width: 20, height: 20),
                       ),
                       title: Text(
                         option.$1,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
+                        style: TextStyle(color: ext.textPrimary, fontSize: 16),
                       ),
-                      trailing: const Icon(
-                        Icons.arrow_drop_down,
-                        color: AppColors.seedLime,
+                      subtitle: Text(
+                        option.$3,
+                        style: TextStyle(color: ext.textMuted, fontSize: 12),
+                      ),
+                      trailing: Icon(
+                        Icons.copy_rounded,
+                        color: theme.colorScheme.primary,
+                        size: 18,
                       ),
                     ),
                 ],
-              ),
-            const SizedBox(height: 20),
-            Row(
-              children: List.generate(
-                _tabs.length,
-                (index) => Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: GestureDetector(
-                      onTap: () => setState(() => _selectedTabIndex = index),
-                      child: Container(
-                        height: 36,
-                        decoration: BoxDecoration(
-                          color:
-                              _selectedTabIndex == index
-                                  ? AppColors.seedLime
-                                  : Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Center(
-                          child: Text(
-                            _tabs[index],
-                            style: TextStyle(
-                              color:
-                                  _selectedTabIndex == index
-                                      ? Colors.black
-                                      : AppColors.seedViolet,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
+              )
+            else ...[
+              Row(
+                children: List.generate(
+                  tabs.length,
+                  (index) => Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: GestureDetector(
+                        onTap: () => setState(() => _selectedTabIndex = index),
+                        child: Container(
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color:
+                                _selectedTabIndex == index
+                                    ? theme.colorScheme.primary
+                                    : ext.glassFill,
+                            borderRadius: BorderRadius.circular(20),
+                            border:
+                                _selectedTabIndex == index
+                                    ? null
+                                    : Border.all(color: ext.glassBorder),
+                          ),
+                          child: Center(
+                            child: Text(
+                              tabs[index],
+                              style: TextStyle(
+                                color:
+                                    _selectedTabIndex == index
+                                        ? theme.colorScheme.onPrimary
+                                        : ext.textPrimary,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -135,19 +170,45 @@ class _HelpPageState extends State<HelpPage> {
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            const TextField(
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search, color: AppColors.seedViolet),
-                hintText: 'Search',
+              const SizedBox(height: 20),
+              TextField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: theme.colorScheme.secondary,
+                  ),
+                  hintText: l10n.helpSearchHint,
+                ),
               ),
-            ),
-            const SizedBox(height: 25),
-            for (var i = 0; i < 5; i++)
-              const _FaqItem('Lorem ipsum dolor sit amet?'),
+              const SizedBox(height: 25),
+              for (var i = 0; i < faqs.length; i++)
+                _FaqItem(
+                  question: faqs[i].$1,
+                  answer: faqs[i].$2,
+                  expanded: _expandedFaqIndex == i,
+                  onTap:
+                      () => setState(
+                        () =>
+                            _expandedFaqIndex =
+                                _expandedFaqIndex == i ? null : i,
+                      ),
+                ),
+            ],
           ],
         ),
+      ),
+    );
+  }
+
+  void _copyContact(BuildContext context, String label, String value) {
+    Clipboard.setData(ClipboardData(text: value));
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppLocalizations.of(context).helpContactCopied(value)),
+        backgroundColor: ext.cardColor,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       ),
     );
   }
@@ -165,21 +226,25 @@ class _ToggleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final theme = Theme.of(context);
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
         child: Container(
           height: 32,
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.seedLime : Colors.white,
+            color: isSelected ? theme.colorScheme.primary : ext.glassFill,
             borderRadius: BorderRadius.circular(20),
+            border: isSelected ? null : Border.all(color: ext.glassBorder),
           ),
           child: Center(
             child: Text(
               text,
               style: TextStyle(
                 fontSize: 14,
-                color: isSelected ? Colors.black : AppColors.seedViolet,
+                color:
+                    isSelected ? theme.colorScheme.onPrimary : ext.textPrimary,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -191,33 +256,59 @@ class _ToggleButton extends StatelessWidget {
 }
 
 class _FaqItem extends StatelessWidget {
-  const _FaqItem(this.title);
-  final String title;
+  const _FaqItem({
+    required this.question,
+    required this.answer,
+    required this.expanded,
+    required this.onTap,
+  });
+
+  final String question;
+  final String answer;
+  final bool expanded;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final theme = Theme.of(context);
     return Column(
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  color: Color(0xffB3A0FF),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+        InkWell(
+          onTap: onTap,
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  question,
+                  style: TextStyle(
+                    color: ext.textPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
               ),
-            ),
-            const Icon(
-              Icons.arrow_drop_down_rounded,
-              color: AppColors.seedLime,
-            ),
-          ],
+              Icon(
+                expanded
+                    ? Icons.keyboard_arrow_up_rounded
+                    : Icons.keyboard_arrow_down_rounded,
+                color: theme.colorScheme.primary,
+              ),
+            ],
+          ),
         ),
+        if (expanded) ...[
+          const SizedBox(height: 8),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              answer,
+              style: TextStyle(color: ext.textMuted, fontSize: 13, height: 1.5),
+            ),
+          ),
+        ],
         const SizedBox(height: 10),
-        const Divider(color: AppColors.seedLime, thickness: 1),
+        Divider(color: ext.glassBorder, thickness: 1),
         const SizedBox(height: 10),
       ],
     );

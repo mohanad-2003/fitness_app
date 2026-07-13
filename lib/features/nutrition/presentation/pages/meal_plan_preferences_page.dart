@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/premium_scaffold.dart';
 import '../../../workout/presentation/widgets/workout_header.dart';
 import '../providers/meal_plan_wizard_controller.dart';
@@ -16,6 +17,8 @@ class MealPlanPreferencesPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final prefs = ref.watch(mealPlanWizardControllerProvider);
     final controller = ref.read(mealPlanWizardControllerProvider.notifier);
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return PremiumScaffold(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -23,13 +26,13 @@ class MealPlanPreferencesPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const WorkoutHeader(title: 'Meal plane'),
+            WorkoutHeader(title: l10n.mealPlanTitle),
             const SizedBox(height: 30),
-            _SectionTitle('Dietary Preferences'),
+            _SectionTitle(l10n.mealPlanDietaryPreferences),
             const SizedBox(height: 12),
-            const Text(
-              'What are your dietary preferences?',
-              style: TextStyle(color: Colors.white),
+            Text(
+              l10n.mealPlanDietaryPreferencesQuestion,
+              style: TextStyle(color: ext.textPrimary),
             ),
             const SizedBox(height: 20),
             OptionSelector(
@@ -39,11 +42,11 @@ class MealPlanPreferencesPage extends ConsumerWidget {
               itemWidthFraction: 1,
             ),
             const SizedBox(height: 40),
-            _SectionTitle('Allergies'),
+            _SectionTitle(l10n.mealPlanAllergies),
             const SizedBox(height: 12),
-            const Text(
-              'Do you have any food allergies we should know about?',
-              style: TextStyle(color: Colors.white),
+            Text(
+              l10n.mealPlanAllergiesQuestion,
+              style: TextStyle(color: ext.textPrimary),
             ),
             const SizedBox(height: 16),
             OptionSelector(
@@ -52,11 +55,11 @@ class MealPlanPreferencesPage extends ConsumerWidget {
               onSelected: controller.selectAllergy,
             ),
             const SizedBox(height: 40),
-            _SectionTitle('Meal Types'),
+            _SectionTitle(l10n.mealPlanMealTypes),
             const SizedBox(height: 12),
-            const Text(
-              'Which meals do you want to plan?',
-              style: TextStyle(color: Colors.white),
+            Text(
+              l10n.mealPlanMealTypesQuestion,
+              style: TextStyle(color: ext.textPrimary),
             ),
             const SizedBox(height: 16),
             OptionSelector(
@@ -72,13 +75,16 @@ class MealPlanPreferencesPage extends ConsumerWidget {
                   width: 130,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: AppColors.seedLime,
+                    color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'Next',
-                      style: TextStyle(fontSize: 17, color: Color(0xff232323)),
+                      l10n.actionContinue,
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                     ),
                   ),
                 ),
@@ -99,9 +105,9 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 22,
-        color: AppColors.seedLime,
+        color: Theme.of(context).colorScheme.primary,
         fontWeight: FontWeight.bold,
       ),
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_theme_extension.dart';
+
 /// Reused by login and signup — previously duplicated as private
 /// `_SocialIcon` widgets in each file.
 class SocialLoginRow extends StatelessWidget {
@@ -13,6 +15,8 @@ class SocialLoginRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -21,12 +25,14 @@ class SocialLoginRow extends StatelessWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.10),
+              color: ext.glassFill,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.14)),
+              border: Border.all(color: ext.glassBorder),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.20),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.shadow.withValues(alpha: 0.20),
                   blurRadius: 16,
                   offset: const Offset(0, 8),
                 ),

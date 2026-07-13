@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/premium_scaffold.dart';
 import '../../domain/favorite_models.dart';
 import '../providers/favorite_controller.dart';
@@ -15,214 +17,250 @@ class FavoritePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(favoriteFilterControllerProvider);
     final items = ref.watch(filteredFavoritesProvider);
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return PremiumScaffold(
-      padding: const EdgeInsets.fromLTRB(0, 18, 0, 104),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap:
-                      () =>
-                          context.canPop()
-                              ? context.pop()
-                              : context.go(AppRoutes.home),
-                  child: const Icon(
-                    Icons.arrow_back,
-                    color: AppColors.seedLime,
-                    size: 28,
-                  ),
+          Row(
+            children: [
+              if (context.canPop())
+                PremiumIconButton(
+                  icon: Icons.arrow_back_ios_new_rounded,
+                  onTap: () => context.pop(),
+                )
+              else
+                PremiumIconButton(
+                  icon: Icons.arrow_back_ios_new_rounded,
+                  onTap: () => context.go(AppRoutes.home),
                 ),
-                const SizedBox(width: 8),
-                const Expanded(
-                  child: Text(
-                    'Favorites',
-                    style: TextStyle(
-                      color: AppColors.seedViolet,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+              const SizedBox(width: 12),
+              Text(
+                l10n.navFavorites,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: ext.textPrimary,
+                  fontWeight: FontWeight.w900,
                 ),
-                IconButton(
-                  onPressed: () => context.push(AppRoutes.search),
-                  icon: const Icon(Icons.search, color: AppColors.seedViolet),
-                ),
-                IconButton(
-                  onPressed: () => context.push(AppRoutes.notifications),
-                  icon: const Icon(
-                    Icons.notifications,
-                    color: AppColors.seedViolet,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () => context.push(AppRoutes.profile),
-                  icon: const Icon(Icons.person, color: AppColors.seedViolet),
-                ),
-              ],
-            ),
+              ),
+              const Spacer(),
+              PremiumIconButton(
+                icon: Icons.search_rounded,
+                onTap: () => context.push(AppRoutes.search),
+              ),
+              const SizedBox(width: 10),
+              PremiumIconButton(
+                icon: Icons.notifications_none_rounded,
+                onTap: () => context.push(AppRoutes.notifications),
+              ),
+            ],
           ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                const Text(
-                  'Sort By:',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.seedLime,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: SizedBox(
-                    height: 34,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: FavoriteFilter.values.length,
-                      separatorBuilder: (_, _) => const SizedBox(width: 8),
-                      itemBuilder: (context, index) {
-                        final f = FavoriteFilter.values[index];
-                        final isSelected = f == filter;
-                        return GestureDetector(
-                          onTap:
-                              () => ref
-                                  .read(
-                                    favoriteFilterControllerProvider.notifier,
-                                  )
-                                  .select(f),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 32,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color:
-                                  isSelected
-                                      ? AppColors.seedLime
-                                      : Colors.white,
-                            ),
-                            child: Center(
-                              child: Text(
-                                _label(f),
-                                style: TextStyle(
-                                  color:
-                                      isSelected
-                                          ? Colors.black
-                                          : AppColors.seedViolet,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          Expanded(
+          const SizedBox(height: 18),
+          SizedBox(
+            height: 38,
             child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: items.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 14),
+              scrollDirection: Axis.horizontal,
+              itemCount: FavoriteFilter.values.length,
+              separatorBuilder: (_, _) => const SizedBox(width: 8),
               itemBuilder: (context, index) {
-                final item = items[index];
-                return item.type == FavoriteType.video
-                    ? _VideoCard(item: item)
-                    : _ArticleCard(item: item);
+                final f = FavoriteFilter.values[index];
+                final isSelected = f == filter;
+                return _FilterPill(
+                  label: _label(l10n, f),
+                  icon: _icon(f),
+                  selected: isSelected,
+                  onTap:
+                      () => ref
+                          .read(favoriteFilterControllerProvider.notifier)
+                          .select(f),
+                );
               },
             ),
           ),
+          const SizedBox(height: 18),
+          Expanded(
+            child:
+                items.isEmpty
+                    ? _FavoriteEmptyState(filter: filter)
+                    : ListView.separated(
+                      padding: EdgeInsets.zero,
+                      itemCount: items.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 14),
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        return TweenAnimationBuilder<double>(
+                          key: ValueKey(item.title),
+                          tween: Tween(begin: 0, end: 1),
+                          duration: Duration(
+                            milliseconds: 220 + (index * 40).clamp(0, 300),
+                          ),
+                          curve: Curves.easeOutCubic,
+                          builder:
+                              (context, value, child) => Opacity(
+                                opacity: value,
+                                child: Transform.translate(
+                                  offset: Offset(0, (1 - value) * 16),
+                                  child: child,
+                                ),
+                              ),
+                          child: _FavoriteCard(item: item),
+                        );
+                      },
+                    ),
+          ),
         ],
       ),
     );
   }
 
-  String _label(FavoriteFilter filter) => switch (filter) {
-    FavoriteFilter.all => 'All',
-    FavoriteFilter.video => 'Video',
-    FavoriteFilter.article => 'Article',
+  String _label(AppLocalizations l10n, FavoriteFilter filter) =>
+      switch (filter) {
+        FavoriteFilter.all => l10n.favoriteFilterAll,
+        FavoriteFilter.video => l10n.favoriteFilterWorkouts,
+        FavoriteFilter.article => l10n.favoriteFilterNutrition,
+      };
+
+  IconData _icon(FavoriteFilter filter) => switch (filter) {
+    FavoriteFilter.all => Icons.apps_rounded,
+    FavoriteFilter.video => Icons.fitness_center_rounded,
+    FavoriteFilter.article => Icons.restaurant_rounded,
   };
 }
 
-class _VideoCard extends StatelessWidget {
-  const _VideoCard({required this.item});
-  final FavoriteItem item;
+class _FilterPill extends StatelessWidget {
+  const _FilterPill({
+    required this.label,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          gradient:
+              selected
+                  ? const LinearGradient(
+                    colors: [AppColors.seedLime, AppColors.electricOrange],
+                  )
+                  : null,
+          color: selected ? null : ext.glassFill,
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(
+            color: selected ? Colors.transparent : ext.glassBorder,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 15,
+              color: selected ? AppColors.seedInk : ext.textMuted,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                color: selected ? AppColors.seedInk : ext.textPrimary,
+                fontWeight: FontWeight.w800,
+                fontSize: 13,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FavoriteCard extends StatefulWidget {
+  const _FavoriteCard({required this.item});
+  final FavoriteItem item;
+
+  @override
+  State<_FavoriteCard> createState() => _FavoriteCardState();
+}
+
+class _FavoriteCardState extends State<_FavoriteCard> {
+  bool _favorited = true;
+
+  @override
+  Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final item = widget.item;
+    final isWorkout = item.type == FavoriteType.video;
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        color: ext.glassFill,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: ext.glassBorder),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(14),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  _CategoryTag(isWorkout: isWorkout),
+                  const SizedBox(height: 8),
                   Text(
                     item.title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: ext.textPrimary,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 6),
-                  Row(
+                  if (item.text != null) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      item.text!,
+                      style: TextStyle(fontSize: 12, color: ext.textMuted),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 6,
                     children: [
-                      Image.asset('assets/time.png', width: 12, height: 12),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          item.duration ?? '',
-                          style: const TextStyle(fontSize: 12),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                      if (item.duration != null)
+                        _MetaChip(
+                          icon: Icons.timer_outlined,
+                          label: item.duration!,
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Image.asset('assets/calories.png', width: 12, height: 12),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          item.calories ?? '',
-                          style: const TextStyle(fontSize: 12),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                      if (item.calories != null)
+                        _MetaChip(
+                          icon: Icons.local_fire_department_outlined,
+                          label: item.calories!,
+                          color: AppColors.electricOrange,
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Image.asset('assets/run.png', width: 12, height: 12),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          item.exercises ?? '',
-                          style: const TextStyle(fontSize: 12),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                      if (item.exercises != null)
+                        _MetaChip(
+                          icon: Icons.repeat_rounded,
+                          label: item.exercises!,
                         ),
-                      ),
                     ],
                   ),
                 ],
@@ -230,29 +268,73 @@ class _VideoCard extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 1,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    item.image,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+            flex: 2,
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.horizontal(
+                      right: Radius.circular(24),
+                    ),
+                    child: Image.asset(item.image, fit: BoxFit.cover),
                   ),
-                ),
-                const Positioned(
-                  top: 8,
-                  right: 8,
-                  child: Icon(Icons.star, color: AppColors.seedLime),
-                ),
-                const CircleAvatar(
-                  radius: 14,
-                  backgroundColor: AppColors.seedViolet,
-                  child: Icon(Icons.play_arrow, color: Colors.white, size: 16),
-                ),
-              ],
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: GestureDetector(
+                      onTap: () => setState(() => _favorited = !_favorited),
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 220),
+                        transitionBuilder:
+                            (child, animation) =>
+                                ScaleTransition(scale: animation, child: child),
+                        child: Container(
+                          key: ValueKey(_favorited),
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.black.withValues(alpha: 0.4),
+                          ),
+                          child: Icon(
+                            _favorited
+                                ? Icons.star_rounded
+                                : Icons.star_border_rounded,
+                            color:
+                                _favorited ? AppColors.seedLime : Colors.white,
+                            size: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (isWorkout)
+                    Positioned(
+                      bottom: 8,
+                      right: 8,
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColors.seedLime,
+                              AppColors.electricOrange,
+                            ],
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.play_arrow_rounded,
+                          color: AppColors.seedInk,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ],
@@ -261,82 +343,135 @@ class _VideoCard extends StatelessWidget {
   }
 }
 
-class _ArticleCard extends StatelessWidget {
-  const _ArticleCard({required this.item});
-  final FavoriteItem item;
+class _CategoryTag extends StatelessWidget {
+  const _CategoryTag({required this.isWorkout});
+  final bool isWorkout;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final color = isWorkout ? AppColors.seedLime : AppColors.aquaBlue;
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        color: color.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
-      child: Row(
+      child: Text(
+        isWorkout ? l10n.favoriteTagWorkout : l10n.favoriteTagNutrition,
+        style: TextStyle(
+          color: color,
+          fontSize: 10,
+          fontWeight: FontWeight.w900,
+          letterSpacing: 0.4,
+        ),
+      ),
+    );
+  }
+}
+
+class _MetaChip extends StatelessWidget {
+  const _MetaChip({required this.icon, required this.label, this.color});
+  final IconData icon;
+  final String label;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 13, color: color ?? ext.textMuted),
+        const SizedBox(width: 4),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 11,
+            color: ext.textMuted,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _FavoriteEmptyState extends StatelessWidget {
+  const _FavoriteEmptyState({required this.filter});
+  final FavoriteFilter filter;
+
+  @override
+  Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
+    final showingNutrition = filter == FavoriteFilter.article;
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 6),
-                  if (item.text != null)
-                    Text(
-                      item.text!,
-                      style: const TextStyle(fontSize: 12),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  const SizedBox(height: 6),
-                  if (item.duration != null && item.calories != null)
-                    Row(
-                      children: [
-                        Image.asset('assets/time.png', width: 12, height: 12),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            item.duration!,
-                            style: const TextStyle(fontSize: 12),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        const Icon(Icons.local_fire_department, size: 12),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            item.calories!,
-                            style: const TextStyle(fontSize: 12),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
+          Container(
+            width: 88,
+            height: 88,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.seedViolet.withValues(alpha: 0.18),
+                  AppColors.electricOrange.withValues(alpha: 0.12),
                 ],
               ),
+              border: Border.all(color: ext.glassBorder),
+            ),
+            child: const Icon(
+              Icons.star_border_rounded,
+              color: AppColors.seedLime,
+              size: 40,
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                item.image,
-                width: double.infinity,
-                fit: BoxFit.cover,
+          const SizedBox(height: 20),
+          Text(
+            l10n.favoriteEmptyTitle,
+            style: TextStyle(
+              color: ext.textPrimary,
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Text(
+              l10n.favoriteEmptyBody,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: ext.textMuted, fontSize: 13, height: 1.5),
+            ),
+          ),
+          const SizedBox(height: 22),
+          InkWell(
+            onTap:
+                () => context.go(
+                  showingNutrition ? AppRoutes.nutrition : AppRoutes.workout,
+                ),
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [AppColors.seedLime, AppColors.electricOrange],
+                ),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                showingNutrition
+                    ? l10n.favoriteBrowseNutrition
+                    : l10n.favoriteBrowseWorkouts,
+                style: const TextStyle(
+                  color: AppColors.seedInk,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 14,
+                ),
               ),
             ),
           ),

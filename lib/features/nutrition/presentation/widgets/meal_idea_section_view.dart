@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/localization/generated/app_localizations.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../domain/nutrition_models.dart';
 
 /// Renders a meal-idea section (hero banner + Recommended row + Recipes
@@ -23,15 +24,23 @@ class MealIdeaSectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () => onOpenDetail(section.top, 'Recipe Of The Day'),
+          onTap: () => onOpenDetail(section.top, l10n.nutritionRecipeOfTheDay),
           child: Container(
             width: double.infinity,
             height: 242,
-            color: const Color(0xffB3A0FF),
+            decoration: BoxDecoration(
+              color: ext.glassFill,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: ext.glassBorder),
+            ),
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -55,20 +64,20 @@ class MealIdeaSectionView extends StatelessWidget {
                       child: Container(
                         width: 125,
                         height: 25,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(20),
                             topRight: Radius.circular(20),
                             bottomLeft: Radius.circular(20),
                           ),
-                          color: AppColors.seedLime,
+                          color: theme.colorScheme.primary,
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            'Recipe of the day',
+                            l10n.nutritionRecipeOfTheDay,
                             style: TextStyle(
                               fontSize: 12,
-                              color: Color(0xff232323),
+                              color: theme.colorScheme.onPrimary,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -101,9 +110,9 @@ class MealIdeaSectionView extends StatelessWidget {
                                     section.top.name,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 14,
-                                      color: AppColors.seedLime,
+                                      color: ext.accentGlow,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -119,7 +128,7 @@ class MealIdeaSectionView extends StatelessWidget {
                                         : Icons.star_border,
                                     color:
                                         isFavorite(section.top.favoriteKey)
-                                            ? Colors.red
+                                            ? ext.danger
                                             : Colors.white,
                                   ),
                                 ),
@@ -176,11 +185,11 @@ class MealIdeaSectionView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (section.recommended.isNotEmpty) ...[
-                const Text(
-                  'Recommended',
+                Text(
+                  l10n.nutritionRecommended,
                   style: TextStyle(
                     fontSize: 20,
-                    color: AppColors.seedLime,
+                    color: theme.colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -197,7 +206,8 @@ class MealIdeaSectionView extends StatelessWidget {
                         item: item,
                         isFavorite: isFavorite(item.favoriteKey),
                         onFavoriteTap: () => onToggleFavorite(item.favoriteKey),
-                        onPlayTap: () => onOpenDetail(item, 'Recommended'),
+                        onPlayTap:
+                            () => onOpenDetail(item, l10n.nutritionRecommended),
                       );
                     },
                   ),
@@ -205,11 +215,11 @@ class MealIdeaSectionView extends StatelessWidget {
                 const SizedBox(height: 10),
               ],
               if (section.recipes.isNotEmpty) ...[
-                const Text(
-                  'Recipes For you',
+                Text(
+                  l10n.nutritionRecipesForYou,
                   style: TextStyle(
                     fontSize: 20,
-                    color: AppColors.seedLime,
+                    color: theme.colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -225,7 +235,11 @@ class MealIdeaSectionView extends StatelessWidget {
                         item: item,
                         isFavorite: isFavorite(item.favoriteKey),
                         onFavoriteTap: () => onToggleFavorite(item.favoriteKey),
-                        onTap: () => onOpenDetail(item, 'Recipe'),
+                        onTap:
+                            () => onOpenDetail(
+                              item,
+                              l10n.nutritionRecipesForYou,
+                            ),
                       );
                     },
                   ),
@@ -254,11 +268,15 @@ class _RecommendedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+
     return Container(
       width: 180,
       decoration: BoxDecoration(
+        color: ext.glassFill,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white24),
+        border: Border.all(color: ext.glassBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,7 +303,7 @@ class _RecommendedCard extends StatelessWidget {
                   onTap: onFavoriteTap,
                   child: Icon(
                     isFavorite ? Icons.star : Icons.star_border,
-                    color: isFavorite ? Colors.red : Colors.white,
+                    color: isFavorite ? ext.danger : Colors.white,
                   ),
                 ),
               ),
@@ -297,8 +315,8 @@ class _RecommendedCard extends StatelessWidget {
                   child: Container(
                     width: 40,
                     height: 40,
-                    decoration: const BoxDecoration(
-                      color: AppColors.seedViolet,
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.secondary,
                       shape: BoxShape.circle,
                     ),
                     child: const Center(
@@ -319,9 +337,9 @@ class _RecommendedCard extends StatelessWidget {
                   item.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
-                    color: AppColors.seedLime,
+                    color: ext.textPrimary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -330,26 +348,34 @@ class _RecommendedCard extends StatelessWidget {
                   children: [
                     Image.asset(
                       'assets/time.png',
-                      color: AppColors.seedViolet,
+                      color: ext.textMuted,
                       width: 14,
                       height: 14,
                     ),
-                    const SizedBox(width: 5),
-                    Text(
-                      item.time,
-                      style: const TextStyle(fontSize: 12, color: Colors.white),
+                    const SizedBox(width: 4),
+                    Flexible(
+                      child: Text(
+                        item.time,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 11, color: ext.textMuted),
+                      ),
                     ),
-                    const SizedBox(width: 14),
+                    const SizedBox(width: 8),
                     Image.asset(
                       'assets/calories.png',
-                      color: AppColors.seedViolet,
+                      color: ext.textMuted,
                       width: 14,
                       height: 14,
                     ),
-                    const SizedBox(width: 5),
-                    Text(
-                      item.calories,
-                      style: const TextStyle(fontSize: 12, color: Colors.white),
+                    const SizedBox(width: 4),
+                    Flexible(
+                      child: Text(
+                        item.calories,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 11, color: ext.textMuted),
+                      ),
                     ),
                   ],
                 ),
@@ -377,13 +403,17 @@ class _RecipeRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         height: 110,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ext.glassFill,
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: ext.glassBorder),
         ),
         child: Row(
           children: [
@@ -401,9 +431,9 @@ class _RecipeRow extends StatelessWidget {
                       item.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
-                        color: Color(0xff232323),
+                        color: ext.textPrimary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -412,28 +442,22 @@ class _RecipeRow extends StatelessWidget {
                       children: [
                         Image.asset(
                           'assets/time.png',
-                          color: const Color(0xff232323),
+                          color: theme.colorScheme.primary,
                         ),
                         const SizedBox(width: 5),
                         Text(
                           item.time,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Color(0xff212020),
-                          ),
+                          style: TextStyle(fontSize: 12, color: ext.textMuted),
                         ),
                         const SizedBox(width: 20),
                         Image.asset(
                           'assets/calories.png',
-                          color: const Color(0xff232323),
+                          color: theme.colorScheme.primary,
                         ),
                         const SizedBox(width: 5),
                         Text(
                           item.calories,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Color(0xff212020),
-                          ),
+                          style: TextStyle(fontSize: 12, color: ext.textMuted),
                         ),
                       ],
                     ),
@@ -463,7 +487,7 @@ class _RecipeRow extends StatelessWidget {
                       onTap: onFavoriteTap,
                       child: Icon(
                         isFavorite ? Icons.star : Icons.star_border,
-                        color: isFavorite ? Colors.red : Colors.white,
+                        color: isFavorite ? ext.danger : Colors.white,
                       ),
                     ),
                   ),

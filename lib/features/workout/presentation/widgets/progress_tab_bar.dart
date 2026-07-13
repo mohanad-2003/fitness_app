@@ -1,4 +1,5 @@
-import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/features/workout/presentation/providers/workout_progress_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -18,17 +19,25 @@ class ProgressTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _tab('Workout Log', ProgressTab.logs, onLogsTap),
+        _tab(context, l10n.progressTabLogs, ProgressTab.logs, onLogsTap),
         const SizedBox(width: 16),
-        _tab('Charts', ProgressTab.charts, onChartsTap),
+        _tab(context, l10n.progressTabCharts, ProgressTab.charts, onChartsTap),
       ],
     );
   }
 
-  Widget _tab(String label, ProgressTab tab, VoidCallback? onTap) {
+  Widget _tab(
+    BuildContext context,
+    String label,
+    ProgressTab tab,
+    VoidCallback? onTap,
+  ) {
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
     final isSelected = tab == selected;
     return GestureDetector(
       onTap: onTap,
@@ -37,14 +46,18 @@ class ProgressTabBar extends StatelessWidget {
         height: 31,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: isSelected ? AppColors.seedLime : Colors.white,
+          color: isSelected ? theme.colorScheme.primary : ext.glassFill,
+          border: isSelected ? null : Border.all(color: ext.glassBorder),
         ),
         child: Center(
           child: Text(
             label,
             style: TextStyle(
               color:
-                  isSelected ? const Color(0xff232323) : AppColors.seedViolet,
+                  isSelected
+                      ? theme.colorScheme.onPrimary
+                      : ext.textPrimary,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),

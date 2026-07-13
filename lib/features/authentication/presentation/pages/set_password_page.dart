@@ -1,14 +1,15 @@
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
+import 'package:fitness_app/core/routing/app_routes.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
+import 'package:fitness_app/core/utils/validators.dart';
+import 'package:fitness_app/core/widgets/primary_button.dart';
+import 'package:fitness_app/features/authentication/presentation/providers/set_password_controller.dart';
+import 'package:fitness_app/features/authentication/presentation/widgets/auth_background.dart';
+import 'package:fitness_app/features/authentication/presentation/widgets/auth_header.dart';
+import 'package:fitness_app/features/authentication/presentation/widgets/auth_password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/widgets/primary_button.dart';
-import '../providers/set_password_controller.dart';
-import '../widgets/auth_background.dart';
-import '../widgets/auth_header.dart';
-import '../widgets/auth_password_field.dart';
 
 class SetPasswordPage extends ConsumerWidget {
   const SetPasswordPage({super.key});
@@ -16,6 +17,9 @@ class SetPasswordPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(setPasswordControllerProvider.notifier);
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: AuthBackground(
@@ -23,37 +27,37 @@ class SetPasswordPage extends ConsumerWidget {
           padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
           child: Column(
             children: [
-              const AuthHeader(title: 'Set Password'),
+              AuthHeader(title: l10n.authSetPasswordTitle),
               const SizedBox(height: 18),
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: AppColors.seedLime.withValues(alpha: 0.10),
+                  color: theme.colorScheme.primary.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(32),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.12),
-                  ),
+                  border: Border.all(color: ext.glassBorder),
                 ),
                 child: Column(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.verified_user_rounded,
-                      color: AppColors.seedLime,
+                      color: theme.colorScheme.primary,
                       size: 52,
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Create your new training key.',
+                      l10n.authSetPasswordHeadline,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineMedium
-                          ?.copyWith(color: Colors.white, height: 1.04),
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        color: ext.textPrimary,
+                        height: 1.04,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Use a strong password so your account, progress, and health data stay protected.',
+                      l10n.authSetPasswordBody,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.white.withValues(alpha: 0.72),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: ext.textMuted,
                         height: 1.45,
                       ),
                     ),
@@ -64,11 +68,9 @@ class SetPasswordPage extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.08),
+                  color: ext.glassFill,
                   borderRadius: BorderRadius.circular(28),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.12),
-                  ),
+                  border: Border.all(color: ext.glassBorder),
                 ),
                 child: Form(
                   key: controller.formKey,
@@ -76,16 +78,19 @@ class SetPasswordPage extends ConsumerWidget {
                     children: [
                       AuthPasswordField(
                         controller: controller.passwordController,
-                        label: 'New Password',
-                        hint: 'Enter new password',
-                        validator: controller.validatePassword,
+                        label: l10n.authNewPassword,
+                        hint: l10n.authNewPasswordHint,
+                        validator: Validators.password(l10n),
                       ),
                       const SizedBox(height: 16),
                       AuthPasswordField(
                         controller: controller.confirmPasswordController,
-                        label: 'Confirm Password',
-                        hint: 'Re-enter new password',
-                        validator: controller.validateConfirmPassword,
+                        label: l10n.authConfirmPassword,
+                        hint: l10n.authConfirmNewPasswordHint,
+                        validator: Validators.matches(
+                          l10n,
+                          controller.passwordController,
+                        ),
                       ),
                     ],
                   ),
@@ -93,7 +98,7 @@ class SetPasswordPage extends ConsumerWidget {
               ),
               const SizedBox(height: 26),
               PrimaryButton(
-                label: 'Reset Password',
+                label: l10n.authResetPassword,
                 icon: Icons.check_rounded,
                 onPressed: () {
                   if (controller.validateForm()) {

@@ -1,4 +1,4 @@
-import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/features/workout/domain/exercise_detail_models.dart';
 import 'package:flutter/material.dart';
 
@@ -10,14 +10,16 @@ class RoundItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: double.infinity,
         height: 65,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ext.glassFill,
           borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: ext.glassBorder),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
@@ -30,10 +32,10 @@ class RoundItemTile extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: item.accent,
                 ),
-                child: const Center(
+                child: Center(
                   child: Icon(
                     Icons.play_arrow_rounded,
-                    color: Colors.white,
+                    color: ext.onAccent,
                     size: 25,
                   ),
                 ),
@@ -50,8 +52,8 @@ class RoundItemTile extends StatelessWidget {
                         Flexible(
                           child: Text(
                             item.name,
-                            style: const TextStyle(
-                              color: Color(0xff232323),
+                            style: TextStyle(
+                              color: ext.textPrimary,
                               fontWeight: FontWeight.bold,
                               fontSize: 13,
                             ),
@@ -62,8 +64,9 @@ class RoundItemTile extends StatelessWidget {
                         Text(
                           item.reps,
                           style: TextStyle(
-                            color: AppColors.seedViolet,
+                            color: ext.accentGlow,
                             fontSize: 12,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ],
@@ -73,7 +76,7 @@ class RoundItemTile extends StatelessWidget {
                       children: [
                         Image.asset(
                           'assets/time.png',
-                          color: const Color(0xffB3A0FF),
+                          color: ext.textMuted,
                           width: 14,
                           height: 14,
                         ),
@@ -81,8 +84,8 @@ class RoundItemTile extends StatelessWidget {
                         Flexible(
                           child: Text(
                             item.time,
-                            style: const TextStyle(
-                              color: Color(0xffB3A0FF),
+                            style: TextStyle(
+                              color: ext.textMuted,
                               fontSize: 12,
                             ),
                             overflow: TextOverflow.ellipsis,

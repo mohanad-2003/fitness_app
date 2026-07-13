@@ -1,4 +1,6 @@
 import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/theme/app_spacing.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/icon_stat.dart';
 import 'package:fitness_app/features/workout/domain/workout_models.dart';
 import 'package:flutter/material.dart';
@@ -8,20 +10,23 @@ class WorkoutListCard extends StatelessWidget {
     super.key,
     required this.item,
     required this.onToggleFavorite,
+    this.height = 117,
   });
 
   final WorkoutListItem item;
   final VoidCallback onToggleFavorite;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
     return Container(
       width: double.infinity,
-      height: 117,
+      height: height,
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(26),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+        color: ext.glassFill,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        border: Border.all(color: ext.glassBorder),
       ),
       child: Row(
         children: [
@@ -35,8 +40,8 @@ class WorkoutListCard extends StatelessWidget {
                 children: [
                   Text(
                     item.name,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: ext.textPrimary,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -50,14 +55,14 @@ class WorkoutListCard extends StatelessWidget {
                         IconStat(
                           icon: 'assets/time.png',
                           label: item.time!,
-                          color: Colors.white.withValues(alpha: 0.74),
+                          color: ext.textMuted,
                         ),
                       const SizedBox(width: 10),
                       if (item.calories != null)
                         IconStat(
                           icon: 'assets/calories.png',
                           label: item.calories!,
-                          color: Colors.white.withValues(alpha: 0.74),
+                          color: ext.textMuted,
                         ),
                     ],
                   ),
@@ -66,7 +71,7 @@ class WorkoutListCard extends StatelessWidget {
                     IconStat(
                       icon: 'assets/run.png',
                       label: item.exercises!,
-                      color: Colors.white.withValues(alpha: 0.74),
+                      color: ext.textMuted,
                     ),
                 ],
               ),

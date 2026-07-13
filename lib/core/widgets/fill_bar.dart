@@ -6,17 +6,18 @@ import '../theme/app_colors.dart';
 /// (lib/view/bar.dart) and moved to core since it's a generic chart mark,
 /// not workout-specific.
 class FillBar extends StatelessWidget {
-  const FillBar({super.key, required this.fillFraction});
+  const FillBar({super.key, required this.fillFraction, this.height = 147});
 
   final double fillFraction;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 16,
-      height: 147,
+      height: height,
       decoration: BoxDecoration(
-        color: AppColors.lightOutline,
+        color: Colors.white.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
@@ -26,7 +27,7 @@ class FillBar extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: AppColors.lightOutline,
+                color: Colors.white.withValues(alpha: 0.06),
                 borderRadius: BorderRadius.circular(18),
               ),
             ),
@@ -34,9 +35,13 @@ class FillBar extends StatelessWidget {
               heightFactor: fillFraction.clamp(0.0, 1.0),
               alignment: Alignment.bottomCenter,
               child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.seedLime,
-                  borderRadius: BorderRadius.circular(18),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [AppColors.seedLime, AppColors.electricOrange],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(18)),
                 ),
               ),
             ),

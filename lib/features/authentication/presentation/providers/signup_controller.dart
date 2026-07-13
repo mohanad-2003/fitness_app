@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/utils/validators.dart';
 import '../../domain/auth_credentials.dart';
 
 part 'signup_controller.g.dart';
@@ -22,12 +21,6 @@ class SignupController extends _$SignupController {
       confirmPasswordController.dispose();
     });
   }
-
-  String? validateFullName(String? value) =>
-      Validators.required(value, field: 'Full name');
-
-  String? Function(String?) get validateConfirmPassword =>
-      Validators.matches(passwordController);
 
   Future<SignupCredentials> submit() async {
     state = const AsyncLoading();

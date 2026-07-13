@@ -1,4 +1,4 @@
-import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:fitness_app/features/workout/domain/exercise_detail_models.dart';
 import 'package:fitness_app/features/workout/presentation/widgets/workout_header.dart';
@@ -14,6 +14,9 @@ class ExerciseDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+
     return PremiumScaffold(
       padding: EdgeInsets.zero,
       child: SingleChildScrollView(
@@ -29,9 +32,9 @@ class ExerciseDetailPage extends StatelessWidget {
               height: 420,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.06),
+                color: ext.glassFill,
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+                border: Border.all(color: ext.glassBorder),
               ),
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: Center(
@@ -50,19 +53,14 @@ class ExerciseDetailPage extends StatelessWidget {
                     Positioned(
                       top: 10,
                       right: 10,
-                      child: Icon(Icons.star, color: AppColors.seedLime),
+                      child: Icon(Icons.star, color: ext.accentGlow),
                     ),
                     Container(
                       width: 120,
                       height: 120,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          colors: [
-                            AppColors.seedLime,
-                            AppColors.electricOrange,
-                          ],
-                        ),
+                        gradient: ext.accentGradient,
                       ),
                       child: Center(
                         child: Image.asset(
@@ -83,10 +81,8 @@ class ExerciseDetailPage extends StatelessWidget {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.white.withValues(alpha: 0.08),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.10),
-                  ),
+                  color: ext.glassFill,
+                  border: Border.all(color: ext.glassBorder),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -94,9 +90,9 @@ class ExerciseDetailPage extends StatelessWidget {
                     children: [
                       Text(
                         data.title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
-                          color: Colors.white,
+                          color: ext.textPrimary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -104,25 +100,22 @@ class ExerciseDetailPage extends StatelessWidget {
                       Text(
                         data.description,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white.withValues(alpha: 0.7),
-                        ),
+                        style: TextStyle(fontSize: 12, color: ext.textMuted),
                       ),
                       const SizedBox(height: 10),
                       Container(
                         height: 36,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.06),
+                          color: ext.glassFill,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            _stat('assets/time.png', data.duration),
-                            _stat('assets/calories.png', data.reps),
-                            _stat('assets/run.png', data.level),
+                            _stat('assets/time.png', data.duration, ext),
+                            _stat('assets/calories.png', data.reps, ext),
+                            _stat('assets/run.png', data.level, ext),
                           ],
                         ),
                       ),
@@ -137,13 +130,13 @@ class ExerciseDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _stat(String icon, String label) {
+  Widget _stat(String icon, String label, AppThemeExtension ext) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset(icon, width: 10, height: 11, color: AppColors.seedLime),
+        Image.asset(icon, width: 10, height: 11, color: ext.accentGlow),
         const SizedBox(width: 5),
-        Text(label, style: const TextStyle(color: Colors.white, fontSize: 14)),
+        Text(label, style: TextStyle(color: ext.textPrimary, fontSize: 14)),
       ],
     );
   }

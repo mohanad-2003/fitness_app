@@ -48,6 +48,10 @@ abstract final class AppRoutes {
   static const communityChallenge = '/community/challenge';
 
   static const editProfile = '/profile/edit';
+  static const privacy = '/profile/privacy';
+  static const privacyPolicy = '/profile/privacy/policy';
+  static const termsAndConditions = '/profile/privacy/terms';
+  static const manageData = '/profile/privacy/manage-data';
   static const settings = '/profile/settings';
   static const passwordSettings = '/profile/settings/password';
   static const notificationSettings = '/profile/settings/notifications';

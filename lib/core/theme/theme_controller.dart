@@ -13,7 +13,11 @@ class ThemeController extends _$ThemeController {
     return switch (stored) {
       'light' => ThemeMode.light,
       'dark' => ThemeMode.dark,
-      _ => ThemeMode.system,
+      'system' => ThemeMode.system,
+      // First launch (no saved preference): the brand look is the dark
+      // navy/charcoal gradient, so default to dark rather than following
+      // the device — Light/System remain selectable from Settings.
+      _ => ThemeMode.dark,
     };
   }
 

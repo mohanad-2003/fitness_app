@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/premium_scaffold.dart';
 import '../../../workout/presentation/widgets/workout_header.dart';
 import '../providers/meal_breakfast_controller.dart';
@@ -16,26 +17,29 @@ class MealPlanBreakfastPage extends ConsumerWidget {
     final options = ref.watch(mealBreakfastControllerProvider);
     final controller = ref.read(mealBreakfastControllerProvider.notifier);
     final selectedIndex = ref.watch(selectedBreakfastIndexProvider);
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return PremiumScaffold(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const WorkoutHeader(title: 'Meal Plans'),
+          WorkoutHeader(title: l10n.nutritionTabMealPlans),
           const SizedBox(height: 16),
-          const Text(
-            'Breakfast plan for you',
+          Text(
+            l10n.mealPlanBreakfastTitle,
             style: TextStyle(
-              color: AppColors.seedLime,
+              color: theme.colorScheme.primary,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 12),
-          const Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.',
-            style: TextStyle(fontSize: 12, color: Colors.white),
+          Text(
+            l10n.mealPlanBreakfastBody,
+            style: TextStyle(fontSize: 12, color: ext.textMuted),
           ),
           const SizedBox(height: 14),
           Expanded(
@@ -60,16 +64,16 @@ class MealPlanBreakfastPage extends ConsumerWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: AppColors.seedViolet,
+                            color: theme.colorScheme.secondary,
                             width: 3,
                           ),
                         ),
                         child:
                             isSelected
-                                ? const Center(
+                                ? Center(
                                   child: CircleAvatar(
                                     radius: 7,
-                                    backgroundColor: AppColors.seedLime,
+                                    backgroundColor: theme.colorScheme.primary,
                                   ),
                                 )
                                 : null,
@@ -80,8 +84,9 @@ class MealPlanBreakfastPage extends ConsumerWidget {
                           height: 110,
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: ext.cardColor,
                               borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: ext.glassBorder),
                             ),
                             child: Row(
                               children: [
@@ -101,9 +106,9 @@ class MealPlanBreakfastPage extends ConsumerWidget {
                                           item.name,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontSize: 13,
-                                            color: AppColors.seedInk,
+                                            color: ext.textPrimary,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -112,27 +117,27 @@ class MealPlanBreakfastPage extends ConsumerWidget {
                                           children: [
                                             Image.asset(
                                               'assets/time.png',
-                                              color: AppColors.seedInk,
+                                              color: ext.textMuted,
                                             ),
                                             const SizedBox(width: 4),
                                             Text(
                                               item.time,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 11,
-                                                color: AppColors.seedInk,
+                                                color: ext.textMuted,
                                               ),
                                             ),
                                             const SizedBox(width: 10),
                                             Image.asset(
                                               'assets/calories.png',
-                                              color: AppColors.seedInk,
+                                              color: ext.textMuted,
                                             ),
                                             const SizedBox(width: 2),
                                             Text(
                                               item.calories,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 11,
-                                                color: AppColors.seedInk,
+                                                color: ext.textMuted,
                                               ),
                                             ),
                                           ],
@@ -163,7 +168,7 @@ class MealPlanBreakfastPage extends ConsumerWidget {
                                             Icons.star,
                                             color:
                                                 item.isFavorite
-                                                    ? AppColors.seedLime
+                                                    ? theme.colorScheme.primary
                                                     : Colors.white,
                                             size: 24,
                                           ),
@@ -192,13 +197,13 @@ class MealPlanBreakfastPage extends ConsumerWidget {
                 height: 44,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: AppColors.seedLime,
+                  color: theme.colorScheme.primary,
                 ),
                 alignment: Alignment.center,
-                child: const Text(
-                  'See Recipe',
+                child: Text(
+                  l10n.mealPlanSeeRecipe,
                   style: TextStyle(
-                    color: AppColors.seedInk,
+                    color: theme.colorScheme.onPrimary,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),

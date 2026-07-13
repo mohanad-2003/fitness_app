@@ -10,7 +10,7 @@ class ExerciseDetailData {
     required this.heroImage,
     required this.title,
     this.description =
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus libero eget.',
+        'Keep your core braced and move through the full range of motion with control. Focus on steady breathing and stop if you feel sharp pain.',
     this.duration = '30 seconds',
     this.reps = '3 Rep',
     this.level = 'Beginner',

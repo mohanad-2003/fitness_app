@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/utils/validators.dart';
-
 part 'set_password_controller.g.dart';
 
 @riverpod
@@ -18,11 +16,6 @@ class SetPasswordController extends _$SetPasswordController {
       confirmPasswordController.dispose();
     });
   }
-
-  String? validatePassword(String? value) => Validators.password(value);
-
-  String? Function(String?) get validateConfirmPassword =>
-      Validators.matches(passwordController);
 
   bool validateForm() => formKey.currentState?.validate() ?? false;
 }

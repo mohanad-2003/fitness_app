@@ -1,4 +1,5 @@
-import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/app_text_field.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,9 @@ class PasswordSettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     return PremiumScaffold(
       child: SingleChildScrollView(
         child: Column(
@@ -20,20 +24,23 @@ class PasswordSettingsPage extends StatelessWidget {
                   onTap: () => context.canPop() ? context.pop() : null,
                   child: Icon(
                     Icons.arrow_back_ios_new_sharp,
-                    color: AppColors.seedLime,
+                    color: theme.colorScheme.primary,
                   ),
                 ),
                 const SizedBox(width: 5),
-                const Text(
-                  'Password Setting',
-                  style: TextStyle(color: AppColors.seedViolet, fontSize: 20),
+                Text(
+                  l10n.passwordSettingsTitle,
+                  style: TextStyle(
+                    color: theme.colorScheme.primary,
+                    fontSize: 20,
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 40),
-            const Text(
-              'Current Password',
-              style: TextStyle(color: AppColors.seedViolet, fontSize: 18),
+            Text(
+              l10n.passwordCurrentPassword,
+              style: TextStyle(color: theme.colorScheme.primary, fontSize: 18),
             ),
             const SizedBox(height: 10),
             const AppTextField(
@@ -42,17 +49,17 @@ class PasswordSettingsPage extends StatelessWidget {
               prefixIcon: Icons.lock_outline,
             ),
             const SizedBox(height: 10),
-            const Align(
+            Align(
               alignment: Alignment.bottomRight,
               child: Text(
-                'Forgot Password?',
-                style: TextStyle(color: Colors.white, fontSize: 15),
+                l10n.passwordForgot,
+                style: TextStyle(color: ext.textPrimary, fontSize: 15),
               ),
             ),
             const SizedBox(height: 40),
-            const Text(
-              'New password',
-              style: TextStyle(fontSize: 20, color: AppColors.seedViolet),
+            Text(
+              l10n.passwordNew,
+              style: TextStyle(fontSize: 20, color: theme.colorScheme.primary),
             ),
             const SizedBox(height: 10),
             const AppTextField(
@@ -61,9 +68,9 @@ class PasswordSettingsPage extends StatelessWidget {
               prefixIcon: Icons.lock_outline,
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Confirm New password',
-              style: TextStyle(fontSize: 20, color: AppColors.seedViolet),
+            Text(
+              l10n.passwordConfirmNew,
+              style: TextStyle(fontSize: 20, color: theme.colorScheme.primary),
             ),
             const SizedBox(height: 10),
             const AppTextField(

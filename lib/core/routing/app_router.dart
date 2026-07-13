@@ -1,80 +1,69 @@
+import 'package:fitness_app/core/widgets/app_bottom_nav.dart';
+import 'package:fitness_app/features/authentication/presentation/pages/finger_print_page.dart';
+import 'package:fitness_app/features/authentication/presentation/pages/forgot_password_page.dart';
+import 'package:fitness_app/features/authentication/presentation/pages/login_page.dart';
+import 'package:fitness_app/features/authentication/presentation/pages/onboarding_carousel_page.dart';
+import 'package:fitness_app/features/authentication/presentation/pages/set_password_page.dart';
+import 'package:fitness_app/features/authentication/presentation/pages/signup_page.dart';
+import 'package:fitness_app/features/authentication/presentation/pages/splash_page.dart';
+import 'package:fitness_app/features/authentication/presentation/pages/welcome_page.dart';
+import 'package:fitness_app/features/community/domain/community_models.dart';
+import 'package:fitness_app/features/community/presentation/pages/challenge_page.dart';
+import 'package:fitness_app/features/community/presentation/pages/community_page.dart';
+import 'package:fitness_app/features/favorite/presentation/pages/favorite_page.dart';
+import 'package:fitness_app/features/home/presentation/pages/home_page.dart';
+import 'package:fitness_app/features/notification/presentation/pages/notification_page.dart';
+import 'package:fitness_app/features/nutrition/domain/nutrition_models.dart';
+import 'package:fitness_app/features/nutrition/presentation/pages/meal_detail_page.dart';
+import 'package:fitness_app/features/nutrition/presentation/pages/meal_idea_discover_page.dart';
+import 'package:fitness_app/features/nutrition/presentation/pages/meal_idea_page.dart';
+import 'package:fitness_app/features/nutrition/presentation/pages/meal_plan_breakfast_page.dart';
+import 'package:fitness_app/features/nutrition/presentation/pages/meal_plan_generating_page.dart';
+import 'package:fitness_app/features/nutrition/presentation/pages/meal_plan_goals_page.dart';
+import 'package:fitness_app/features/nutrition/presentation/pages/meal_plan_intro_page.dart';
+import 'package:fitness_app/features/nutrition/presentation/pages/meal_plan_preferences_page.dart';
+import 'package:fitness_app/features/nutrition/presentation/pages/nutrition_page.dart';
+import 'package:fitness_app/features/onboarding/presentation/pages/age_page.dart';
+import 'package:fitness_app/features/onboarding/presentation/pages/fill_profile_page.dart';
+import 'package:fitness_app/features/onboarding/presentation/pages/gender_page.dart';
+import 'package:fitness_app/features/onboarding/presentation/pages/goal_page.dart';
+import 'package:fitness_app/features/onboarding/presentation/pages/height_page.dart';
+import 'package:fitness_app/features/onboarding/presentation/pages/physical_activity_page.dart';
+import 'package:fitness_app/features/onboarding/presentation/pages/setup_intro_page.dart';
+import 'package:fitness_app/features/onboarding/presentation/pages/weight_page.dart';
+import 'package:fitness_app/features/profile/presentation/pages/document_page.dart';
+import 'package:fitness_app/features/profile/presentation/pages/edit_profile_page.dart';
+import 'package:fitness_app/features/profile/presentation/pages/help_page.dart';
+import 'package:fitness_app/features/profile/presentation/pages/legal_document_page.dart';
+import 'package:fitness_app/features/profile/presentation/pages/manage_data_page.dart';
+import 'package:fitness_app/features/profile/presentation/pages/notification_settings_page.dart';
+import 'package:fitness_app/features/profile/presentation/pages/password_settings_page.dart';
+import 'package:fitness_app/features/profile/presentation/pages/privacy_page.dart';
+import 'package:fitness_app/features/profile/presentation/pages/profile_page.dart';
+import 'package:fitness_app/features/profile/presentation/pages/settings_page.dart';
+import 'package:fitness_app/features/search/presentation/pages/search_page.dart';
+import 'package:fitness_app/features/workout/domain/exercise_detail_models.dart';
+import 'package:fitness_app/features/workout/presentation/pages/category_charts_page.dart';
+import 'package:fitness_app/features/workout/presentation/pages/category_detail_page.dart';
+import 'package:fitness_app/features/workout/presentation/pages/create_routine_page.dart';
+import 'package:fitness_app/features/workout/presentation/pages/exercise_detail_page.dart';
+import 'package:fitness_app/features/workout/presentation/pages/weekly_challenge_page.dart';
+import 'package:fitness_app/features/workout/presentation/pages/workout_logs_page.dart';
+import 'package:fitness_app/features/workout/presentation/pages/workout_page.dart';
+import 'package:fitness_app/features/workout/presentation/pages/workout_recommended_page.dart';
+import 'package:fitness_app/features/workout/presentation/pages/your_routine_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../widgets/app_bottom_nav.dart';
 import 'app_routes.dart';
-
-// Auth + Onboarding (Phase 1): fully migrated to GoRouter-native pages.
-import '../../features/authentication/presentation/pages/splash_page.dart';
-import '../../features/authentication/presentation/pages/welcome_page.dart';
-import '../../features/authentication/presentation/pages/onboarding_carousel_page.dart';
-import '../../features/authentication/presentation/pages/login_page.dart';
-import '../../features/authentication/presentation/pages/signup_page.dart';
-import '../../features/authentication/presentation/pages/forgot_password_page.dart';
-import '../../features/authentication/presentation/pages/set_password_page.dart';
-import '../../features/authentication/presentation/pages/finger_print_page.dart';
-import '../../features/onboarding/presentation/pages/setup_intro_page.dart';
-import '../../features/onboarding/presentation/pages/gender_page.dart';
-import '../../features/onboarding/presentation/pages/age_page.dart';
-import '../../features/onboarding/presentation/pages/weight_page.dart';
-import '../../features/onboarding/presentation/pages/height_page.dart';
-import '../../features/onboarding/presentation/pages/goal_page.dart';
-import '../../features/onboarding/presentation/pages/physical_activity_page.dart';
-import '../../features/onboarding/presentation/pages/fill_profile_page.dart';
-
-// Home (Phase 2): fully migrated to GoRouter-native pages.
-import '../../features/home/presentation/pages/home_page.dart';
-
-// Workout (Phase 3): fully migrated to GoRouter-native pages.
-import '../../features/workout/domain/exercise_detail_models.dart';
-import '../../features/workout/presentation/pages/category_charts_page.dart';
-import '../../features/workout/presentation/pages/category_detail_page.dart';
-import '../../features/workout/presentation/pages/create_routine_page.dart';
-import '../../features/workout/presentation/pages/exercise_detail_page.dart';
-import '../../features/workout/presentation/pages/weekly_challenge_page.dart';
-import '../../features/workout/presentation/pages/workout_logs_page.dart';
-import '../../features/workout/presentation/pages/workout_page.dart';
-import '../../features/workout/presentation/pages/workout_recommended_page.dart';
-import '../../features/workout/presentation/pages/your_routine_page.dart';
-
-// Nutrition (Phase 4): fully migrated to GoRouter-native pages.
-import '../../features/nutrition/domain/nutrition_models.dart';
-import '../../features/nutrition/presentation/pages/meal_detail_page.dart';
-import '../../features/nutrition/presentation/pages/meal_idea_discover_page.dart';
-import '../../features/nutrition/presentation/pages/meal_idea_page.dart';
-import '../../features/nutrition/presentation/pages/meal_plan_breakfast_page.dart';
-import '../../features/nutrition/presentation/pages/meal_plan_generating_page.dart';
-import '../../features/nutrition/presentation/pages/meal_plan_goals_page.dart';
-import '../../features/nutrition/presentation/pages/meal_plan_intro_page.dart';
-import '../../features/nutrition/presentation/pages/meal_plan_preferences_page.dart';
-import '../../features/nutrition/presentation/pages/nutrition_page.dart';
-
-// Community (Phase 5): fully migrated to GoRouter-native pages.
-import '../../features/community/domain/community_models.dart';
-import '../../features/community/presentation/pages/challenge_page.dart';
-import '../../features/community/presentation/pages/community_page.dart';
-
-// Profile/Settings, Favorite, Search, Notification (Phase 6): fully
-// migrated to GoRouter-native pages. This retires the entire strangler-fig
-// seam — no screens remain under lib/view.
-import '../../features/profile/presentation/pages/profile_page.dart';
-import '../../features/profile/presentation/pages/edit_profile_page.dart';
-import '../../features/profile/presentation/pages/settings_page.dart';
-import '../../features/profile/presentation/pages/password_settings_page.dart';
-import '../../features/profile/presentation/pages/notification_settings_page.dart';
-import '../../features/profile/presentation/pages/help_page.dart';
-import '../../features/profile/presentation/pages/document_page.dart';
-import '../../features/favorite/presentation/pages/favorite_page.dart';
-import '../../features/search/presentation/pages/search_page.dart';
-import '../../features/notification/presentation/pages/notification_page.dart';
 
 part 'app_router.g.dart';
 
 @Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) {
   return GoRouter(
-    initialLocation: AppRoutes.splash,
+    initialLocation: AppRoutes.home,
     routes: [
       GoRoute(
         path: AppRoutes.splash,
@@ -153,6 +142,26 @@ GoRouter appRouter(Ref ref) {
         builder: (context, state) => const EditProfilePage(),
       ),
       GoRoute(
+        path: AppRoutes.privacy,
+        builder: (context, state) => const PrivacyPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.privacyPolicy,
+        builder:
+            (context, state) =>
+                const LegalDocumentPage(type: LegalDocumentType.privacyPolicy),
+      ),
+      GoRoute(
+        path: AppRoutes.termsAndConditions,
+        builder:
+            (context, state) =>
+                const LegalDocumentPage(type: LegalDocumentType.terms),
+      ),
+      GoRoute(
+        path: AppRoutes.manageData,
+        builder: (context, state) => const ManageDataPage(),
+      ),
+      GoRoute(
         path: AppRoutes.settings,
         builder: (context, state) => const SettingsPage(),
       ),
@@ -166,7 +175,10 @@ GoRouter appRouter(Ref ref) {
       ),
       GoRoute(
         path: AppRoutes.help,
-        builder: (context, state) => const HelpPage(),
+        builder:
+            (context, state) => HelpPage(
+              args: (state.extra as HelpPageArgs?) ?? const HelpPageArgs(),
+            ),
       ),
       GoRoute(
         path: AppRoutes.document,

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../providers/onboarding_profile_controller.dart';
 import '../widgets/wizard_scaffold.dart';
@@ -32,33 +34,38 @@ class _WeightPageState extends ConsumerState<WeightPage> {
   Widget build(BuildContext context) {
     final weight = ref.watch(onboardingProfileControllerProvider).weightKg;
     final controller = ref.read(onboardingProfileControllerProvider.notifier);
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return WizardScaffold(
-      title: 'What Is Your Weight?',
-      description:
-          'Enter your weight to personalize your fitness plan and track your progress accurately.',
+      step: 3,
+      totalSteps: 6,
+      title: l10n.onboardingWeightTitle,
+      description: l10n.onboardingWeightBody,
       body: Column(
         children: [
           Text(
-            '$weight Kg',
-            style: const TextStyle(
+            '$weight ${l10n.unitKg}',
+            style: TextStyle(
               fontSize: 60,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: ext.textPrimary,
             ),
           ),
-          const Icon(
+          Icon(
             Icons.arrow_drop_up_outlined,
             size: 60,
-            color: Color(0xFFE2F163),
+            color: theme.colorScheme.primary,
           ),
           const SizedBox(height: 20),
           Container(
             height: 120,
             margin: const EdgeInsets.symmetric(horizontal: 24),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
+              color: ext.glassFill,
               borderRadius: BorderRadius.circular(25),
+              border: Border.all(color: ext.glassBorder),
             ),
             child: PageView.builder(
               controller: _pageController,
@@ -73,7 +80,7 @@ class _WeightPageState extends ConsumerState<WeightPage> {
                     '$value',
                     style: TextStyle(
                       fontSize: isSelected ? 40 : 30,
-                      color: isSelected ? Colors.white : Colors.white54,
+                      color: isSelected ? ext.textPrimary : ext.textMuted,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -86,7 +93,7 @@ class _WeightPageState extends ConsumerState<WeightPage> {
       button: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: PrimaryButton(
-          label: 'Continue',
+          label: l10n.actionContinue,
           onPressed: () => context.push(AppRoutes.setupHeight),
         ),
       ),

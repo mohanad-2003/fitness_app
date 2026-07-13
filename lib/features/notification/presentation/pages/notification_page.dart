@@ -145,15 +145,22 @@ class _Tab extends ConsumerWidget {
           height: 29,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: isSelected ? AppColors.seedLime : Colors.white,
+            color:
+                isSelected
+                    ? AppColors.seedLime
+                    : Colors.white.withValues(alpha: 0.08),
+            border:
+                isSelected
+                    ? null
+                    : Border.all(color: Colors.white.withValues(alpha: 0.10)),
           ),
           child: Center(
             child: Text(
               label,
               style: TextStyle(
                 fontSize: 17,
-                color:
-                    isSelected ? const Color(0xff232323) : AppColors.seedViolet,
+                fontWeight: FontWeight.w700,
+                color: isSelected ? AppColors.seedInk : Colors.white,
               ),
             ),
           ),
@@ -172,8 +179,9 @@ class _NotificationTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
       ),
       child: Row(
         children: [
@@ -195,15 +203,15 @@ class _NotificationTile extends StatelessWidget {
                 Text(
                   item.title,
                   style: const TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   item.data,
-                  style: const TextStyle(
-                    color: Color(0xffB3A0FF),
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.6),
                     fontSize: 12,
                   ),
                 ),

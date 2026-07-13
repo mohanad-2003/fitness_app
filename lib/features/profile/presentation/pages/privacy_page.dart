@@ -1,0 +1,110 @@
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
+import 'package:fitness_app/core/routing/app_routes.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
+import 'package:fitness_app/core/widgets/premium_scaffold.dart';
+import 'package:fitness_app/features/profile/presentation/pages/help_page.dart';
+import 'package:fitness_app/features/profile/presentation/widgets/delete_account_sheet.dart';
+import 'package:fitness_app/features/profile/presentation/widgets/profile_menu_tile.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+/// Privacy & data-control screen, reachable from Profile → Privacy Policy.
+class PrivacyPage extends StatelessWidget {
+  const PrivacyPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
+    return PremiumScaffold(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              if (context.canPop())
+                PremiumIconButton(
+                  icon: Icons.arrow_back_ios_new_rounded,
+                  onTap: () => context.pop(),
+                ),
+              const SizedBox(width: 12),
+              Text(
+                l10n.privacyTitle,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: ext.textPrimary,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                PremiumSectionHeader(title: l10n.privacySectionLegal),
+                const SizedBox(height: 12),
+                ProfileMenuTile(
+                  icon: Icons.policy_outlined,
+                  title: l10n.privacyPolicy,
+                  onTap: () => context.push(AppRoutes.privacyPolicy),
+                ),
+                const SizedBox(height: 10),
+                ProfileMenuTile(
+                  icon: Icons.description_outlined,
+                  title: l10n.privacyTerms,
+                  onTap: () => context.push(AppRoutes.termsAndConditions),
+                ),
+                const SizedBox(height: 22),
+                PremiumSectionHeader(title: l10n.privacySectionYourData),
+                const SizedBox(height: 12),
+                ProfileMenuTile(
+                  icon: Icons.manage_accounts_outlined,
+                  title: l10n.privacyManagePersonalData,
+                  onTap: () => context.push(AppRoutes.manageData),
+                ),
+                const SizedBox(height: 10),
+                ProfileMenuTile(
+                  icon: Icons.admin_panel_settings_outlined,
+                  title: l10n.privacyAppPermissions,
+                  onTap: () => context.push(AppRoutes.manageData),
+                ),
+                const SizedBox(height: 10),
+                ProfileMenuTile(
+                  icon: Icons.data_usage_outlined,
+                  title: l10n.privacyDataCollection,
+                  onTap: () => context.push(AppRoutes.manageData),
+                ),
+                const SizedBox(height: 10),
+                ProfileMenuTile(
+                  icon: Icons.download_outlined,
+                  title: l10n.privacyDownloadMyData,
+                  onTap: () => context.push(AppRoutes.manageData),
+                ),
+                const SizedBox(height: 22),
+                PremiumSectionHeader(title: l10n.privacySectionAccount),
+                const SizedBox(height: 12),
+                ProfileMenuTile(
+                  icon: Icons.delete_outline_rounded,
+                  title: l10n.privacyDeleteAccount,
+                  iconColor: ext.danger,
+                  onTap: () => showDeleteAccountSheet(context),
+                ),
+                const SizedBox(height: 10),
+                ProfileMenuTile(
+                  icon: Icons.support_agent_rounded,
+                  title: l10n.privacyContactSupport,
+                  onTap:
+                      () => context.push(
+                        AppRoutes.help,
+                        extra: const HelpPageArgs(startOnContact: true),
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
