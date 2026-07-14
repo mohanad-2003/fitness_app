@@ -42,7 +42,7 @@ final class ForgotPasswordControllerProvider
 }
 
 String _$forgotPasswordControllerHash() =>
-    r'8500594583e4756b9f44b64b3a32f6c0be81ae0c';
+    r'd8f24f3d91ca0c2383a912088e273314d2466e16';
 
 abstract class _$ForgotPasswordController extends $Notifier<void> {
   void build();

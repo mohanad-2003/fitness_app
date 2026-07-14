@@ -1166,6 +1166,162 @@ abstract class AppLocalizations {
   /// **'Steps'**
   String get progressSteps;
 
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay motivated. Never miss your fitness journey.'**
+  String get notificationsSubtitle;
+
+  /// No description provided for @notificationsMarkAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get notificationsMarkAllRead;
+
+  /// No description provided for @notificationsMarkAllReadDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All notifications marked as read'**
+  String get notificationsMarkAllReadDone;
+
+  /// No description provided for @notificationsFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get notificationsFilterAll;
+
+  /// No description provided for @notificationsFilterUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'Unread'**
+  String get notificationsFilterUnread;
+
+  /// No description provided for @notificationsFilterWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts'**
+  String get notificationsFilterWorkouts;
+
+  /// No description provided for @notificationsFilterChallenges.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenges'**
+  String get notificationsFilterChallenges;
+
+  /// No description provided for @notificationsFilterAchievements.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get notificationsFilterAchievements;
+
+  /// No description provided for @notificationsFilterNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition'**
+  String get notificationsFilterNutrition;
+
+  /// No description provided for @notificationsFilterReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get notificationsFilterReminders;
+
+  /// No description provided for @notificationsFilterCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get notificationsFilterCommunity;
+
+  /// No description provided for @notificationsGroupToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get notificationsGroupToday;
+
+  /// No description provided for @notificationsGroupYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get notificationsGroupYesterday;
+
+  /// No description provided for @notificationsGroupEarlierThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier This Week'**
+  String get notificationsGroupEarlierThisWeek;
+
+  /// No description provided for @notificationsGroupOlder.
+  ///
+  /// In en, this message translates to:
+  /// **'Older'**
+  String get notificationsGroupOlder;
+
+  /// No description provided for @notificationsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No Notifications Yet'**
+  String get notificationsEmptyTitle;
+
+  /// No description provided for @notificationsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your workout reminders, achievements, nutrition updates, and progress will appear here.'**
+  String get notificationsEmptyBody;
+
+  /// No description provided for @notificationsStartWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Workout'**
+  String get notificationsStartWorkout;
+
+  /// No description provided for @notificationsSwipeDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification deleted'**
+  String get notificationsSwipeDeleted;
+
+  /// No description provided for @notificationsSwipeMarkedRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as read'**
+  String get notificationsSwipeMarkedRead;
+
+  /// No description provided for @notificationsUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get notificationsUndo;
+
+  /// No description provided for @notificationsTimeJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get notificationsTimeJustNow;
+
+  /// No description provided for @notificationsTimeMinutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes}m ago'**
+  String notificationsTimeMinutesAgo(int minutes);
+
+  /// No description provided for @notificationsTimeHoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours}h ago'**
+  String notificationsTimeHoursAgo(int hours);
+
+  /// No description provided for @notificationsTimeDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{days}d ago'**
+  String notificationsTimeDaysAgo(int days);
+
   /// No description provided for @navSearch.
   ///
   /// In en, this message translates to:

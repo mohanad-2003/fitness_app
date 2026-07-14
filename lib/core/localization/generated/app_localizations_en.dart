@@ -584,6 +584,92 @@ class AppLocalizationsEn extends AppLocalizations {
   String get progressSteps => 'Steps';
 
   @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsSubtitle =>
+      'Stay motivated. Never miss your fitness journey.';
+
+  @override
+  String get notificationsMarkAllRead => 'Mark all as read';
+
+  @override
+  String get notificationsMarkAllReadDone => 'All notifications marked as read';
+
+  @override
+  String get notificationsFilterAll => 'All';
+
+  @override
+  String get notificationsFilterUnread => 'Unread';
+
+  @override
+  String get notificationsFilterWorkouts => 'Workouts';
+
+  @override
+  String get notificationsFilterChallenges => 'Challenges';
+
+  @override
+  String get notificationsFilterAchievements => 'Achievements';
+
+  @override
+  String get notificationsFilterNutrition => 'Nutrition';
+
+  @override
+  String get notificationsFilterReminders => 'Reminders';
+
+  @override
+  String get notificationsFilterCommunity => 'Community';
+
+  @override
+  String get notificationsGroupToday => 'Today';
+
+  @override
+  String get notificationsGroupYesterday => 'Yesterday';
+
+  @override
+  String get notificationsGroupEarlierThisWeek => 'Earlier This Week';
+
+  @override
+  String get notificationsGroupOlder => 'Older';
+
+  @override
+  String get notificationsEmptyTitle => 'No Notifications Yet';
+
+  @override
+  String get notificationsEmptyBody =>
+      'Your workout reminders, achievements, nutrition updates, and progress will appear here.';
+
+  @override
+  String get notificationsStartWorkout => 'Start Workout';
+
+  @override
+  String get notificationsSwipeDeleted => 'Notification deleted';
+
+  @override
+  String get notificationsSwipeMarkedRead => 'Marked as read';
+
+  @override
+  String get notificationsUndo => 'Undo';
+
+  @override
+  String get notificationsTimeJustNow => 'Just now';
+
+  @override
+  String notificationsTimeMinutesAgo(int minutes) {
+    return '${minutes}m ago';
+  }
+
+  @override
+  String notificationsTimeHoursAgo(int hours) {
+    return '${hours}h ago';
+  }
+
+  @override
+  String notificationsTimeDaysAgo(int days) {
+    return '${days}d ago';
+  }
+
+  @override
   String get navSearch => 'Search';
 
   @override

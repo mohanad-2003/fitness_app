@@ -47,7 +47,7 @@ class SearchPage extends ConsumerWidget {
               const SizedBox(width: 10),
               PremiumIconButton(
                 icon: Icons.person_outline_rounded,
-                onTap: () => context.push(AppRoutes.profile),
+                onTap: () => context.go(AppRoutes.profile),
               ),
             ],
           ),

@@ -2,234 +2,160 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/premium_scaffold.dart';
-import '../../domain/notification_models.dart';
 import '../providers/notification_controller.dart';
+import '../widgets/empty_notifications_view.dart';
+import '../widgets/notification_category_chip.dart';
+import '../widgets/notification_header.dart';
+import '../widgets/notification_section.dart';
 
 class NotificationPage extends ConsumerWidget {
   const NotificationPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final section = ref.watch(notificationTabControllerProvider);
+    final filter = ref.watch(notificationFilterControllerProvider);
     final grouped = ref.watch(groupedNotificationsProvider);
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
+
+    final hasAny = grouped.values.any((list) => list.isNotEmpty);
 
     return PremiumScaffold(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              InkWell(
-                onTap: () => context.canPop() ? context.pop() : null,
-                child: const Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  color: AppColors.seedLime,
+          NotificationHeader(
+            title: l10n.notificationsTitle,
+            subtitle: l10n.notificationsSubtitle,
+            canPop: context.canPop(),
+            onBack: () => context.pop(),
+            markAllReadLabel: l10n.notificationsMarkAllRead,
+            onMarkAllRead: () {
+              ref
+                  .read(notificationListControllerProvider.notifier)
+                  .markAllAsRead();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(l10n.notificationsMarkAllReadDone),
+                  backgroundColor: ext.cardColor,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 5),
-              const Text(
-                'Notifications',
-                style: TextStyle(
-                  color: AppColors.seedViolet,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Spacer(),
-              IconButton(
-                onPressed: () => context.push(AppRoutes.search),
-                icon: const Icon(
-                  Icons.search,
-                  color: AppColors.seedViolet,
-                  size: 25,
-                ),
-              ),
-              IconButton(
-                onPressed: () => context.push(AppRoutes.profile),
-                icon: const Icon(
-                  Icons.person,
-                  color: AppColors.seedViolet,
-                  size: 25,
-                ),
-              ),
-            ],
+              );
+            },
           ),
-          const SizedBox(height: 30),
-          Row(
-            children: [
-              _Tab(
-                label: 'Reminders',
-                section: NotificationSection.reminders,
-                selected: section,
-              ),
-              const SizedBox(width: 10),
-              _Tab(
-                label: 'System',
-                section: NotificationSection.system,
-                selected: section,
-              ),
-            ],
+          const SizedBox(height: 18),
+          SizedBox(
+            height: 40,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: NotificationFilter.values.length,
+              separatorBuilder: (_, _) => const SizedBox(width: 8),
+              itemBuilder: (context, index) {
+                final value = NotificationFilter.values[index];
+                return NotificationCategoryChip(
+                  label: _filterLabel(l10n, value),
+                  icon: value.category?.icon,
+                  selected: value == filter,
+                  onTap:
+                      () => ref
+                          .read(notificationFilterControllerProvider.notifier)
+                          .select(value),
+                );
+              },
+            ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 18),
           Expanded(
             child:
-                grouped.isEmpty
-                    ? const Center(
-                      child: Text(
-                        'No notifications yet.',
-                        style: TextStyle(color: Colors.white70),
-                      ),
+                !hasAny
+                    ? EmptyNotificationsView(
+                      title: l10n.notificationsEmptyTitle,
+                      body: l10n.notificationsEmptyBody,
+                      ctaLabel: l10n.notificationsStartWorkout,
+                      onStartWorkout: () => context.go(AppRoutes.workout),
                     )
-                    : ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: grouped.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 20),
-                      itemBuilder: (context, index) {
-                        final entry = grouped.entries.elementAt(index);
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              entry.key,
-                              style: const TextStyle(
-                                color: AppColors.seedLime,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
+                    : ListView(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      children: [
+                        for (final group in NotificationDayGroup.values)
+                          if ((grouped[group] ?? const []).isNotEmpty) ...[
+                            NotificationSection(
+                              title: _groupLabel(l10n, group),
+                              items: grouped[group]!,
+                              baseDelayMs: group.index * 60,
+                              onTap: (item) {
+                                if (!item.isRead) {
+                                  ref
+                                      .read(
+                                        notificationListControllerProvider
+                                            .notifier,
+                                      )
+                                      .markAsRead(item.id);
+                                }
+                              },
+                              onMarkRead:
+                                  (item) => ref
+                                      .read(
+                                        notificationListControllerProvider
+                                            .notifier,
+                                      )
+                                      .markAsRead(item.id),
+                              onDelete: (item) {
+                                ref
+                                    .read(
+                                      notificationListControllerProvider
+                                          .notifier,
+                                    )
+                                    .delete(item.id);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      l10n.notificationsSwipeDeleted,
+                                    ),
+                                    backgroundColor: ext.cardColor,
+                                    behavior: SnackBarBehavior.floating,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                            const SizedBox(height: 10),
-                            ListView.separated(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: entry.value.length,
-                              separatorBuilder:
-                                  (context, i) => const SizedBox(height: 10),
-                              itemBuilder:
-                                  (context, i) =>
-                                      _NotificationTile(item: entry.value[i]),
-                            ),
+                            const SizedBox(height: 22),
                           ],
-                        );
-                      },
+                      ],
                     ),
           ),
         ],
       ),
     );
   }
-}
 
-class _Tab extends ConsumerWidget {
-  const _Tab({
-    required this.label,
-    required this.section,
-    required this.selected,
-  });
-  final String label;
-  final NotificationSection section;
-  final NotificationSection selected;
+  String _filterLabel(AppLocalizations l10n, NotificationFilter filter) =>
+      switch (filter) {
+        NotificationFilter.all => l10n.notificationsFilterAll,
+        NotificationFilter.unread => l10n.notificationsFilterUnread,
+        NotificationFilter.workout => l10n.notificationsFilterWorkouts,
+        NotificationFilter.challenge => l10n.notificationsFilterChallenges,
+        NotificationFilter.achievement => l10n.notificationsFilterAchievements,
+        NotificationFilter.nutrition => l10n.notificationsFilterNutrition,
+        NotificationFilter.reminder => l10n.notificationsFilterReminders,
+        NotificationFilter.community => l10n.notificationsFilterCommunity,
+      };
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isSelected = section == selected;
-    return Expanded(
-      child: GestureDetector(
-        onTap:
-            () => ref
-                .read(notificationTabControllerProvider.notifier)
-                .select(section),
-        child: Container(
-          height: 29,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color:
-                isSelected
-                    ? AppColors.seedLime
-                    : Colors.white.withValues(alpha: 0.08),
-            border:
-                isSelected
-                    ? null
-                    : Border.all(color: Colors.white.withValues(alpha: 0.10)),
-          ),
-          child: Center(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w700,
-                color: isSelected ? AppColors.seedInk : Colors.white,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _NotificationTile extends StatelessWidget {
-  const _NotificationTile({required this.item});
-  final NotificationItem item;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 45,
-            height: 45,
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: _circleColor(item.image),
-              shape: BoxShape.circle,
-            ),
-            child: Image.asset(item.image, height: 30, width: 24),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  item.data,
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.6),
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Color _circleColor(String imagePath) {
-    if (imagePath.contains('upper_body') ||
-        imagePath.contains('idea_dark') ||
-        imagePath.contains('list_dark') ||
-        imagePath.contains('star_dark')) {
-      return AppColors.seedLime;
-    }
-    return AppColors.seedViolet;
-  }
+  String _groupLabel(AppLocalizations l10n, NotificationDayGroup group) =>
+      switch (group) {
+        NotificationDayGroup.today => l10n.notificationsGroupToday,
+        NotificationDayGroup.yesterday => l10n.notificationsGroupYesterday,
+        NotificationDayGroup.earlierThisWeek =>
+          l10n.notificationsGroupEarlierThisWeek,
+        NotificationDayGroup.older => l10n.notificationsGroupOlder,
+      };
 }

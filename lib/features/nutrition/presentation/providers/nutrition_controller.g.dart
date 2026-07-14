@@ -102,7 +102,7 @@ final class NutritionRecommendedProvider
 }
 
 String _$nutritionRecommendedHash() =>
-    r'cb16c824effb5fdfed1c53a1508a8fbdaae79f85';
+    r'26106e4ad8673f03c99f4ce93a7eacc64f678abd';
 
 @ProviderFor(nutritionRecipes)
 final nutritionRecipesProvider = NutritionRecipesProvider._();

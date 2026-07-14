@@ -1,0 +1,125 @@
+import 'package:flutter/material.dart';
+
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/theme/app_theme_extension.dart';
+
+/// Large title + motivational subtitle + rounded back button + "mark all as
+/// read" action. Fades and slides in on first build.
+class NotificationHeader extends StatefulWidget {
+  const NotificationHeader({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.onBack,
+    required this.onMarkAllRead,
+    required this.markAllReadLabel,
+    this.canPop = true,
+  });
+
+  final String title;
+  final String subtitle;
+  final VoidCallback onBack;
+  final VoidCallback onMarkAllRead;
+  final String markAllReadLabel;
+  final bool canPop;
+
+  @override
+  State<NotificationHeader> createState() => _NotificationHeaderState();
+}
+
+class _NotificationHeaderState extends State<NotificationHeader>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 380),
+  )..forward();
+  late final Animation<double> _fade = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeOut,
+  );
+  late final Animation<Offset> _slide = Tween<Offset>(
+    begin: const Offset(0, -0.15),
+    end: Offset.zero,
+  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+
+    return FadeTransition(
+      opacity: _fade,
+      child: SlideTransition(
+        position: _slide,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                if (widget.canPop)
+                  _RoundIconButton(
+                    icon: Icons.arrow_back_ios_new_rounded,
+                    onTap: widget.onBack,
+                  ),
+                const Spacer(),
+                _RoundIconButton(
+                  icon: Icons.done_all_rounded,
+                  onTap: widget.onMarkAllRead,
+                  tooltip: widget.markAllReadLabel,
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Text(
+              widget.title,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: ext.textPrimary,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              widget.subtitle,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: ext.textMuted),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _RoundIconButton extends StatelessWidget {
+  const _RoundIconButton({required this.icon, required this.onTap, this.tooltip});
+
+  final IconData icon;
+  final VoidCallback onTap;
+  final String? tooltip;
+
+  @override
+  Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final button = InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppRadius.pill),
+      child: Container(
+        width: 44,
+        height: 44,
+        decoration: BoxDecoration(
+          color: ext.glassFill,
+          shape: BoxShape.circle,
+          border: Border.all(color: ext.glassBorder),
+        ),
+        child: Icon(icon, color: ext.textPrimary, size: 20),
+      ),
+    );
+    return tooltip == null ? button : Tooltip(message: tooltip!, child: button);
+  }
+}

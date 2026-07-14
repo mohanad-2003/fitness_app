@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../localization/generated/app_localizations.dart';
 import '../theme/app_colors.dart';
@@ -17,9 +20,12 @@ class AppBottomNavItem {
   final String label;
 }
 
-/// Premium floating, animated bottom navigation bar. Intentionally not a
-/// [BottomNavigationBar]/[NavigationBar] — those can't give the pill-shaped
-/// floating look or the sliding active-indicator animation this app wants.
+/// Premium floating bottom navigation bar: a frosted-glass pill
+/// (BackdropFilter blur over the page behind it), a soft glow indicator
+/// that slides to the active tab, always-visible micro-labels under every
+/// icon (no layout jumps between tabs), and light haptic feedback on tap.
+/// Intentionally not a [BottomNavigationBar]/[NavigationBar] — those can't
+/// give this floating pill look or the sliding-indicator animation.
 class AppBottomNav extends StatelessWidget {
   const AppBottomNav({
     super.key,
@@ -73,25 +79,73 @@ class AppBottomNav extends StatelessWidget {
         AppSpacing.lg,
         AppSpacing.md,
       ),
+      // The shadow must live outside the ClipRRect, otherwise the blur
+      // clip would cut it off.
       child: Container(
-        height: 68,
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
         decoration: BoxDecoration(
-          color: AppColors.graphite.withValues(alpha: 0.94),
           borderRadius: BorderRadius.circular(AppRadius.pill),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
           boxShadow: AppShadows.floating(theme.brightness),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            for (var i = 0; i < items.length; i++)
-              _NavItemButton(
-                item: items[i],
-                selected: i == currentIndex,
-                onTap: () => onTap(i),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(AppRadius.pill),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+            child: Container(
+              height: 66,
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+              decoration: BoxDecoration(
+                color: AppColors.graphite.withValues(alpha: 0.80),
+                borderRadius: BorderRadius.circular(AppRadius.pill),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
               ),
-          ],
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final itemWidth = constraints.maxWidth / items.length;
+                  return Stack(
+                    children: [
+                      // Soft radial glow that slides behind the active tab.
+                      AnimatedPositionedDirectional(
+                        duration: const Duration(milliseconds: 320),
+                        curve: Curves.easeOutCubic,
+                        start: currentIndex * itemWidth,
+                        top: 0,
+                        bottom: 0,
+                        width: itemWidth,
+                        child: Center(
+                          child: Container(
+                            width: 52,
+                            height: 52,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: RadialGradient(
+                                colors: [
+                                  AppColors.seedLime.withValues(alpha: 0.22),
+                                  AppColors.seedLime.withValues(alpha: 0),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          for (var i = 0; i < items.length; i++)
+                            _NavItemButton(
+                              item: items[i],
+                              selected: i == currentIndex,
+                              onTap: () {
+                                HapticFeedback.selectionClick();
+                                onTap(i);
+                              },
+                            ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -111,66 +165,40 @@ class _NavItemButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Active tab is marked with a light ring + soft lime tint (instead of a
-    // heavy filled bubble) so all five items keep the same visual weight
-    // and position regardless of which one is selected.
     final color =
-        selected ? AppColors.seedLime : Colors.white.withValues(alpha: 0.62);
+        selected ? AppColors.seedLime : Colors.white.withValues(alpha: 0.55);
 
     return Expanded(
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppRadius.pill),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOutCubic,
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-          decoration: BoxDecoration(
-            color:
-                selected
-                    ? AppColors.seedLime.withValues(alpha: 0.10)
-                    : null,
-            border:
-                selected
-                    ? Border.all(
-                      color: AppColors.seedLime.withValues(alpha: 0.55),
-                      width: 1.2,
-                    )
-                    : Border.all(color: Colors.transparent, width: 1.2),
-            borderRadius: BorderRadius.circular(AppRadius.pill),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 180),
-                child: Icon(
-                  selected ? item.activeIcon : item.icon,
-                  key: ValueKey(selected),
-                  color: color,
-                  size: 24,
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 180),
+              child: Icon(
+                selected ? item.activeIcon : item.icon,
+                key: ValueKey(selected),
+                color: color,
+                size: 23,
               ),
-              AnimatedSize(
-                duration: const Duration(milliseconds: 180),
-                child:
-                    selected
-                        ? Padding(
-                          padding: const EdgeInsets.only(top: 2),
-                          child: Text(
-                            item.label,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.labelSmall?.copyWith(
-                              color: color,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        )
-                        : const SizedBox.shrink(),
+            ),
+            const SizedBox(height: 3),
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 180),
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
+                color: color,
               ),
-            ],
-          ),
+              child: Text(
+                item.label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ),
       ),
     );

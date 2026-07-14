@@ -26,6 +26,11 @@ abstract final class AppColors {
   static const Color warning = Color(0xFFFFB84D);
   static const Color danger = Color(0xFFFF4D67);
 
+  /// Community notification accent (pink) — decorative icon-gradient use
+  /// only, always paired with a white glyph, so no light/dark variant is
+  /// needed the way text-foreground semantic colors require.
+  static const Color communityPink = Color(0xFFFF5FA8);
+
   // Light-mode semantic accents: deepened versions of the same hues so
   // text/icons drawn in these colors — and white text drawn on top of a
   // filled button in these colors — meet accessible contrast against the

@@ -579,6 +579,92 @@ class AppLocalizationsAr extends AppLocalizations {
   String get progressSteps => 'الخطوات';
 
   @override
+  String get notificationsTitle => 'الإشعارات';
+
+  @override
+  String get notificationsSubtitle =>
+      'ابقَ متحفزًا. لا تفوّت رحلتك الرياضية أبدًا.';
+
+  @override
+  String get notificationsMarkAllRead => 'تعليم الكل كمقروء';
+
+  @override
+  String get notificationsMarkAllReadDone => 'تم تعليم جميع الإشعارات كمقروءة';
+
+  @override
+  String get notificationsFilterAll => 'الكل';
+
+  @override
+  String get notificationsFilterUnread => 'غير مقروء';
+
+  @override
+  String get notificationsFilterWorkouts => 'التمارين';
+
+  @override
+  String get notificationsFilterChallenges => 'التحديات';
+
+  @override
+  String get notificationsFilterAchievements => 'الإنجازات';
+
+  @override
+  String get notificationsFilterNutrition => 'التغذية';
+
+  @override
+  String get notificationsFilterReminders => 'التذكيرات';
+
+  @override
+  String get notificationsFilterCommunity => 'المجتمع';
+
+  @override
+  String get notificationsGroupToday => 'اليوم';
+
+  @override
+  String get notificationsGroupYesterday => 'أمس';
+
+  @override
+  String get notificationsGroupEarlierThisWeek => 'سابقًا هذا الأسبوع';
+
+  @override
+  String get notificationsGroupOlder => 'أقدم';
+
+  @override
+  String get notificationsEmptyTitle => 'لا توجد إشعارات بعد';
+
+  @override
+  String get notificationsEmptyBody =>
+      'ستظهر هنا تذكيرات تمارينك وإنجازاتك وتحديثات التغذية وتقدمك.';
+
+  @override
+  String get notificationsStartWorkout => 'ابدأ التمرين';
+
+  @override
+  String get notificationsSwipeDeleted => 'تم حذف الإشعار';
+
+  @override
+  String get notificationsSwipeMarkedRead => 'تم التعليم كمقروء';
+
+  @override
+  String get notificationsUndo => 'تراجع';
+
+  @override
+  String get notificationsTimeJustNow => 'الآن';
+
+  @override
+  String notificationsTimeMinutesAgo(int minutes) {
+    return 'قبل $minutes د';
+  }
+
+  @override
+  String notificationsTimeHoursAgo(int hours) {
+    return 'قبل $hours س';
+  }
+
+  @override
+  String notificationsTimeDaysAgo(int days) {
+    return 'قبل $days يوم';
+  }
+
+  @override
   String get navSearch => 'بحث';
 
   @override

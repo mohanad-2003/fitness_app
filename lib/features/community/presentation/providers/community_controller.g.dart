@@ -108,7 +108,7 @@ final class CommunityChallengesProvider
 }
 
 String _$communityChallengesHash() =>
-    r'b1b0edb0addb363b18b82ffccd7a17699018d1e7';
+    r'0a9d6e1e2a48902b4cdd17b14d01f9f7cfca160b';
 
 @ProviderFor(communityForums)
 final communityForumsProvider = CommunityForumsProvider._();

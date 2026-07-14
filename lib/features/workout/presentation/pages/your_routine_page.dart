@@ -20,6 +20,7 @@ class YourRoutinePage extends ConsumerWidget {
 
     final theme = Theme.of(context);
     final ext = theme.extension<AppThemeExtension>()!;
+
     final l10n = AppLocalizations.of(context);
 
     return PremiumScaffold(
