@@ -13,13 +13,18 @@ A modern fitness application built with Flutter that helps users manage workouts
 
 ## 📱 Project Preview
 
-> Replace the placeholders below with real screenshots/GIFs once available (e.g. in a `docs/screenshots` folder).
+> Save the corresponding screenshot into `docs/screenshots/` under each filename below (create the folder if it doesn't exist yet).
 
 <p align="center">
-  <img src="docs/screenshots/home.png" width="200" alt="Home" />
-  <img src="docs/screenshots/workout.png" width="200" alt="Workout" />
-  <img src="docs/screenshots/create_routine.png" width="200" alt="Create Routine" />
-  <img src="docs/screenshots/profile.png" width="200" alt="Profile" />
+  <img src="docs/screenshots/login.png" width="180" alt="Login" />
+  <img src="docs/screenshots/home.png" width="180" alt="Home Dashboard" />
+  <img src="docs/screenshots/workout.png" width="180" alt="Workout" />
+  <img src="docs/screenshots/your_routine.png" width="180" alt="Your Routine" />
+</p>
+<p align="center">
+  <img src="docs/screenshots/nutrition.png" width="180" alt="Nutrition" />
+  <img src="docs/screenshots/profile.png" width="180" alt="Profile" />
+  <img src="docs/screenshots/onboarding.png" width="180" alt="Onboarding" />
 </p>
 
 <p align="center">
