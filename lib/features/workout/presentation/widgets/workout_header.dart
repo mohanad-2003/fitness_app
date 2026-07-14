@@ -1,3 +1,4 @@
+import 'package:fitness_app/core/routing/app_routes.dart';
 import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -5,14 +6,28 @@ import 'package:go_router/go_router.dart';
 
 /// Replaces the legacy `HeaderWorkout` (lib/view/header_workout.dart).
 class WorkoutHeader extends StatelessWidget {
-  const WorkoutHeader({super.key, required this.title});
+  const WorkoutHeader({
+    super.key,
+    required this.title,
+    this.subtitle,
+    this.showProfileAction = false,
+  });
 
   final String title;
+
+  /// Optional line under the title (e.g. "Tap any exercise to preview
+  /// details and start").
+  final String? subtitle;
+
+  /// Adds a third circular action (profile) after search/notifications —
+  /// opt-in per screen so existing headers stay unchanged elsewhere.
+  final bool showProfileAction;
 
   @override
   Widget build(BuildContext context) {
     final ext = Theme.of(context).extension<AppThemeExtension>()!;
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         if (context.canPop())
           PremiumIconButton(
@@ -21,26 +36,49 @@ class WorkoutHeader extends StatelessWidget {
           ),
         if (context.canPop()) const SizedBox(width: 12),
         Expanded(
-          child: Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: ext.textPrimary,
-              fontWeight: FontWeight.w900,
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: ext.textPrimary,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              if (subtitle != null) ...[
+                const SizedBox(height: 4),
+                Text(
+                  subtitle!,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: ext.textMuted),
+                ),
+              ],
+            ],
           ),
         ),
         const SizedBox(width: 10),
         PremiumIconButton(
           icon: Icons.search_rounded,
-          onTap: () => context.push('/search'),
+          onTap: () => context.push(AppRoutes.search),
         ),
         const SizedBox(width: 10),
         PremiumIconButton(
           icon: Icons.notifications_none_rounded,
-          onTap: () => context.push('/notifications'),
+          onTap: () => context.push(AppRoutes.notifications),
         ),
+        if (showProfileAction) ...[
+          const SizedBox(width: 10),
+          PremiumIconButton(
+            icon: Icons.person_outline_rounded,
+            onTap: () => context.push(AppRoutes.profile),
+          ),
+        ],
       ],
     );
   }

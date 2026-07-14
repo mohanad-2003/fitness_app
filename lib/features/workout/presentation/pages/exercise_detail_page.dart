@@ -1,5 +1,7 @@
+import 'package:fitness_app/core/localization/generated/app_localizations.dart';
 import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
+import 'package:fitness_app/core/widgets/primary_button.dart';
 import 'package:fitness_app/features/workout/domain/exercise_detail_models.dart';
 import 'package:fitness_app/features/workout/presentation/widgets/workout_header.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,7 @@ class ExerciseDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
 
     return PremiumScaffold(
       padding: EdgeInsets.zero,
@@ -28,45 +31,72 @@ class ExerciseDetailPage extends StatelessWidget {
               child: WorkoutHeader(title: data.headerTitle),
             ),
             const SizedBox(height: 10),
-            Container(
-              height: 420,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: ext.glassFill,
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: ext.glassBorder),
-              ),
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              child: Center(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: AspectRatio(
+                aspectRatio: 0.9,
                 child: Stack(
-                  alignment: Alignment.center,
+                  fit: StackFit.expand,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
-                        data.heroImage,
-                        width: 323,
-                        height: 380,
-                        fit: BoxFit.cover,
+                      borderRadius: BorderRadius.circular(24),
+                      child: Hero(
+                        tag: data.heroImage,
+                        child: Image.asset(data.heroImage, fit: BoxFit.cover),
+                      ),
+                    ),
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.black.withValues(alpha: 0.05),
+                            Colors.black.withValues(alpha: 0.65),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
                       ),
                     ),
                     Positioned(
-                      top: 10,
-                      right: 10,
-                      child: Icon(Icons.star, color: ext.accentGlow),
-                    ),
-                    Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: ext.accentGradient,
+                      top: 12,
+                      right: 12,
+                      child: _CircleIcon(
+                        icon: Icons.star_rounded,
+                        color: ext.accentGlow,
                       ),
-                      child: Center(
-                        child: Image.asset(
-                          'assets/play.png',
-                          height: 60,
-                          width: 50,
+                    ),
+                    Center(
+                      child: Container(
+                        width: 76,
+                        height: 76,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: ext.accentGradient,
+                          boxShadow: [
+                            BoxShadow(
+                              color: ext.accentGlow.withValues(alpha: 0.45),
+                              blurRadius: 24,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
+                        ),
+                        child: Icon(
+                          Icons.play_arrow_rounded,
+                          color: ext.onAccent,
+                          size: 40,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 16,
+                      bottom: 16,
+                      right: 16,
+                      child: Text(
+                        data.title,
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
                     ),
@@ -74,69 +104,161 @@ class ExerciseDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: ext.glassFill,
-                  border: Border.all(color: ext.glassBorder),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Text(
-                        data.title,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: ext.textPrimary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        data.description,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12, color: ext.textMuted),
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        height: 36,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: ext.glassFill,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _stat('assets/time.png', data.duration, ext),
-                            _stat('assets/calories.png', data.reps, ext),
-                            _stat('assets/run.png', data.level, ext),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                data.description,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: ext.textMuted,
+                  height: 1.5,
                 ),
               ),
             ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: ext.glassFill,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: ext.glassBorder),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _InfoStat(
+                            icon: Icons.fitness_center_rounded,
+                            label: l10n.workoutMuscleGroupLabel,
+                            value: data.muscleGroup,
+                            ext: ext,
+                          ),
+                        ),
+                        Expanded(
+                          child: _InfoStat(
+                            icon: Icons.trending_up_rounded,
+                            label: l10n.workoutDifficultyLabel,
+                            value: data.level,
+                            ext: ext,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _InfoStat(
+                            icon: Icons.timer_outlined,
+                            label: data.duration,
+                            value: data.reps,
+                            ext: ext,
+                          ),
+                        ),
+                        Expanded(
+                          child: _InfoStat(
+                            icon: Icons.handyman_outlined,
+                            label: l10n.workoutEquipmentLabel,
+                            value: data.equipment,
+                            ext: ext,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: PrimaryButton(
+                label: l10n.workoutStartWorkout,
+                icon: Icons.play_arrow_rounded,
+                onPressed: () {},
+              ),
+            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _stat(String icon, String label, AppThemeExtension ext) {
+class _CircleIcon extends StatelessWidget {
+  const _CircleIcon({required this.icon, required this.color});
+
+  final IconData icon;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 36,
+      height: 36,
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: 0.32),
+        shape: BoxShape.circle,
+      ),
+      child: Icon(icon, color: color, size: 19),
+    );
+  }
+}
+
+class _InfoStat extends StatelessWidget {
+  const _InfoStat({
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.ext,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+  final AppThemeExtension ext;
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset(icon, width: 10, height: 11, color: ext.accentGlow),
-        const SizedBox(width: 5),
-        Text(label, style: TextStyle(color: ext.textPrimary, fontSize: 14)),
+        Container(
+          width: 38,
+          height: 38,
+          decoration: BoxDecoration(
+            color: ext.accentGlow.withValues(alpha: 0.14),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, color: ext.accentGlow, size: 19),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: ext.textPrimary,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 13.5,
+                ),
+              ),
+              Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: ext.textMuted, fontSize: 11),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

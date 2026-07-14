@@ -14,6 +14,8 @@ class ExerciseDetailData {
     this.duration = '30 seconds',
     this.reps = '3 Rep',
     this.level = 'Beginner',
+    this.muscleGroup = 'Full Body',
+    this.equipment = 'Bodyweight',
   });
 
   final String headerTitle;
@@ -23,6 +25,8 @@ class ExerciseDetailData {
   final String duration;
   final String reps;
   final String level;
+  final String muscleGroup;
+  final String equipment;
 }
 
 /// A single tappable round entry inside a [CategoryDetailData] round group.

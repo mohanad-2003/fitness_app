@@ -9,6 +9,7 @@ const _initial = [
     title: 'Barbell Rows',
     time: '10 Minutes',
     rep: '3 Rep',
+    muscleGroup: MuscleGroup.back,
     isFavorite: true,
   ),
   RoutineItem(
@@ -16,18 +17,21 @@ const _initial = [
     title: 'Hammer Curls',
     time: '15 Minutes',
     rep: '4 Rep',
+    muscleGroup: MuscleGroup.arms,
   ),
   RoutineItem(
     image: 'assets/legs_routine.png',
     title: 'leg press',
     time: '15 Minutes',
     rep: '4 Rep',
+    muscleGroup: MuscleGroup.legs,
   ),
   RoutineItem(
     image: 'assets/tricep.png',
     title: 'Tricep Dips',
     time: '15 Minutes',
     rep: '4 Rep',
+    muscleGroup: MuscleGroup.arms,
     isFavorite: true,
   ),
 ];

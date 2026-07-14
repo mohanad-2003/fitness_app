@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_theme_extension.dart';
+import '../../../../core/widgets/fade_slide_in.dart';
 import '../../../../core/widgets/pressable_scale.dart';
 import '../../domain/notification_models.dart';
 import 'notification_icon.dart';
@@ -12,7 +13,7 @@ import 'unread_indicator.dart';
 /// optional action button, colored unread side-stripe + glowing dot when
 /// unread. Wrapped in [Dismissible] for swipe-to-delete (left) and
 /// swipe-to-mark-read (right), and fades/slides in on first build.
-class NotificationCard extends StatefulWidget {
+class NotificationCard extends StatelessWidget {
   const NotificationCard({
     super.key,
     required this.item,
@@ -29,49 +30,14 @@ class NotificationCard extends StatefulWidget {
   final Duration entranceDelay;
 
   @override
-  State<NotificationCard> createState() => _NotificationCardState();
-}
-
-class _NotificationCardState extends State<NotificationCard>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 320),
-  );
-  late final Animation<double> _fade = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeOut,
-  );
-  late final Animation<Offset> _slide = Tween<Offset>(
-    begin: const Offset(0, 0.12),
-    end: Offset.zero,
-  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(widget.entranceDelay, () {
-      if (mounted) _controller.forward();
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final ext = Theme.of(context).extension<AppThemeExtension>()!;
-    final item = widget.item;
     final accent = item.category.gradient.first;
 
-    return FadeTransition(
-      opacity: _fade,
-      child: SlideTransition(
-        position: _slide,
-        child: Dismissible(
+    return FadeSlideIn(
+      delay: entranceDelay,
+      duration: const Duration(milliseconds: 320),
+      child: Dismissible(
           key: ValueKey(item.id),
           background: _SwipeBackground(
             alignment: AlignmentDirectional.centerStart,
@@ -85,17 +51,17 @@ class _NotificationCardState extends State<NotificationCard>
           ),
           confirmDismiss: (direction) async {
             if (direction == DismissDirection.startToEnd) {
-              widget.onMarkRead();
+              onMarkRead();
               return false;
             }
             return true;
           },
-          onDismissed: (_) => widget.onDelete(),
+          onDismissed: (_) => onDelete(),
           child: PressableScale(
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: widget.onTap,
+                onTap: onTap,
                 borderRadius: BorderRadius.circular(AppRadius.card),
                 child: Ink(
                   padding: const EdgeInsets.all(14),
@@ -177,7 +143,7 @@ class _NotificationCardState extends State<NotificationCard>
                                 if (item.actionLabel != null) ...[
                                   const Spacer(),
                                   GestureDetector(
-                                    onTap: widget.onTap,
+                                    onTap: onTap,
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 12,
@@ -212,10 +178,10 @@ class _NotificationCardState extends State<NotificationCard>
             ),
           ),
         ),
-      ),
     );
   }
 }
+
 
 String _relativeTime(DateTime timestamp, AppLocalizations l10n) {
   final diff = DateTime.now().difference(timestamp);

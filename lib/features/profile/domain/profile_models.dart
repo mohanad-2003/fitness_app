@@ -6,6 +6,11 @@ class UserProfile {
     required this.weightKg,
     required this.ageYears,
     required this.heightM,
+    required this.fitnessLevel,
+    required this.completedWorkouts,
+    required this.caloriesBurned,
+    required this.trainingDays,
+    required this.currentStreak,
     this.avatar = 'assets/profile.png',
   });
 
@@ -15,6 +20,16 @@ class UserProfile {
   final String weightKg;
   final String ageYears;
   final String heightM;
+
+  /// Display label for the user's current fitness level (e.g. "Intermediate").
+  final String fitnessLevel;
+
+  /// Lifetime achievement stats shown on the Profile Statistics grid.
+  final int completedWorkouts;
+  final int caloriesBurned;
+  final int trainingDays;
+  final int currentStreak;
+
   final String avatar;
 }
 

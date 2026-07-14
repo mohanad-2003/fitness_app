@@ -13,7 +13,7 @@ part of 'create_routine_controller.dart';
 final createRoutineControllerProvider = CreateRoutineControllerProvider._();
 
 final class CreateRoutineControllerProvider
-    extends $NotifierProvider<CreateRoutineController, List<RoutineExercise>> {
+    extends $NotifierProvider<CreateRoutineController, CreateRoutineState> {
   CreateRoutineControllerProvider._()
     : super(
         from: null,
@@ -33,29 +33,28 @@ final class CreateRoutineControllerProvider
   CreateRoutineController create() => CreateRoutineController();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<RoutineExercise> value) {
+  Override overrideWithValue(CreateRoutineState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<List<RoutineExercise>>(value),
+      providerOverride: $SyncValueProvider<CreateRoutineState>(value),
     );
   }
 }
 
 String _$createRoutineControllerHash() =>
-    r'2e9411658736f6d374674f36a3d32eb7f13664eb';
+    r'0c7faa4fb089cdb4e27942fa0016d5e132c78b0e';
 
-abstract class _$CreateRoutineController
-    extends $Notifier<List<RoutineExercise>> {
-  List<RoutineExercise> build();
+abstract class _$CreateRoutineController extends $Notifier<CreateRoutineState> {
+  CreateRoutineState build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<List<RoutineExercise>, List<RoutineExercise>>;
+    final ref = this.ref as $Ref<CreateRoutineState, CreateRoutineState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<List<RoutineExercise>, List<RoutineExercise>>,
-              List<RoutineExercise>,
+              AnyNotifier<CreateRoutineState, CreateRoutineState>,
+              CreateRoutineState,
               Object?,
               Object?
             >;

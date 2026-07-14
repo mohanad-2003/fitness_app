@@ -1,5 +1,7 @@
+import 'package:fitness_app/core/theme/app_spacing.dart';
 import 'package:fitness_app/core/localization/generated/app_localizations.dart';
 import 'package:fitness_app/core/theme/app_theme_extension.dart';
+import 'package:fitness_app/core/widgets/fade_slide_in.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:flutter/material.dart';
 
@@ -25,45 +27,92 @@ class LegalDocumentPage extends StatelessWidget {
       LegalDocumentType.privacyPolicy => l10n.legalPrivacyPolicyBody,
       LegalDocumentType.terms => l10n.legalTermsBody,
     };
+    // The mock legal copy is written as paragraphs separated by a blank
+    // line — split them into their own cards for clearer section breaks
+    // and a more readable line length, instead of one dense text block.
+    final paragraphs =
+        body.split('\n\n').where((p) => p.trim().isNotEmpty).toList();
 
     return PremiumScaffold(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              if (Navigator.of(context).canPop())
-                PremiumIconButton(
-                  icon: Icons.arrow_back_ios_new_rounded,
-                  onTap: () => Navigator.of(context).pop(),
-                ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: ext.textPrimary,
-                    fontWeight: FontWeight.w900,
+          FadeSlideIn(
+            offset: const Offset(0, -0.1),
+            child: Row(
+              children: [
+                if (Navigator.of(context).canPop())
+                  PremiumIconButton(
+                    icon: Icons.arrow_back_ios_new_rounded,
+                    onTap: () => Navigator.of(context).pop(),
+                  ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: ext.textPrimary,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           const SizedBox(height: 20),
           Expanded(
-            child: SingleChildScrollView(
-              child: PremiumGlassCard(
-                child: Text(
-                  body,
-                  style: TextStyle(
-                    color: ext.textMuted,
-                    fontSize: 14,
-                    height: 1.6,
+            child: ListView.separated(
+              padding: EdgeInsets.zero,
+              itemCount: paragraphs.length,
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                return FadeSlideIn(
+                  delay: Duration(milliseconds: 60 * index),
+                  child: Container(
+                    padding: const EdgeInsets.all(18),
+                    decoration: BoxDecoration(
+                      color: ext.glassFill,
+                      borderRadius: BorderRadius.circular(AppRadius.card),
+                      border: Border.all(color: ext.glassBorder),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 26,
+                          height: 26,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: ext.accentGlow.withValues(alpha: 0.14),
+                          ),
+                          child: Text(
+                            '${index + 1}',
+                            style: TextStyle(
+                              color: ext.accentGlow,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 12.5,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Text(
+                            paragraphs[index].trim(),
+                            style: TextStyle(
+                              color: ext.textMuted,
+                              fontSize: 13.5,
+                              height: 1.6,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ),
         ],

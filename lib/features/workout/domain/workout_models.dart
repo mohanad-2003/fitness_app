@@ -2,6 +2,16 @@
 /// legacy workout controllers with typed, immutable value objects.
 enum WorkoutLevel { beginner, intermediate, advanced }
 
+/// Muscle-group filter used by the routine category chips. `all` is the
+/// synthetic "show everything" chip, not a real muscle group.
+enum MuscleGroup { all, chest, back, legs, arms, cardio, strength }
+
+/// Training goal selectable when building a custom routine.
+enum RoutineGoal { muscleGain, fatLoss, strength, endurance }
+
+/// Day of the week used by the routine's weekly day picker.
+enum Weekday { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
+
 class WorkoutListItem {
   const WorkoutListItem({
     required this.image,
@@ -29,32 +39,59 @@ class WorkoutListItem {
   );
 }
 
+/// A catalog entry in the "Choose Exercises" library. [id] must be unique —
+/// it's used to look the exercise up when it's added to [SelectedExercise].
 class RoutineExercise {
   const RoutineExercise({
+    required this.id,
     required this.image,
     required this.name,
+    required this.muscleGroup,
     required this.time,
-    required this.rep,
+    this.defaultSets = 3,
+    this.defaultReps = 12,
     this.isFavorite = false,
-    this.isAdded = false,
   });
 
+  final String id;
   final String image;
   final String name;
+  final MuscleGroup muscleGroup;
   final String time;
-  final String rep;
+  final int defaultSets;
+  final int defaultReps;
   final bool isFavorite;
-  final bool isAdded;
 
-  RoutineExercise copyWith({bool? isFavorite, bool? isAdded}) =>
-      RoutineExercise(
-        image: image,
-        name: name,
-        time: time,
-        rep: rep,
-        isFavorite: isFavorite ?? this.isFavorite,
-        isAdded: isAdded ?? this.isAdded,
-      );
+  RoutineExercise copyWith({bool? isFavorite}) => RoutineExercise(
+    id: id,
+    image: image,
+    name: name,
+    muscleGroup: muscleGroup,
+    time: time,
+    defaultSets: defaultSets,
+    defaultReps: defaultReps,
+    isFavorite: isFavorite ?? this.isFavorite,
+  );
+}
+
+/// An exercise the user has added to "My Routine", with its own editable
+/// sets/reps (independent of the library's [RoutineExercise.defaultSets]).
+class SelectedExercise {
+  const SelectedExercise({
+    required this.exerciseId,
+    required this.sets,
+    required this.reps,
+  });
+
+  final String exerciseId;
+  final int sets;
+  final int reps;
+
+  SelectedExercise copyWith({int? sets, int? reps}) => SelectedExercise(
+    exerciseId: exerciseId,
+    sets: sets ?? this.sets,
+    reps: reps ?? this.reps,
+  );
 }
 
 class RoutineItem {
@@ -63,6 +100,7 @@ class RoutineItem {
     required this.title,
     required this.time,
     required this.rep,
+    this.muscleGroup = MuscleGroup.strength,
     this.isFavorite = false,
   });
 
@@ -70,6 +108,7 @@ class RoutineItem {
   final String title;
   final String time;
   final String rep;
+  final MuscleGroup muscleGroup;
   final bool isFavorite;
 
   RoutineItem copyWith({bool? isFavorite}) => RoutineItem(
@@ -77,6 +116,7 @@ class RoutineItem {
     title: title,
     time: time,
     rep: rep,
+    muscleGroup: muscleGroup,
     isFavorite: isFavorite ?? this.isFavorite,
   );
 }
@@ -121,4 +161,57 @@ class WeeklyRound {
   final String name;
   final String time;
   final String intensity;
+}
+
+/// Full state of the "Create Routine" builder screen: the routine's own
+/// metadata (name/goal/difficulty/days), the exercise catalog (with
+/// favorite flags), and the ordered list of exercises the user has picked.
+class CreateRoutineState {
+  const CreateRoutineState({
+    this.name = '',
+    this.goal,
+    this.difficulty,
+    this.selectedDays = const {},
+    required this.library,
+    this.selected = const [],
+  });
+
+  final String name;
+  final RoutineGoal? goal;
+  final WorkoutLevel? difficulty;
+  final Set<Weekday> selectedDays;
+  final List<RoutineExercise> library;
+  final List<SelectedExercise> selected;
+
+  RoutineExercise libraryEntry(String exerciseId) =>
+      library.firstWhere((e) => e.id == exerciseId);
+
+  /// Parses the leading integer out of a "10 Minutes" style label; falls
+  /// back to 10 if the library entry has no parseable time.
+  int _minutesOf(RoutineExercise entry) =>
+      int.tryParse(RegExp(r'^\d+').stringMatch(entry.time) ?? '') ?? 10;
+
+  int get totalDurationMinutes => selected.fold(
+    0,
+    (sum, s) => sum + _minutesOf(libraryEntry(s.exerciseId)),
+  );
+
+  /// Rough estimate (≈7 kcal/min of resistance training) — display-only.
+  int get estimatedCalories => totalDurationMinutes * 7;
+
+  CreateRoutineState copyWith({
+    String? name,
+    RoutineGoal? goal,
+    WorkoutLevel? difficulty,
+    Set<Weekday>? selectedDays,
+    List<RoutineExercise>? library,
+    List<SelectedExercise>? selected,
+  }) => CreateRoutineState(
+    name: name ?? this.name,
+    goal: goal ?? this.goal,
+    difficulty: difficulty ?? this.difficulty,
+    selectedDays: selectedDays ?? this.selectedDays,
+    library: library ?? this.library,
+    selected: selected ?? this.selected,
+  );
 }

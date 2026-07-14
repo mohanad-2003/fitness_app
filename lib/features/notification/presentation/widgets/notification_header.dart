@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_theme_extension.dart';
+import '../../../../core/widgets/fade_slide_in.dart';
 
 /// Large title + motivational subtitle + rounded back button + "mark all as
 /// read" action. Fades and slides in on first build.
-class NotificationHeader extends StatefulWidget {
+class NotificationHeader extends StatelessWidget {
   const NotificationHeader({
     super.key,
     required this.title,
@@ -24,73 +25,45 @@ class NotificationHeader extends StatefulWidget {
   final bool canPop;
 
   @override
-  State<NotificationHeader> createState() => _NotificationHeaderState();
-}
-
-class _NotificationHeaderState extends State<NotificationHeader>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 380),
-  )..forward();
-  late final Animation<double> _fade = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeOut,
-  );
-  late final Animation<Offset> _slide = Tween<Offset>(
-    begin: const Offset(0, -0.15),
-    end: Offset.zero,
-  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final ext = Theme.of(context).extension<AppThemeExtension>()!;
 
-    return FadeTransition(
-      opacity: _fade,
-      child: SlideTransition(
-        position: _slide,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                if (widget.canPop)
-                  _RoundIconButton(
-                    icon: Icons.arrow_back_ios_new_rounded,
-                    onTap: widget.onBack,
-                  ),
-                const Spacer(),
+    return FadeSlideIn(
+      offset: const Offset(0, -0.15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              if (canPop)
                 _RoundIconButton(
-                  icon: Icons.done_all_rounded,
-                  onTap: widget.onMarkAllRead,
-                  tooltip: widget.markAllReadLabel,
+                  icon: Icons.arrow_back_ios_new_rounded,
+                  onTap: onBack,
                 ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            Text(
-              widget.title,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: ext.textPrimary,
-                fontWeight: FontWeight.w900,
+              const Spacer(),
+              _RoundIconButton(
+                icon: Icons.done_all_rounded,
+                onTap: onMarkAllRead,
+                tooltip: markAllReadLabel,
               ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              color: ext.textPrimary,
+              fontWeight: FontWeight.w900,
             ),
-            const SizedBox(height: 4),
-            Text(
-              widget.subtitle,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: ext.textMuted),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            subtitle,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: ext.textMuted),
+          ),
+        ],
       ),
     );
   }

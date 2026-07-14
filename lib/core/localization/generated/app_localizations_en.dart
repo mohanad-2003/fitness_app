@@ -508,6 +508,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get workoutDifficultyLabel => 'Difficulty';
 
   @override
+  String get workoutMuscleGroupLabel => 'Muscle Group';
+
+  @override
+  String get workoutEquipmentLabel => 'Equipment';
+
+  @override
+  String get workoutCategoryAll => 'All';
+
+  @override
+  String get workoutCategoryChest => 'Chest';
+
+  @override
+  String get workoutCategoryBack => 'Back';
+
+  @override
+  String get workoutCategoryLegs => 'Legs';
+
+  @override
+  String get workoutCategoryArms => 'Arms';
+
+  @override
+  String get workoutCategoryCardio => 'Cardio';
+
+  @override
+  String get workoutCategoryStrength => 'Strength';
+
+  @override
+  String get workoutBannerTitle => '🔥 Keep your consistency';
+
+  @override
+  String get workoutBannerBody => 'Every workout makes you stronger';
+
+  @override
+  String get workoutBannerCta => 'Start Now';
+
+  @override
   String get workoutLevelBeginner => 'Beginner';
 
   @override
@@ -552,6 +588,124 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get workoutProfileHeight => 'Height';
+
+  @override
+  String get createRoutineSubtitle => 'Build your personalized workout plan';
+
+  @override
+  String get createRoutineMotivation =>
+      '🔥 Every great transformation starts with a plan';
+
+  @override
+  String get createRoutineNameLabel => 'Routine Name';
+
+  @override
+  String get createRoutineNameHint => 'Push Day Workout';
+
+  @override
+  String get createRoutineGoalLabel => 'Goal';
+
+  @override
+  String get routineGoalMuscleGain => 'Muscle Gain';
+
+  @override
+  String get routineGoalFatLoss => 'Fat Loss';
+
+  @override
+  String get routineGoalStrength => 'Strength';
+
+  @override
+  String get routineGoalEndurance => 'Endurance';
+
+  @override
+  String get createRoutineDaysLabel => 'Workout Days';
+
+  @override
+  String get weekdayMonday => 'Monday';
+
+  @override
+  String get weekdayTuesday => 'Tuesday';
+
+  @override
+  String get weekdayWednesday => 'Wednesday';
+
+  @override
+  String get weekdayThursday => 'Thursday';
+
+  @override
+  String get weekdayFriday => 'Friday';
+
+  @override
+  String get weekdaySaturday => 'Saturday';
+
+  @override
+  String get weekdaySunday => 'Sunday';
+
+  @override
+  String get weekdayMondayShort => 'Mon';
+
+  @override
+  String get weekdayTuesdayShort => 'Tue';
+
+  @override
+  String get weekdayWednesdayShort => 'Wed';
+
+  @override
+  String get weekdayThursdayShort => 'Thu';
+
+  @override
+  String get weekdayFridayShort => 'Fri';
+
+  @override
+  String get weekdaySaturdayShort => 'Sat';
+
+  @override
+  String get weekdaySundayShort => 'Sun';
+
+  @override
+  String get createRoutineChooseExercises => 'Choose Exercises';
+
+  @override
+  String get createRoutineMyRoutineTitle => 'My Routine';
+
+  @override
+  String get createRoutineMyRoutineEmpty =>
+      'No exercises added yet. Tap + on any exercise to add it here.';
+
+  @override
+  String get createRoutineSetsLabel => 'Sets';
+
+  @override
+  String get createRoutineRepsLabel => 'Reps';
+
+  @override
+  String createRoutineSetsReps(int sets, int reps) {
+    return '$sets Sets × $reps Reps';
+  }
+
+  @override
+  String get createRoutineSummaryTitle => 'Routine Summary';
+
+  @override
+  String get createRoutineSummaryExercises => 'Exercises';
+
+  @override
+  String get createRoutineSummaryDuration => 'Duration';
+
+  @override
+  String get createRoutineSummaryCalories => 'Calories';
+
+  @override
+  String get createRoutineSummaryDays => 'Training Days';
+
+  @override
+  String get createRoutineNameValidation => 'Please enter a routine name';
+
+  @override
+  String get createRoutineExerciseValidation => 'Add at least one exercise';
+
+  @override
+  String get createRoutineSuccessMessage => 'Routine created successfully!';
 
   @override
   String get progressTitle => 'Progress Tracking';
@@ -735,6 +889,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileBirthdayLabel => 'Birthday: ';
 
   @override
+  String get profileMotivation => 'Keep pushing, your journey continues 🔥';
+
+  @override
+  String get profileStatWorkouts => 'Workouts';
+
+  @override
+  String get profileStatCalories => 'Calories';
+
+  @override
+  String get profileStatDays => 'Training Days';
+
+  @override
+  String get profileStatStreak => 'Day Streak';
+
+  @override
   String get profileSectionAccount => 'Account';
 
   @override
@@ -744,19 +913,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMenuProfile => 'Profile';
 
   @override
+  String get profileMenuProfileSubtitle => 'Update your personal information';
+
+  @override
   String get profileMenuFavorite => 'Favorite';
+
+  @override
+  String get profileMenuFavoriteSubtitle => 'Your saved workouts and meals';
 
   @override
   String get profileMenuPrivacyPolicy => 'Privacy Policy';
 
   @override
+  String get profileMenuPrivacyPolicySubtitle => 'Data, permissions & legal';
+
+  @override
   String get profileMenuSetting => 'Setting';
+
+  @override
+  String get profileMenuSettingSubtitle => 'Customize your experience';
 
   @override
   String get profileMenuHelp => 'Help';
 
   @override
+  String get profileMenuHelpSubtitle => 'FAQs & contact support';
+
+  @override
   String get profileMenuLogout => 'Log out';
+
+  @override
+  String get profileMenuLogoutSubtitle => 'Sign out of your account';
 
   @override
   String get profileLogoutConfirm => 'Are you sure you want to\nlog out?';
@@ -783,7 +970,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editProfileHeight => 'Height';
 
   @override
+  String get editProfileGenderLabel => 'Gender';
+
+  @override
+  String get editProfileGenderMale => 'Male';
+
+  @override
+  String get editProfileGenderFemale => 'Female';
+
+  @override
+  String get editProfileGenderOther => 'Other';
+
+  @override
   String get editProfileUpdate => 'Update Profile';
+
+  @override
+  String get editProfileNameValidation => 'Please enter your name';
+
+  @override
+  String get editProfileSuccessMessage => 'Profile updated successfully!';
 
   @override
   String get privacyTitle => 'Privacy';
@@ -795,7 +1000,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacyPolicy => 'Privacy Policy';
 
   @override
+  String get privacyPolicySubtitle => 'How we handle your data';
+
+  @override
   String get privacyTerms => 'Terms & Conditions';
+
+  @override
+  String get privacyTermsSubtitle => 'Rules for using the app';
 
   @override
   String get privacySectionYourData => 'Your Data';
@@ -804,13 +1015,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacyManagePersonalData => 'Manage Personal Data';
 
   @override
+  String get privacyManagePersonalDataSubtitle =>
+      'Permissions & data collection';
+
+  @override
   String get privacyAppPermissions => 'App Permissions';
+
+  @override
+  String get privacyAppPermissionsSubtitle =>
+      'Camera, location & notifications';
 
   @override
   String get privacyDataCollection => 'Data Collection';
 
   @override
+  String get privacyDataCollectionSubtitle => 'Control what we track';
+
+  @override
   String get privacyDownloadMyData => 'Download My Data';
+
+  @override
+  String get privacyDownloadMyDataSubtitle => 'Export a copy of your data';
 
   @override
   String get privacySectionAccount => 'Account';
@@ -819,7 +1044,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacyDeleteAccount => 'Delete My Account';
 
   @override
+  String get privacyDeleteAccountSubtitle => 'Permanently remove your account';
+
+  @override
   String get privacyContactSupport => 'Contact Support';
+
+  @override
+  String get privacyContactSupportSubtitle => 'Get help from our team';
 
   @override
   String privacyComingSoon(String feature) {
@@ -961,25 +1192,57 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationSettingsTitle => 'Notification Setting';
 
   @override
+  String get notificationSettingsSubtitle =>
+      'Choose how FitBody keeps you in the loop';
+
+  @override
   String get notificationToggleGeneral => 'General Notification';
+
+  @override
+  String get notificationToggleGeneralBody =>
+      'Workout, nutrition & community updates';
 
   @override
   String get notificationToggleSound => 'Sound';
 
   @override
+  String get notificationToggleSoundBody =>
+      'Play a sound for new notifications';
+
+  @override
   String get notificationToggleDoNotDisturb => 'Don\'t Disturb Mode';
+
+  @override
+  String get notificationToggleDoNotDisturbBody =>
+      'Silence notifications during quiet hours';
 
   @override
   String get notificationToggleVibrate => 'Vibrate';
 
   @override
+  String get notificationToggleVibrateBody =>
+      'Vibrate the device on new alerts';
+
+  @override
   String get notificationToggleLockScreen => 'Lock Screen';
+
+  @override
+  String get notificationToggleLockScreenBody =>
+      'Show previews on the lock screen';
 
   @override
   String get notificationToggleReminders => 'Reminders';
 
   @override
+  String get notificationToggleRemindersBody =>
+      'Daily workout & meal reminders';
+
+  @override
   String get passwordSettingsTitle => 'Password Setting';
+
+  @override
+  String get passwordSettingsSubtitle =>
+      'Keep your account safe with a strong password';
 
   @override
   String get passwordCurrentPassword => 'Current Password';
@@ -994,10 +1257,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordConfirmNew => 'Confirm New password';
 
   @override
+  String get passwordCurrentValidation => 'Enter your current password';
+
+  @override
+  String get passwordNewValidation => 'Enter a new password';
+
+  @override
+  String get passwordMinLengthValidation =>
+      'Password must be at least 8 characters';
+
+  @override
+  String get passwordMismatchValidation => 'Passwords do not match';
+
+  @override
+  String get passwordStrengthWeak => 'Weak';
+
+  @override
+  String get passwordStrengthMedium => 'Medium';
+
+  @override
+  String get passwordStrengthStrong => 'Strong';
+
+  @override
+  String get passwordUpdateAction => 'Update Password';
+
+  @override
+  String get passwordUpdateSuccess => 'Password updated successfully!';
+
+  @override
   String get documentsTitle => 'Documents';
 
   @override
   String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsSubtitle => 'Customize your experience';
 
   @override
   String get settingsSectionAccount => 'Account';
@@ -1006,10 +1300,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsNotification => 'Notification Setting';
 
   @override
+  String get settingsNotificationSubtitle => 'Manage your workout reminders';
+
+  @override
   String get settingsPassword => 'Password Setting';
 
   @override
+  String get settingsPasswordSubtitle => 'Update your account password';
+
+  @override
   String get settingsDeleteAccount => 'Delete Account';
+
+  @override
+  String get settingsDeleteAccountSubtitle => 'Permanently remove your account';
 
   @override
   String get helpTitle => 'Help & FAQs';

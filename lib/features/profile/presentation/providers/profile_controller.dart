@@ -11,6 +11,11 @@ UserProfile currentUserProfile(Ref ref) => const UserProfile(
   weightKg: '75 Kg',
   ageYears: '28',
   heightM: '1.65 m',
+  fitnessLevel: 'Intermediate',
+  completedWorkouts: 128,
+  caloriesBurned: 42600,
+  trainingDays: 96,
+  currentStreak: 7,
 );
 
 @riverpod

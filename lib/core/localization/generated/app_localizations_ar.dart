@@ -503,6 +503,42 @@ class AppLocalizationsAr extends AppLocalizations {
   String get workoutDifficultyLabel => 'الصعوبة';
 
   @override
+  String get workoutMuscleGroupLabel => 'المجموعة العضلية';
+
+  @override
+  String get workoutEquipmentLabel => 'المعدات';
+
+  @override
+  String get workoutCategoryAll => 'الكل';
+
+  @override
+  String get workoutCategoryChest => 'الصدر';
+
+  @override
+  String get workoutCategoryBack => 'الظهر';
+
+  @override
+  String get workoutCategoryLegs => 'الأرجل';
+
+  @override
+  String get workoutCategoryArms => 'الذراعين';
+
+  @override
+  String get workoutCategoryCardio => 'كارديو';
+
+  @override
+  String get workoutCategoryStrength => 'القوة';
+
+  @override
+  String get workoutBannerTitle => '🔥 حافظ على استمراريتك';
+
+  @override
+  String get workoutBannerBody => 'كل تمرين يجعلك أقوى';
+
+  @override
+  String get workoutBannerCta => 'ابدأ الآن';
+
+  @override
   String get workoutLevelBeginner => 'مبتدئ';
 
   @override
@@ -547,6 +583,123 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get workoutProfileHeight => 'الطول';
+
+  @override
+  String get createRoutineSubtitle => 'ابنِ خطة تدريبك الخاصة';
+
+  @override
+  String get createRoutineMotivation => '🔥 كل تحوّل عظيم يبدأ بخطة';
+
+  @override
+  String get createRoutineNameLabel => 'اسم الروتين';
+
+  @override
+  String get createRoutineNameHint => 'تمارين يوم الدفع';
+
+  @override
+  String get createRoutineGoalLabel => 'الهدف';
+
+  @override
+  String get routineGoalMuscleGain => 'زيادة العضلات';
+
+  @override
+  String get routineGoalFatLoss => 'خسارة الدهون';
+
+  @override
+  String get routineGoalStrength => 'القوة';
+
+  @override
+  String get routineGoalEndurance => 'التحمل';
+
+  @override
+  String get createRoutineDaysLabel => 'أيام التمرين';
+
+  @override
+  String get weekdayMonday => 'الإثنين';
+
+  @override
+  String get weekdayTuesday => 'الثلاثاء';
+
+  @override
+  String get weekdayWednesday => 'الأربعاء';
+
+  @override
+  String get weekdayThursday => 'الخميس';
+
+  @override
+  String get weekdayFriday => 'الجمعة';
+
+  @override
+  String get weekdaySaturday => 'السبت';
+
+  @override
+  String get weekdaySunday => 'الأحد';
+
+  @override
+  String get weekdayMondayShort => 'إثن';
+
+  @override
+  String get weekdayTuesdayShort => 'ثلا';
+
+  @override
+  String get weekdayWednesdayShort => 'أرب';
+
+  @override
+  String get weekdayThursdayShort => 'خمی';
+
+  @override
+  String get weekdayFridayShort => 'جمع';
+
+  @override
+  String get weekdaySaturdayShort => 'سبت';
+
+  @override
+  String get weekdaySundayShort => 'أحد';
+
+  @override
+  String get createRoutineChooseExercises => 'اختر التمارين';
+
+  @override
+  String get createRoutineMyRoutineTitle => 'روتيني';
+
+  @override
+  String get createRoutineMyRoutineEmpty =>
+      'لم تُضِف أي تمرين بعد. اضغط على + عند أي تمرين لإضافته هنا.';
+
+  @override
+  String get createRoutineSetsLabel => 'المجموعات';
+
+  @override
+  String get createRoutineRepsLabel => 'التكرارات';
+
+  @override
+  String createRoutineSetsReps(int sets, int reps) {
+    return '$sets مجموعات × $reps تكرار';
+  }
+
+  @override
+  String get createRoutineSummaryTitle => 'ملخص الروتين';
+
+  @override
+  String get createRoutineSummaryExercises => 'التمارين';
+
+  @override
+  String get createRoutineSummaryDuration => 'المدة';
+
+  @override
+  String get createRoutineSummaryCalories => 'السعرات';
+
+  @override
+  String get createRoutineSummaryDays => 'أيام التدريب';
+
+  @override
+  String get createRoutineNameValidation => 'الرجاء إدخال اسم الروتين';
+
+  @override
+  String get createRoutineExerciseValidation => 'أضف تمرينًا واحدًا على الأقل';
+
+  @override
+  String get createRoutineSuccessMessage => 'تم إنشاء الروتين بنجاح!';
 
   @override
   String get progressTitle => 'تتبع التقدم';
@@ -729,6 +882,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileBirthdayLabel => 'تاريخ الميلاد: ';
 
   @override
+  String get profileMotivation => 'استمر في المثابرة، رحلتك مستمرة 🔥';
+
+  @override
+  String get profileStatWorkouts => 'التمارين';
+
+  @override
+  String get profileStatCalories => 'السعرات';
+
+  @override
+  String get profileStatDays => 'أيام التدريب';
+
+  @override
+  String get profileStatStreak => 'أيام متتالية';
+
+  @override
   String get profileSectionAccount => 'الحساب';
 
   @override
@@ -738,19 +906,38 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileMenuProfile => 'الملف الشخصي';
 
   @override
+  String get profileMenuProfileSubtitle => 'حدّث معلوماتك الشخصية';
+
+  @override
   String get profileMenuFavorite => 'المفضلة';
+
+  @override
+  String get profileMenuFavoriteSubtitle => 'تماريك ووجباتك المحفوظة';
 
   @override
   String get profileMenuPrivacyPolicy => 'سياسة الخصوصية';
 
   @override
+  String get profileMenuPrivacyPolicySubtitle =>
+      'البيانات والأذونات والقانونية';
+
+  @override
   String get profileMenuSetting => 'الإعدادات';
+
+  @override
+  String get profileMenuSettingSubtitle => 'خصّص تجربتك';
 
   @override
   String get profileMenuHelp => 'المساعدة';
 
   @override
+  String get profileMenuHelpSubtitle => 'الأسئلة الشائعة والدعم';
+
+  @override
   String get profileMenuLogout => 'تسجيل الخروج';
+
+  @override
+  String get profileMenuLogoutSubtitle => 'الخروج من حسابك';
 
   @override
   String get profileLogoutConfirm => 'هل أنت متأكد أنك تريد\nتسجيل الخروج؟';
@@ -777,7 +964,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get editProfileHeight => 'الطول';
 
   @override
+  String get editProfileGenderLabel => 'الجنس';
+
+  @override
+  String get editProfileGenderMale => 'ذكر';
+
+  @override
+  String get editProfileGenderFemale => 'أنثى';
+
+  @override
+  String get editProfileGenderOther => 'آخر';
+
+  @override
   String get editProfileUpdate => 'تحديث الملف الشخصي';
+
+  @override
+  String get editProfileNameValidation => 'الرجاء إدخال اسمك';
+
+  @override
+  String get editProfileSuccessMessage => 'تم تحديث الملف الشخصي بنجاح!';
 
   @override
   String get privacyTitle => 'الخصوصية';
@@ -789,7 +994,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get privacyPolicy => 'سياسة الخصوصية';
 
   @override
+  String get privacyPolicySubtitle => 'كيف نتعامل مع بياناتك';
+
+  @override
   String get privacyTerms => 'الشروط والأحكام';
+
+  @override
+  String get privacyTermsSubtitle => 'قواعد استخدام التطبيق';
 
   @override
   String get privacySectionYourData => 'بياناتك';
@@ -798,13 +1009,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get privacyManagePersonalData => 'إدارة البيانات الشخصية';
 
   @override
+  String get privacyManagePersonalDataSubtitle => 'الأذونات وجمع البيانات';
+
+  @override
   String get privacyAppPermissions => 'أذونات التطبيق';
+
+  @override
+  String get privacyAppPermissionsSubtitle => 'الكاميرا والموقع والإشعارات';
 
   @override
   String get privacyDataCollection => 'جمع البيانات';
 
   @override
+  String get privacyDataCollectionSubtitle => 'تحكم بما نتتبعه';
+
+  @override
   String get privacyDownloadMyData => 'تنزيل بياناتي';
+
+  @override
+  String get privacyDownloadMyDataSubtitle => 'تصدير نسخة من بياناتك';
 
   @override
   String get privacySectionAccount => 'الحساب';
@@ -813,7 +1036,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get privacyDeleteAccount => 'حذف حسابي';
 
   @override
+  String get privacyDeleteAccountSubtitle => 'إزالة حسابك نهائيًا';
+
+  @override
   String get privacyContactSupport => 'التواصل مع الدعم';
+
+  @override
+  String get privacyContactSupportSubtitle => 'احصل على مساعدة فريقنا';
 
   @override
   String privacyComingSoon(String feature) {
@@ -954,25 +1183,54 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notificationSettingsTitle => 'إعدادات الإشعارات';
 
   @override
+  String get notificationSettingsSubtitle => 'اختر كيف يبقيك FitBody على اطلاع';
+
+  @override
   String get notificationToggleGeneral => 'الإشعارات العامة';
+
+  @override
+  String get notificationToggleGeneralBody =>
+      'تحديثات التمارين والتغذية والمجتمع';
 
   @override
   String get notificationToggleSound => 'الصوت';
 
   @override
+  String get notificationToggleSoundBody => 'تشغيل صوت عند وصول إشعار جديد';
+
+  @override
   String get notificationToggleDoNotDisturb => 'وضع عدم الإزعاج';
+
+  @override
+  String get notificationToggleDoNotDisturbBody =>
+      'كتم الإشعارات خلال ساعات الهدوء';
 
   @override
   String get notificationToggleVibrate => 'الاهتزاز';
 
   @override
+  String get notificationToggleVibrateBody =>
+      'اهتزاز الجهاز عند التنبيهات الجديدة';
+
+  @override
   String get notificationToggleLockScreen => 'شاشة القفل';
+
+  @override
+  String get notificationToggleLockScreenBody =>
+      'إظهار المعاينات على شاشة القفل';
 
   @override
   String get notificationToggleReminders => 'التذكيرات';
 
   @override
+  String get notificationToggleRemindersBody =>
+      'تذكيرات يومية بالتمارين والوجبات';
+
+  @override
   String get passwordSettingsTitle => 'إعدادات كلمة المرور';
+
+  @override
+  String get passwordSettingsSubtitle => 'حافظ على أمان حسابك بكلمة مرور قوية';
 
   @override
   String get passwordCurrentPassword => 'كلمة المرور الحالية';
@@ -987,10 +1245,40 @@ class AppLocalizationsAr extends AppLocalizations {
   String get passwordConfirmNew => 'تأكيد كلمة المرور الجديدة';
 
   @override
+  String get passwordCurrentValidation => 'أدخل كلمة المرور الحالية';
+
+  @override
+  String get passwordNewValidation => 'أدخل كلمة مرور جديدة';
+
+  @override
+  String get passwordMinLengthValidation => 'يجب ألا تقل كلمة المرور عن 8 أحرف';
+
+  @override
+  String get passwordMismatchValidation => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get passwordStrengthWeak => 'ضعيفة';
+
+  @override
+  String get passwordStrengthMedium => 'متوسطة';
+
+  @override
+  String get passwordStrengthStrong => 'قوية';
+
+  @override
+  String get passwordUpdateAction => 'تحديث كلمة المرور';
+
+  @override
+  String get passwordUpdateSuccess => 'تم تحديث كلمة المرور بنجاح!';
+
+  @override
   String get documentsTitle => 'المستندات';
 
   @override
   String get settingsTitle => 'الإعدادات';
+
+  @override
+  String get settingsSubtitle => 'خصّص تجربتك';
 
   @override
   String get settingsSectionAccount => 'الحساب';
@@ -999,10 +1287,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsNotification => 'إعدادات الإشعارات';
 
   @override
+  String get settingsNotificationSubtitle => 'إدارة تذكيرات التمارين';
+
+  @override
   String get settingsPassword => 'إعدادات كلمة المرور';
 
   @override
+  String get settingsPasswordSubtitle => 'تحديث كلمة مرور حسابك';
+
+  @override
   String get settingsDeleteAccount => 'حذف الحساب';
+
+  @override
+  String get settingsDeleteAccountSubtitle => 'إزالة حسابك نهائيًا';
 
   @override
   String get helpTitle => 'المساعدة والأسئلة الشائعة';

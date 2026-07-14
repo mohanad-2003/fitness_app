@@ -3,6 +3,7 @@ import 'package:fitness_app/core/localization/locale_controller.dart';
 import 'package:fitness_app/core/routing/app_routes.dart';
 import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/theme/theme_controller.dart';
+import 'package:fitness_app/core/widgets/fade_slide_in.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:fitness_app/features/profile/presentation/widgets/delete_account_sheet.dart';
 import 'package:fitness_app/features/profile/presentation/widgets/profile_menu_tile.dart';
@@ -22,56 +23,74 @@ class SettingsPage extends ConsumerWidget {
 
     return PremiumScaffold(
       child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                if (context.canPop())
-                  PremiumIconButton(
-                    icon: Icons.arrow_back_ios_new_rounded,
-                    onTap: () => context.pop(),
+        child: FadeSlideIn(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  if (context.canPop())
+                    PremiumIconButton(
+                      icon: Icons.arrow_back_ios_new_rounded,
+                      onTap: () => context.pop(),
+                    ),
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.settingsTitle,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineSmall?.copyWith(
+                          color: ext.textPrimary,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      Text(
+                        l10n.settingsSubtitle,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(color: ext.textMuted),
+                      ),
+                    ],
                   ),
-                const SizedBox(width: 12),
-                Text(
-                  l10n.settingsTitle,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: ext.textPrimary,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 26),
-            PremiumSectionHeader(title: l10n.settingsTheme),
-            const SizedBox(height: 12),
-            _AppearanceCard(themeMode: themeMode),
-            const SizedBox(height: 26),
-            PremiumSectionHeader(title: l10n.settingsLanguage),
-            const SizedBox(height: 12),
-            _LanguageCard(locale: locale),
-            const SizedBox(height: 26),
-            PremiumSectionHeader(title: l10n.settingsSectionAccount),
-            const SizedBox(height: 12),
-            ProfileMenuTile(
-              icon: Icons.notifications_outlined,
-              title: l10n.settingsNotification,
-              onTap: () => context.push(AppRoutes.notificationSettings),
-            ),
-            const SizedBox(height: 10),
-            ProfileMenuTile(
-              icon: Icons.key_outlined,
-              title: l10n.settingsPassword,
-              onTap: () => context.push(AppRoutes.passwordSettings),
-            ),
-            const SizedBox(height: 10),
-            ProfileMenuTile(
-              icon: Icons.person_off_outlined,
-              title: l10n.settingsDeleteAccount,
-              iconColor: ext.danger,
-              onTap: () => showDeleteAccountSheet(context),
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(height: 26),
+              PremiumSectionHeader(title: l10n.settingsTheme),
+              const SizedBox(height: 12),
+              _AppearanceCard(themeMode: themeMode),
+              const SizedBox(height: 26),
+              PremiumSectionHeader(title: l10n.settingsLanguage),
+              const SizedBox(height: 12),
+              _LanguageCard(locale: locale),
+              const SizedBox(height: 26),
+              PremiumSectionHeader(title: l10n.settingsSectionAccount),
+              const SizedBox(height: 12),
+              ProfileMenuTile(
+                icon: Icons.notifications_outlined,
+                title: l10n.settingsNotification,
+                subtitle: l10n.settingsNotificationSubtitle,
+                onTap: () => context.push(AppRoutes.notificationSettings),
+              ),
+              const SizedBox(height: 10),
+              ProfileMenuTile(
+                icon: Icons.key_outlined,
+                title: l10n.settingsPassword,
+                subtitle: l10n.settingsPasswordSubtitle,
+                onTap: () => context.push(AppRoutes.passwordSettings),
+              ),
+              const SizedBox(height: 10),
+              ProfileMenuTile(
+                icon: Icons.person_off_outlined,
+                title: l10n.settingsDeleteAccount,
+                subtitle: l10n.settingsDeleteAccountSubtitle,
+                iconColor: ext.danger,
+                onTap: () => showDeleteAccountSheet(context),
+              ),
+            ],
+          ),
         ),
       ),
     );

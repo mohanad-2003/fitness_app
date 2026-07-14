@@ -130,20 +130,23 @@ abstract final class AppTheme {
       ),
       extensions: [
         AppThemeExtension(
-          cardColor:
-              isDark ? AppColors.graphite : colorScheme.surfaceContainerHighest,
+          // Light mode uses a clean, near-opaque white for cards (elevated
+          // above the warm gradient background) rather than a low-alpha
+          // black overlay — the latter barely reads against a light
+          // background and was the "weak contrast" light-mode problem.
+          cardColor: isDark ? AppColors.graphite : Colors.white,
           cardBorderColor:
               isDark
                   ? Colors.white.withValues(alpha: 0.10)
-                  : colorScheme.outline.withValues(alpha: 0.3),
+                  : Colors.black.withValues(alpha: 0.06),
           cardShadow:
               isDark
                   ? const []
                   : [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.06),
-                      blurRadius: 24,
-                      offset: const Offset(0, 8),
+                      color: Colors.black.withValues(alpha: 0.08),
+                      blurRadius: 28,
+                      offset: const Offset(0, 10),
                     ),
                   ],
           accentGradient: LinearGradient(
@@ -173,14 +176,18 @@ abstract final class AppTheme {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
+          // Frosted-white "glass" tier, distinct from the fully-opaque
+          // cardColor above but still clearly defined against the warm
+          // background gradient — replaces the old translucent-black fill
+          // that nearly disappeared in light mode.
           glassFill:
               isDark
                   ? Colors.white.withValues(alpha: 0.08)
-                  : Colors.black.withValues(alpha: 0.055),
+                  : Colors.white.withValues(alpha: 0.86),
           glassBorder:
               isDark
                   ? Colors.white.withValues(alpha: 0.10)
-                  : Colors.black.withValues(alpha: 0.14),
+                  : Colors.black.withValues(alpha: 0.06),
           textPrimary: isDark ? Colors.white : AppColors.seedInk,
           textMuted:
               isDark

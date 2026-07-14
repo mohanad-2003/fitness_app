@@ -49,7 +49,7 @@ final class CurrentUserProfileProvider
 }
 
 String _$currentUserProfileHash() =>
-    r'7d32b47b8003b1b2b1cc451b32993637c793e0a9';
+    r'8a5776e3e3ce01f306d131f04a2b89622ff3af48';
 
 @ProviderFor(userDocuments)
 final userDocumentsProvider = UserDocumentsProvider._();
