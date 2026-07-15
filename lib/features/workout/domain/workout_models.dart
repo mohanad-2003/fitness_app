@@ -143,12 +143,14 @@ class PopularExerciseItem {
     required this.name,
     required this.time,
     required this.calories,
+    this.difficulty = 'Easy',
   });
 
   final String image;
   final String name;
   final String time;
   final String calories;
+  final String difficulty;
 }
 
 class WeeklyRound {

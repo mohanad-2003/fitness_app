@@ -33,29 +33,56 @@ A modern fitness application built with Flutter that helps users manage workouts
 
 ---
 
+## 🆕 Recent Redesign Highlights
+
+The entire first-run and core experience recently went through a full premium UI/UX pass — not a visual tweak, but a from-scratch redesign of every screen listed below, built on a cohesive design system rather than one-off styling per page.
+
+- **Splash, Welcome & Onboarding** — rebuilt as fully vector/abstract experiences (gradient medallions, dashed orbit rings, ambient glow orbs) instead of stock photography, so the very first impression is 100% on-brand instead of a generic gym photo.
+- **Authentication flow** (Login, Sign Up, Forgot Password, Reset Password, Biometric) — new shared `AuthSectionHero`, `PremiumTextField`/`PremiumPasswordField` with animated focus states, a live `PasswordStrengthMeter`, and glass-card panels, all reusing the splash/onboarding visual language.
+- **Nutrition module** — a new "Today's Nutrition" summary card (calorie ring + protein/carbs/fat meters + water intake), premium recipe cards with macro/rating/difficulty chips, a fully rebuilt Recipe Details screen (nutrition facts, steps, tips, benefits, similar recipes), and a restyled meal-plan wizard.
+- **Recommended Workout screen** — an immersive `WorkoutHeroCard` with a "Start Workout" CTA, a `PopularWorkoutCard` grid with difficulty badges and gradient play buttons, and a header that no longer truncates its title.
+- **Generated avatars** — every `CircleAvatar` that reused the same stock photo of a person (Profile, Home greeting, Workout Logs, Community) now renders a `UserAvatar` — a gradient-and-icon avatar generated from the app's own theme, so it no longer misrepresents different users/posts as the same person.
+- **Cleanup** — removed the unwired, non-functional "Fill Your Profile" step from onboarding (it duplicated Sign Up fields and never persisted anything).
+
+All of this kept the existing architecture, navigation, and business logic untouched — only presentation and reusable-widget layers changed.
+
+---
+
 ## ✨ Features
 
 ### 🔐 Authentication
-- Login & Register
-- Forgot password flow
-- OTP verification
+
+- Premium login & register flow with animated, validated form fields
+- Forgot password → reset password flow
+- Optional biometric (fingerprint) enable step
 - Onboarding & guided setup
 - Profile management
 
 ### 🏋️ Workout
+
 - Browse workouts by category
+- Immersive "Recommended Workout" hero screen with a curated popular-workouts grid
 - Detailed exercise screens (muscle group, difficulty, duration, equipment)
 - Create fully custom routines (name, goal, difficulty, weekly schedule)
 - Drag-and-reorder exercise picker with editable sets/reps
 - Category filtering & favorites
 
+### 🥗 Nutrition
+
+- Daily nutrition summary: calorie ring, protein/carbs/fat progress, water intake
+- Recipe cards with macros, difficulty, and rating at a glance
+- Full recipe details: nutrition facts, ingredients, cooking steps, chef's tips, health benefits, similar recipes
+- Guided meal-plan wizard: dietary preferences → goals → generating → daily plan
+
 ### 📊 Fitness
+
 - Progress tracking & workout logs
 - Calorie & duration estimates
 - Personal workout statistics (workouts completed, streak, training days)
 - Personalized routine summaries
 
 ### 🎨 User Experience
+
 - Full Dark Mode & Light Mode support
 - Fully responsive layout (phones, foldables, tablets)
 - Smooth entrance/press/page animations
@@ -114,7 +141,7 @@ lib/
 │   └── widgets/            # Shared, reusable UI components
 │
 ├── features/
-│   ├── authentication/    # Login, register, OTP, forgot password
+│   ├── authentication/    # Login, register, forgot/reset password, biometric
 │   ├── onboarding/        # First-run onboarding flow
 │   ├── home/                # Home dashboard
 │   ├── workout/            # Workouts, routines, exercise details
@@ -152,17 +179,18 @@ feature/
 
 | Screen | Description |
 |---|---|
-| Splash | Branded app launch screen |
-| Onboarding | Guided first-run introduction |
-| Authentication | Login, register, OTP, forgot password |
+| Splash | Fully vector, animated brand launch screen |
+| Welcome & Onboarding | Abstract hero-art carousel introducing the app |
+| Authentication | Login, register, forgot/reset password, biometric enable |
 | Home Dashboard | Personalized overview & quick actions |
 | Workout | Browse workouts, category filters, training-of-the-day |
+| Recommended Workout | Immersive hero workout + curated popular-workouts grid |
 | Create Routine | Build a fully custom routine: goal, difficulty, days, exercises |
 | Workout / Exercise Details | Muscle group, difficulty, duration, equipment, start CTA |
-| Nutrition | Meal plans & nutrition tracking |
+| Nutrition | Daily summary, meal ideas, recipe details, meal-plan wizard |
 | Community | Social feed & challenges |
 | Notifications | Categorized, filterable notification inbox |
-| Profile | Avatar, stats, achievements, account menu |
+| Profile | Generated avatar, stats, achievements, account menu |
 | Settings | Theme, language, notifications, password, privacy |
 
 ---
@@ -238,6 +266,8 @@ BASE_URL=https://your-api-domain.com/api
 - **Premium dark fitness theme** — deep, near-black backgrounds with a neon lime / electric orange accent gradient
 - **Refined light theme** — warm neutral surfaces, soft shadows, and clean elevated cards (not flat pure-white Material defaults)
 - **Glassmorphism cards** — translucent/frosted surfaces with soft borders and shadows across both themes
+- **Vector-first hero art** — splash, onboarding, welcome, and auth screens use generated gradient medallions, dashed orbit rings, and glow orbs instead of stock photography, so the brand look is consistent and license-free
+- **Generated avatars** — `UserAvatar` renders a gradient-and-icon avatar from the theme instead of reusing a single stock photo for every user/post
 - **Consistent typography scale** — a single `AppTypography` scale shared by every screen
 - **Responsive layouts** — breakpoint-aware spacing, grid columns, and component sizing from small phones to tablets
 - **Micro-interactions** — press-scale feedback, fade/slide entrance animations, and animated selection states throughout
@@ -247,7 +277,7 @@ BASE_URL=https://your-api-domain.com/api
 ## ⚡ Performance & Best Practices
 
 - Clean, feature-based architecture with clear domain/presentation boundaries
-- Centralized, reusable widgets (`PremiumScaffold`, `PrimaryButton`, `FadeSlideIn`, etc.) instead of duplicated UI code
+- Centralized, reusable widgets (`PremiumScaffold`, `PrimaryButton`, `FadeSlideIn`, `UserAvatar`, `PremiumRecipeCard`, `WorkoutHeroCard`, etc.) instead of duplicated UI code
 - `const` constructors used wherever possible to minimize rebuilds
 - `ListView.builder` / `SliverList` / `SliverGrid` for efficient large-list rendering
 - Structurally overflow-safe layouts via `CustomScrollView` + slivers instead of fixed-height stacks
@@ -260,7 +290,7 @@ BASE_URL=https://your-api-domain.com/api
 
 - 🤖 AI-powered workout recommendations
 - ⌚ Wearable device integration (Apple Watch / Wear OS)
-- 🥗 Personalized nutrition & meal planning
+- 📷 Real food logging & calorie tracking (today's nutrition summary is demo data)
 - 🏆 Social challenges & leaderboards
 - 📈 Advanced analytics & progress insights
 - ☁️ Real backend integration (REST API / Firebase)
@@ -274,7 +304,7 @@ BASE_URL=https://your-api-domain.com/api
 Flutter Developer
 
 - GitHub: [github.com/mohanad-2003](https://github.com/mohanad-2003)
-- LinkedIn: [linkedin.com/in/your-username](https://linkedin.com/in/mohanad-zaqout-b2462b3a1)
+- LinkedIn: [linkedin.com/in/mohanad-zaqout](https://linkedin.com/in/mohanad-zaqout-b2462b3a1)
 - Portfolio: [your-portfolio.com](https://your-portfolio.com)
 
 ---

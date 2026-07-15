@@ -10,23 +10,27 @@ List<PopularExerciseItem> popularExercises(Ref ref) => const [
     name: 'Squat Exercise',
     time: '12 Minutes',
     calories: '120 Kcal',
+    difficulty: 'Easy',
   ),
   PopularExerciseItem(
     image: 'assets/fullbody.png',
     name: 'Full Body Stretching',
     time: '12 Minutes',
     calories: '120 Kcal',
+    difficulty: 'Easy',
   ),
   PopularExerciseItem(
     image: 'assets/dum.png',
     name: 'Dumbbell Step Up',
     time: '12 Minutes',
     calories: '120 Kcal',
+    difficulty: 'Medium',
   ),
   PopularExerciseItem(
     image: 'assets/full_body.png',
     name: 'Full Body Stretching',
     time: '12 Minutes',
     calories: '120 Kcal',
+    difficulty: 'Easy',
   ),
 ];
