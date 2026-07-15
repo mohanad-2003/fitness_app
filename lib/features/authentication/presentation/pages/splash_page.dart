@@ -2,9 +2,14 @@ import 'dart:async';
 
 import 'package:fitness_app/core/localization/generated/app_localizations.dart';
 import 'package:fitness_app/core/routing/app_routes.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
+import 'package:fitness_app/core/widgets/glow_orb.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+/// Premium, fully-vector splash screen: an ambient gradient backdrop, a
+/// pulsing energy ring around the brand mark, and a staggered fade/scale
+/// entrance for the wordmark, tagline, stat pills, and loading bar.
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -13,27 +18,53 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _logoScale;
-  late final Animation<double> _fadeIn;
+    with TickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 2200),
+  )..forward();
+
+  late final AnimationController _pulseController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 2400),
+  )..repeat();
+
+  late final Animation<double> _logoScale = CurvedAnimation(
+    parent: _controller,
+    curve: const Interval(0.0, 0.45, curve: Curves.easeOutBack),
+  );
+  late final Animation<double> _logoFade = CurvedAnimation(
+    parent: _controller,
+    curve: const Interval(0.0, 0.35, curve: Curves.easeOut),
+  );
+  late final Animation<double> _brandFade = CurvedAnimation(
+    parent: _controller,
+    curve: const Interval(0.25, 0.6, curve: Curves.easeOut),
+  );
+  late final Animation<Offset> _brandSlide = Tween<Offset>(
+    begin: const Offset(0, 0.24),
+    end: Offset.zero,
+  ).animate(
+    CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.25, 0.65, curve: Curves.easeOutCubic),
+    ),
+  );
+  late final Animation<double> _pillsFade = CurvedAnimation(
+    parent: _controller,
+    curve: const Interval(0.5, 0.8, curve: Curves.easeOut),
+  );
+  late final Animation<double> _barFade = CurvedAnimation(
+    parent: _controller,
+    curve: const Interval(0.65, 0.9, curve: Curves.easeOut),
+  );
+
   Timer? _navigationTimer;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1700),
-    )..forward();
-
-    _logoScale = Tween<double>(
-      begin: 0.86,
-      end: 1,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
-    _fadeIn = CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
-
-    _navigationTimer = Timer(const Duration(seconds: 3), () {
+    _navigationTimer = Timer(const Duration(milliseconds: 3000), () {
       if (mounted) context.go(AppRoutes.welcome);
     });
   }
@@ -42,12 +73,14 @@ class _SplashPageState extends State<SplashPage>
   void dispose() {
     _navigationTimer?.cancel();
     _controller.dispose();
+    _pulseController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
@@ -55,147 +88,153 @@ class _SplashPageState extends State<SplashPage>
       body: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset(
-              'assets/ob1.png',
-              fit: BoxFit.cover,
-              color: theme.colorScheme.scrim.withValues(alpha: 0.34),
-              colorBlendMode: BlendMode.darken,
-            ),
-          ),
-          Positioned.fill(
             child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    theme.colorScheme.surface.withValues(alpha: 0.96),
-                    theme.colorScheme.surface.withValues(alpha: 0.74),
-                    theme.colorScheme.surfaceContainerHighest.withValues(
-                      alpha: 0.92,
-                    ),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
+              decoration: BoxDecoration(gradient: ext.backgroundGradient),
             ),
           ),
           Positioned(
-            top: -80,
-            right: -90,
-            child: _SplashGlow(color: theme.colorScheme.primary, size: 260),
+            top: -70,
+            right: -80,
+            child: GlowOrb(
+              color: ext.accentGlow,
+              size: 300,
+              opacity: theme.brightness == Brightness.dark ? 0.30 : 0.4,
+            ),
           ),
           Positioned(
-            bottom: 90,
-            left: -140,
-            child: _SplashGlow(color: theme.colorScheme.secondary, size: 320),
+            bottom: 60,
+            left: -120,
+            child: GlowOrb(
+              color: theme.colorScheme.secondary,
+              size: 320,
+              opacity: theme.brightness == Brightness.dark ? 0.26 : 0.32,
+            ),
           ),
           SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 30),
-              child: AnimatedBuilder(
-                animation: _controller,
-                builder: (context, child) {
-                  return Opacity(
-                    opacity: _fadeIn.value,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Spacer(),
-                        Transform.scale(
-                          scale: _logoScale.value,
-                          alignment: AlignmentDirectional.centerStart,
-                          child: Container(
-                            width: 112,
-                            height: 112,
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.surfaceContainerHighest
-                                  .withValues(alpha: 0.10),
-                              borderRadius: BorderRadius.circular(34),
-                              border: Border.all(
-                                color: theme.colorScheme.outline.withValues(
-                                  alpha: 0.12,
-                                ),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: theme.colorScheme.primary.withValues(
-                                    alpha: 0.20,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final width = constraints.maxWidth;
+                final logoSize = width * 0.30 < 96
+                    ? 96.0
+                    : (width * 0.30 > 152 ? 152.0 : width * 0.30);
+
+                return Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 480),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 28,
+                        vertical: 30,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Spacer(flex: 3),
+                          _PulsingLogo(
+                            size: logoSize,
+                            pulse: _pulseController,
+                            fade: _logoFade,
+                            scale: _logoScale,
+                            ringColor: ext.accentGlow,
+                          ),
+                          const SizedBox(height: 32),
+                          FadeTransition(
+                            opacity: _brandFade,
+                            child: SlideTransition(
+                              position: _brandSlide,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ShaderMask(
+                                    blendMode: BlendMode.srcIn,
+                                    shaderCallback: (bounds) =>
+                                        ext.accentGradient.createShader(bounds),
+                                    child: Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(text: l10n.splashBrandFit),
+                                        ],
+                                      ),
+                                      style: theme.textTheme.displayLarge
+                                          ?.copyWith(
+                                        fontSize: 58,
+                                        height: 0.94,
+                                        letterSpacing: -2,
+                                      ),
+                                    ),
                                   ),
-                                  blurRadius: 40,
-                                  offset: const Offset(0, 18),
+                                  Transform.translate(
+                                    offset: const Offset(0, -14),
+                                    child: Text(
+                                      l10n.splashBrandBody,
+                                      style: theme.textTheme.displayLarge
+                                          ?.copyWith(
+                                        color: theme.colorScheme.onSurface,
+                                        fontSize: 58,
+                                        height: 0.94,
+                                        letterSpacing: -2,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    l10n.splashTagline,
+                                    style: theme.textTheme.titleMedium
+                                        ?.copyWith(color: ext.textMuted),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 26),
+                          FadeTransition(
+                            opacity: _pillsFade,
+                            child: Row(
+                              children: [
+                                _MetricPill(
+                                  icon: Icons.bolt_rounded,
+                                  label: '12K+',
+                                  value: l10n.splashMetricWorkouts,
+                                ),
+                                const SizedBox(width: 10),
+                                _MetricPill(
+                                  icon: Icons.workspace_premium_rounded,
+                                  label: 'Pro',
+                                  value: l10n.splashMetricPlans,
                                 ),
                               ],
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(18),
-                              child: Image.asset('assets/FB.png'),
-                            ),
                           ),
-                        ),
-                        const SizedBox(height: 30),
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: l10n.splashBrandFit,
-                                style: TextStyle(
-                                  color: theme.colorScheme.primary,
-                                  fontWeight: FontWeight.w900,
+                          const Spacer(flex: 4),
+                          FadeTransition(
+                            opacity: _barFade,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _GradientProgressBar(
+                                  controller: _controller,
+                                  gradient: ext.accentGradient,
+                                  trackColor: theme
+                                      .colorScheme.surfaceContainerHighest
+                                      .withValues(alpha: 0.16),
                                 ),
-                              ),
-                              TextSpan(text: l10n.splashBrandBody),
-                            ],
-                          ),
-                          style: theme.textTheme.displayLarge?.copyWith(
-                            color: theme.colorScheme.onSurface,
-                            fontSize: 58,
-                            height: 0.94,
-                            letterSpacing: -2,
-                          ),
-                        ),
-                        const SizedBox(height: 14),
-                        Text(
-                          l10n.splashTagline,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            color: theme.colorScheme.onSurface.withValues(
-                              alpha: 0.78,
+                                const SizedBox(height: 12),
+                                Text(
+                                  l10n.loadingLabel,
+                                  style: theme.textTheme.labelSmall?.copyWith(
+                                    color: ext.textMuted,
+                                    letterSpacing: 0.4,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 28),
-                        Row(
-                          children: [
-                            _MetricPill(
-                              label: '12K+',
-                              value: l10n.splashMetricWorkouts,
-                            ),
-                            const SizedBox(width: 10),
-                            _MetricPill(
-                              label: 'Pro',
-                              value: l10n.splashMetricPlans,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 42),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(999),
-                          child: LinearProgressIndicator(
-                            minHeight: 5,
-                            value: _controller.value,
-                            backgroundColor: theme
-                                .colorScheme
-                                .surfaceContainerHighest
-                                .withValues(alpha: 0.10),
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              theme.colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -204,15 +243,110 @@ class _SplashPageState extends State<SplashPage>
   }
 }
 
-class _MetricPill extends StatelessWidget {
-  const _MetricPill({required this.label, required this.value});
+class _PulsingLogo extends StatelessWidget {
+  const _PulsingLogo({
+    required this.size,
+    required this.pulse,
+    required this.fade,
+    required this.scale,
+    required this.ringColor,
+  });
 
+  final double size;
+  final Animation<double> pulse;
+  final Animation<double> fade;
+  final Animation<double> scale;
+  final Color ringColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return FadeTransition(
+      opacity: fade,
+      child: ScaleTransition(
+        scale: scale,
+        child: SizedBox(
+          width: size * 1.7,
+          height: size * 1.7,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              AnimatedBuilder(
+                animation: pulse,
+                builder: (context, child) {
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      _pulseRing(size, pulse.value),
+                      _pulseRing(size, (pulse.value + 0.5) % 1.0),
+                    ],
+                  );
+                },
+              ),
+              Container(
+                width: size,
+                height: size,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surfaceContainerHighest.withValues(
+                    alpha: 0.10,
+                  ),
+                  borderRadius: BorderRadius.circular(size * 0.3),
+                  border: Border.all(
+                    color: theme.colorScheme.outline.withValues(alpha: 0.14),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: ringColor.withValues(alpha: 0.24),
+                      blurRadius: 40,
+                      offset: const Offset(0, 18),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(size * 0.16),
+                  child: Image.asset('assets/FB.png'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _pulseRing(double baseSize, double t) {
+    final ringSize = baseSize * (1 + t * 0.7);
+    final opacity = (1 - t) * 0.35;
+    return Container(
+      width: ringSize,
+      height: ringSize,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: ringColor.withValues(alpha: opacity.clamp(0.0, 1.0)),
+          width: 1.4,
+        ),
+      ),
+    );
+  }
+}
+
+class _MetricPill extends StatelessWidget {
+  const _MetricPill({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  final IconData icon;
   final String label;
   final String value;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -226,7 +360,10 @@ class _MetricPill extends StatelessWidget {
         ),
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
+          Icon(icon, size: 15, color: theme.colorScheme.primary),
+          const SizedBox(width: 6),
           Text(
             label,
             style: TextStyle(
@@ -235,33 +372,44 @@ class _MetricPill extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 6),
-          Text(
-            value,
-            style: TextStyle(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.70),
-            ),
-          ),
+          Text(value, style: TextStyle(color: ext.textMuted)),
         ],
       ),
     );
   }
 }
 
-class _SplashGlow extends StatelessWidget {
-  const _SplashGlow({required this.color, required this.size});
+class _GradientProgressBar extends StatelessWidget {
+  const _GradientProgressBar({
+    required this.controller,
+    required this.gradient,
+    required this.trackColor,
+  });
 
-  final Color color;
-  final double size;
+  final Animation<double> controller;
+  final Gradient gradient;
+  final Color trackColor;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: RadialGradient(
-          colors: [color.withValues(alpha: 0.28), color.withValues(alpha: 0)],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(999),
+      child: SizedBox(
+        height: 6,
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: trackColor),
+          child: AnimatedBuilder(
+            animation: controller,
+            builder: (context, child) {
+              return FractionallySizedBox(
+                alignment: AlignmentDirectional.centerStart,
+                widthFactor: controller.value.clamp(0.0, 1.0),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(gradient: gradient),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

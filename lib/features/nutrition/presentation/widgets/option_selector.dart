@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_theme_extension.dart';
+import '../../../../core/widgets/selectable_option_card.dart';
 
-/// Radio-style option list, previously duplicated six times across
-/// meals_planesPage1 and meal_plane_page2 (dietary preference, allergies,
-/// meal types, caloric goal, cooking time, servings) with only the item
-/// width/spacing differing slightly.
+/// Redesigned radio-style option list, previously duplicated six times
+/// across the meal-plan wizard with fragile `MediaQuery.width` math for
+/// sizing. Full-width choices (`itemWidthFraction >= 1`) reuse the shared,
+/// premium [SelectableOptionCard]; compact multi-choice groups render as a
+/// wrapping row of pill chips that size to their content.
 class OptionSelector extends StatelessWidget {
   const OptionSelector({
     super.key,
@@ -19,63 +21,97 @@ class OptionSelector extends StatelessWidget {
   final String selected;
   final ValueChanged<String> onSelected;
 
-  /// Fraction of the available width each item takes (1.0 = full width,
-  /// 0.5 = two columns).
+  /// Kept for call-site compatibility: >= 1 renders full-width rows,
+  /// anything smaller renders a wrap of compact chips.
   final double itemWidthFraction;
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final theme = Theme.of(context);
-    final ext = theme.extension<AppThemeExtension>()!;
+    if (itemWidthFraction >= 1) {
+      return Column(
+        children: [
+          for (final option in options) ...[
+            SelectableOptionCard(
+              label: option,
+              isSelected: option == selected,
+              onTap: () => onSelected(option),
+            ),
+            if (option != options.last) const SizedBox(height: 12),
+          ],
+        ],
+      );
+    }
+
     return Wrap(
-      spacing: width * 0.03,
-      runSpacing: width * 0.04,
+      spacing: 10,
+      runSpacing: 10,
       children: [
         for (final option in options)
-          GestureDetector(
+          _OptionChip(
+            label: option,
+            selected: option == selected,
             onTap: () => onSelected(option),
-            child: SizedBox(
-              width: width * itemWidthFraction - width * 0.09,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: width * 0.058,
-                    height: width * 0.058,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: theme.colorScheme.secondary,
-                        width: 2,
-                      ),
-                    ),
-                    child:
-                        option == selected
-                            ? Center(
-                              child: Container(
-                                width: width * 0.03,
-                                height: width * 0.03,
-                                decoration: BoxDecoration(
-                                  color: theme.colorScheme.primary,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                            )
-                            : null,
-                  ),
-                  SizedBox(width: width * 0.02),
-                  Flexible(
-                    child: Text(
-                      option,
-                      style: TextStyle(color: ext.textPrimary, fontSize: 14),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ),
       ],
+    );
+  }
+}
+
+class _OptionChip extends StatelessWidget {
+  const _OptionChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOut,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          gradient: selected ? ext.accentGradient : null,
+          color: selected ? null : ext.glassFill,
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(
+            color: selected ? Colors.transparent : ext.glassBorder,
+          ),
+          boxShadow: [
+            if (selected)
+              BoxShadow(
+                color: ext.accentGlow.withValues(alpha: 0.24),
+                blurRadius: 16,
+                offset: const Offset(0, 8),
+              ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (selected) ...[
+              Icon(Icons.check_rounded, size: 16, color: ext.onAccent),
+              const SizedBox(width: 6),
+            ],
+            Text(
+              label,
+              style: TextStyle(
+                color: selected ? ext.onAccent : ext.textPrimary,
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -18,6 +18,12 @@ const _breakfast = MealIdeaSection(
     name: 'Spinach And Tomato Omelette',
     time: '10 Minutes',
     calories: '250 Cal',
+    protein: '18g',
+    carbs: '6g',
+    fat: '17g',
+    rating: 4.7,
+    difficulty: 'Easy',
+    servings: '2',
     ingredients: [
       '2-3 eggs',
       'A handful of fresh spinach',
@@ -28,6 +34,14 @@ const _breakfast = MealIdeaSection(
     preparation: [
       'Whisk the eggs with salt and pepper. Sauté spinach lightly in olive oil, add sliced tomato, then pour the eggs and cook until set. Fold and serve hot.',
     ],
+    tips: [
+      'Whisk the eggs longer for a fluffier, airier omelette.',
+      'Pat the spinach dry first so the pan stays hot and doesn\'t steam the eggs.',
+    ],
+    benefits: [
+      'High in protein to keep you full through the morning.',
+      'Spinach adds iron and vitamin A with almost no added calories.',
+    ],
     favoriteKey: 'top|breakfast',
   ),
   recommended: [
@@ -36,6 +50,11 @@ const _breakfast = MealIdeaSection(
       name: 'Green Celery Juice',
       time: '7 Minutes',
       calories: '120 Cal',
+      protein: '2g',
+      carbs: '14g',
+      fat: '0g',
+      rating: 4.3,
+      difficulty: 'Easy',
       ingredients: [
         '4 celery stalks',
         '1 green apple (optional)',
@@ -49,6 +68,11 @@ const _breakfast = MealIdeaSection(
       name: 'Fruit Smoothie',
       time: '10 Minutes',
       calories: '250 Cal',
+      protein: '8g',
+      carbs: '32g',
+      fat: '5g',
+      rating: 4.6,
+      difficulty: 'Easy',
       ingredients: [
         '1/2 cup plain Greek yogurt',
         '1/2 cup almond milk',
@@ -64,6 +88,11 @@ const _breakfast = MealIdeaSection(
       name: 'Delights with Greek yogurt',
       time: '6 Minutes',
       calories: '200 Cal',
+      protein: '14g',
+      carbs: '24g',
+      fat: '5g',
+      rating: 4.8,
+      difficulty: 'Easy',
       ingredients: [
         '1 cup Greek yogurt',
         'Fresh fruits (berries, banana slices)',
@@ -80,6 +109,11 @@ const _breakfast = MealIdeaSection(
       name: 'Avocado and Egg Toast',
       time: '15 Minutes',
       calories: '150 Cal',
+      protein: '9g',
+      carbs: '16g',
+      fat: '8g',
+      rating: 4.6,
+      difficulty: 'Easy',
       ingredients: [
         '1 slice whole-grain bread',
         '1/2 ripe avocado, mashed',
@@ -101,6 +135,12 @@ const _lunch = MealIdeaSection(
     name: 'Salmon And Avocado Salad',
     time: '15 Minutes',
     calories: '300 Cal',
+    protein: '26g',
+    carbs: '9g',
+    fat: '19g',
+    rating: 4.8,
+    difficulty: 'Easy',
+    servings: '1',
     ingredients: [
       'Fresh salmon (baked or grilled)',
       '1 avocado, sliced',
@@ -110,6 +150,14 @@ const _lunch = MealIdeaSection(
     preparation: [
       'Combine mixed greens, avocado slices, and cooked salmon. Dress with olive oil and lemon, season with salt & pepper.',
     ],
+    tips: [
+      'Chill the salmon before slicing for cleaner, firmer pieces.',
+      'Dress the greens right before serving so they stay crisp.',
+    ],
+    benefits: [
+      'Rich in omega-3 fatty acids for heart and brain health.',
+      'Avocado adds heart-healthy monounsaturated fats and fiber.',
+    ],
     favoriteKey: 'top|lunch',
   ),
   recommended: [
@@ -118,6 +166,11 @@ const _lunch = MealIdeaSection(
       name: 'Quinoa salad',
       time: '25 Minutes',
       calories: '300 Cal',
+      protein: '10g',
+      carbs: '42g',
+      fat: '9g',
+      rating: 4.5,
+      difficulty: 'Easy',
       ingredients: [
         '1 cup cooked quinoa',
         'Cherry tomatoes & cucumber',
@@ -132,6 +185,11 @@ const _lunch = MealIdeaSection(
       name: 'Burrito with vegetables',
       time: '20 Minutes',
       calories: '250 Cal',
+      protein: '9g',
+      carbs: '34g',
+      fat: '8g',
+      rating: 4.4,
+      difficulty: 'Easy',
       ingredients: [
         'Tortilla wrap',
         'Grilled mixed vegetables',
@@ -148,6 +206,11 @@ const _lunch = MealIdeaSection(
       name: 'Teriyaki chicken with brown rice',
       time: '45 Minutes',
       calories: '375 Cal',
+      protein: '34g',
+      carbs: '38g',
+      fat: '9g',
+      rating: 4.7,
+      difficulty: 'Medium',
       ingredients: [
         '200 g chicken breast, sliced',
         '2 tbsp teriyaki sauce',
@@ -166,6 +229,11 @@ const _lunch = MealIdeaSection(
       name: 'Baked salmon',
       time: '30 Minutes',
       calories: '350 Cal',
+      protein: '31g',
+      carbs: '2g',
+      fat: '24g',
+      rating: 4.9,
+      difficulty: 'Medium',
       ingredients: [
         '1 salmon fillet (150–200 g)',
         '1 tbsp olive oil',
@@ -187,6 +255,12 @@ const _dinner = MealIdeaSection(
     name: 'Grilled Chicken Salad',
     time: '20 Minutes',
     calories: '240 Cal',
+    protein: '28g',
+    carbs: '8g',
+    fat: '10g',
+    rating: 4.6,
+    difficulty: 'Easy',
+    servings: '1',
     ingredients: [
       'Grilled chicken breast, sliced',
       'Spinach & lettuce',
@@ -196,6 +270,14 @@ const _dinner = MealIdeaSection(
     preparation: [
       'Slice the grilled chicken and mix with spinach, lettuce, and tomatoes. Add a light dressing and serve.',
     ],
+    tips: [
+      'Let the chicken rest a few minutes before slicing to keep it juicy.',
+      'Toast the dressing\'s herbs briefly for a deeper flavor.',
+    ],
+    benefits: [
+      'Lean protein that supports muscle recovery after training.',
+      'Low in calories relative to protein — great for a cutting phase.',
+    ],
     favoriteKey: 'top|dinner',
   ),
   recommended: [
@@ -204,6 +286,11 @@ const _dinner = MealIdeaSection(
       name: 'Chickpea salad',
       time: '20 Minutes',
       calories: '300 Cal',
+      protein: '12g',
+      carbs: '38g',
+      fat: '10g',
+      rating: 4.4,
+      difficulty: 'Easy',
       ingredients: [
         '1 cup cooked chickpeas',
         'Chopped parsley & onion',
@@ -217,6 +304,11 @@ const _dinner = MealIdeaSection(
       name: 'Lentil soup',
       time: '30 Minutes',
       calories: '200 Cal',
+      protein: '13g',
+      carbs: '30g',
+      fat: '2g',
+      rating: 4.5,
+      difficulty: 'Easy',
       ingredients: [
         '1 cup red lentils, rinsed',
         '1 onion & 1 carrot, diced',
@@ -232,6 +324,11 @@ const _dinner = MealIdeaSection(
       name: 'Turkey and Avocado Wrap',
       time: '15 Minutes',
       calories: '230 Cal',
+      protein: '20g',
+      carbs: '18g',
+      fat: '9g',
+      rating: 4.6,
+      difficulty: 'Easy',
       ingredients: [
         'Whole-wheat tortilla',
         'Sliced turkey breast',
@@ -249,6 +346,11 @@ const _dinner = MealIdeaSection(
       name: 'Chicken Breast Stuffed with Spinach',
       time: '30 Minutes',
       calories: '250 Cal',
+      protein: '30g',
+      carbs: '4g',
+      fat: '12g',
+      rating: 4.7,
+      difficulty: 'Medium',
       ingredients: [
         '1 chicken breast (butterflied)',
         '1 cup fresh spinach',

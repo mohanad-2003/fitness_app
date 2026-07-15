@@ -1370,6 +1370,48 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nutritionRecipesForYou => 'Recipes for you';
 
   @override
+  String get nutritionDailySummary => 'Today\'s Nutrition';
+
+  @override
+  String get nutritionDailySummarySubtitle => 'Track your intake at a glance';
+
+  @override
+  String get nutritionProteinLabel => 'Protein';
+
+  @override
+  String get nutritionCarbsLabel => 'Carbs';
+
+  @override
+  String get nutritionFatLabel => 'Fat';
+
+  @override
+  String get nutritionWaterIntakeLabel => 'Water Intake';
+
+  @override
+  String get nutritionNutritionFacts => 'Nutrition Facts';
+
+  @override
+  String get nutritionCookingSteps => 'Cooking Steps';
+
+  @override
+  String get nutritionTips => 'Chef\'s Tips';
+
+  @override
+  String get nutritionBenefits => 'Health Benefits';
+
+  @override
+  String get nutritionSimilarRecipes => 'Similar Recipes';
+
+  @override
+  String get nutritionSaveRecipe => 'Save Recipe';
+
+  @override
+  String get nutritionRecipeSaved => 'Saved to Favorites';
+
+  @override
+  String get nutritionServingsShort => 'Servings';
+
+  @override
   String get mealIdeaTitle => 'Meal Idea';
 
   @override

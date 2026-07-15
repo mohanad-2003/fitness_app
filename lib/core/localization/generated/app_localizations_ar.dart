@@ -1356,6 +1356,48 @@ class AppLocalizationsAr extends AppLocalizations {
   String get nutritionRecipesForYou => 'وصفات لك';
 
   @override
+  String get nutritionDailySummary => 'تغذيتك اليوم';
+
+  @override
+  String get nutritionDailySummarySubtitle => 'تابع مدخولك الغذائي بنظرة سريعة';
+
+  @override
+  String get nutritionProteinLabel => 'بروتين';
+
+  @override
+  String get nutritionCarbsLabel => 'كربوهيدرات';
+
+  @override
+  String get nutritionFatLabel => 'دهون';
+
+  @override
+  String get nutritionWaterIntakeLabel => 'شرب الماء';
+
+  @override
+  String get nutritionNutritionFacts => 'الحقائق الغذائية';
+
+  @override
+  String get nutritionCookingSteps => 'خطوات التحضير';
+
+  @override
+  String get nutritionTips => 'نصائح الشيف';
+
+  @override
+  String get nutritionBenefits => 'الفوائد الصحية';
+
+  @override
+  String get nutritionSimilarRecipes => 'وصفات مشابهة';
+
+  @override
+  String get nutritionSaveRecipe => 'احفظ الوصفة';
+
+  @override
+  String get nutritionRecipeSaved => 'تم الحفظ في المفضلة';
+
+  @override
+  String get nutritionServingsShort => 'حصص';
+
+  @override
   String get mealIdeaTitle => 'أفكار وجبات';
 
   @override

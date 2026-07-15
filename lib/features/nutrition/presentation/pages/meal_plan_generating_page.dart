@@ -1,8 +1,10 @@
+import 'package:fitness_app/features/onboarding/presentation/widgets/wizard_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
+import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/premium_scaffold.dart';
 import '../../../workout/presentation/widgets/workout_header.dart';
 
@@ -25,6 +27,7 @@ class _MealPlanGeneratingPageState extends State<MealPlanGeneratingPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
     final l10n = AppLocalizations.of(context);
 
     return PremiumScaffold(
@@ -33,32 +36,60 @@ class _MealPlanGeneratingPageState extends State<MealPlanGeneratingPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           WorkoutHeader(title: l10n.nutritionTabMealPlans),
+          const SizedBox(height: 18),
+          const WizardStepIndicator(step: 3, totalSteps: 4),
           Expanded(
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.fromBorderSide(
-                        BorderSide(color: theme.colorScheme.secondary, width: 7),
-                      ),
-                    ),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: theme.colorScheme.secondary,
-                      ),
+                  SizedBox(
+                    width: 168,
+                    height: 168,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SizedBox(
+                          width: 168,
+                          height: 168,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 6,
+                            strokeCap: StrokeCap.round,
+                            backgroundColor: ext.glassBorder,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              ext.accentGlow,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 112,
+                          height: 112,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: ext.accentGradient,
+                            boxShadow: [
+                              BoxShadow(
+                                color: ext.accentGlow.withValues(alpha: 0.3),
+                                blurRadius: 28,
+                                offset: const Offset(0, 14),
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            Icons.restaurant_menu_rounded,
+                            size: 44,
+                            color: ext.onAccent,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 26),
                   Text(
                     l10n.mealPlanGeneratingTitle,
-                    style: TextStyle(
-                      color: theme.colorScheme.primary,
-                      fontSize: 18,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: ext.textPrimary,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ],

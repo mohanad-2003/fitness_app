@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'core/localization/generated/app_localizations.dart';
 import 'core/localization/locale_controller.dart';
 import 'core/routing/app_router.dart';

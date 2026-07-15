@@ -16,7 +16,6 @@ abstract final class AppRoutes {
   static const setupHeight = '/setup/height';
   static const setupGoal = '/setup/goal';
   static const setupPhysical = '/setup/physical';
-  static const setupFillProfile = '/setup/fill-profile';
 
   static const search = '/search';
   static const notifications = '/notifications';

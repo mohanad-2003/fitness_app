@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/localization/generated/app_localizations.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_theme_extension.dart';
+import '../../../../core/widgets/pressable_scale.dart';
 import '../../domain/nutrition_models.dart';
+import 'premium_recipe_card.dart';
 
 /// Renders a meal-idea section (hero banner + Recommended row + Recipes
 /// list). Replaces the legacy `CommonMealIdeaPage`
@@ -24,161 +27,22 @@ class MealIdeaSectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final ext = theme.extension<AppThemeExtension>()!;
     final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GestureDetector(
-          onTap: () => onOpenDetail(section.top, l10n.nutritionRecipeOfTheDay),
-          child: Container(
-            width: double.infinity,
-            height: 242,
-            decoration: BoxDecoration(
-              color: ext.glassFill,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: ext.glassBorder),
-            ),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 15,
-                  horizontal: 15,
-                ),
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
-                        section.top.image,
-                        width: 323,
-                        height: 198,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      child: Container(
-                        width: 125,
-                        height: 25,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                            bottomLeft: Radius.circular(20),
-                          ),
-                          color: theme.colorScheme.primary,
-                        ),
-                        child: Center(
-                          child: Text(
-                            l10n.nutritionRecipeOfTheDay,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: theme.colorScheme.onPrimary,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                          ),
-                          color: Colors.black.withValues(alpha: 0.45),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 6,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    section.top.name,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: ext.accentGlow,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap:
-                                      () => onToggleFavorite(
-                                        section.top.favoriteKey,
-                                      ),
-                                  child: Icon(
-                                    isFavorite(section.top.favoriteKey)
-                                        ? Icons.star
-                                        : Icons.star_border,
-                                    color:
-                                        isFavorite(section.top.favoriteKey)
-                                            ? ext.danger
-                                            : Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 6),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  'assets/time.png',
-                                  color: Colors.white,
-                                  width: 16,
-                                  height: 16,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  section.top.time,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(width: 20),
-                                Image.asset(
-                                  'assets/calories.png',
-                                  color: Colors.white,
-                                  width: 16,
-                                  height: 16,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  section.top.calories,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: _TopRecipeHero(
+            meal: section.top,
+            badge: l10n.nutritionRecipeOfTheDay,
+            isFavorite: isFavorite(section.top.favoriteKey),
+            onFavoriteTap: () => onToggleFavorite(section.top.favoriteKey),
+            onTap: () => onOpenDetail(section.top, l10n.nutritionRecipeOfTheDay),
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 22),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -187,62 +51,78 @@ class MealIdeaSectionView extends StatelessWidget {
               if (section.recommended.isNotEmpty) ...[
                 Text(
                   l10n.nutritionRecommended,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.bold,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
                 SizedBox(
-                  height: 210,
+                  height: 246,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: section.recommended.length,
-                    separatorBuilder: (_, _) => const SizedBox(width: 10),
+                    separatorBuilder: (_, _) => const SizedBox(width: 12),
                     itemBuilder: (context, index) {
                       final item = section.recommended[index];
-                      return _RecommendedCard(
-                        item: item,
-                        isFavorite: isFavorite(item.favoriteKey),
-                        onFavoriteTap: () => onToggleFavorite(item.favoriteKey),
-                        onPlayTap:
-                            () => onOpenDetail(item, l10n.nutritionRecommended),
+                      return SizedBox(
+                        width: 190,
+                        child: PremiumRecipeCard(
+                          image: item.image,
+                          name: item.name,
+                          time: item.time,
+                          calories: item.calories,
+                          protein: item.protein,
+                          carbs: item.carbs,
+                          fat: item.fat,
+                          rating: item.rating,
+                          difficulty: item.difficulty,
+                          isFavorite: isFavorite(item.favoriteKey),
+                          onFavoriteTap:
+                              () => onToggleFavorite(item.favoriteKey),
+                          onTap:
+                              () => onOpenDetail(
+                                item,
+                                l10n.nutritionRecommended,
+                              ),
+                          imageHeight: 140,
+                        ),
                       );
                     },
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 22),
               ],
               if (section.recipes.isNotEmpty) ...[
                 Text(
                   l10n.nutritionRecipesForYou,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.bold,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 110,
-                  child: ListView.separated(
-                    itemCount: section.recipes.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 5),
-                    itemBuilder: (context, index) {
-                      final item = section.recipes[index];
-                      return _RecipeRow(
-                        item: item,
-                        isFavorite: isFavorite(item.favoriteKey),
-                        onFavoriteTap: () => onToggleFavorite(item.favoriteKey),
-                        onTap:
-                            () => onOpenDetail(
-                              item,
-                              l10n.nutritionRecipesForYou,
-                            ),
-                      );
-                    },
-                  ),
+                const SizedBox(height: 12),
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: section.recipes.length,
+                  separatorBuilder: (_, _) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final item = section.recipes[index];
+                    return PremiumRecipeListTile(
+                      image: item.image,
+                      name: item.name,
+                      time: item.time,
+                      calories: item.calories,
+                      rating: item.rating,
+                      difficulty: item.difficulty,
+                      isFavorite: isFavorite(item.favoriteKey),
+                      onFavoriteTap: () => onToggleFavorite(item.favoriteKey),
+                      onTap:
+                          () =>
+                              onOpenDetail(item, l10n.nutritionRecipesForYou),
+                    );
+                  },
                 ),
               ],
             ],
@@ -253,150 +133,17 @@ class MealIdeaSectionView extends StatelessWidget {
   }
 }
 
-class _RecommendedCard extends StatelessWidget {
-  const _RecommendedCard({
-    required this.item,
-    required this.isFavorite,
-    required this.onFavoriteTap,
-    required this.onPlayTap,
-  });
-
-  final MealDetail item;
-  final bool isFavorite;
-  final VoidCallback onFavoriteTap;
-  final VoidCallback onPlayTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final ext = theme.extension<AppThemeExtension>()!;
-
-    return Container(
-      width: 180,
-      decoration: BoxDecoration(
-        color: ext.glassFill,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: ext.glassBorder),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-                child: Image.asset(
-                  item.image,
-                  width: double.infinity,
-                  height: 120,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: InkWell(
-                  onTap: onFavoriteTap,
-                  child: Icon(
-                    isFavorite ? Icons.star : Icons.star_border,
-                    color: isFavorite ? ext.danger : Colors.white,
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: -15,
-                right: 10,
-                child: InkWell(
-                  onTap: onPlayTap,
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.secondary,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Center(
-                      child: Icon(Icons.play_arrow, color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 22),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: ext.textPrimary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/time.png',
-                      color: ext.textMuted,
-                      width: 14,
-                      height: 14,
-                    ),
-                    const SizedBox(width: 4),
-                    Flexible(
-                      child: Text(
-                        item.time,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 11, color: ext.textMuted),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Image.asset(
-                      'assets/calories.png',
-                      color: ext.textMuted,
-                      width: 14,
-                      height: 14,
-                    ),
-                    const SizedBox(width: 4),
-                    Flexible(
-                      child: Text(
-                        item.calories,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 11, color: ext.textMuted),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _RecipeRow extends StatelessWidget {
-  const _RecipeRow({
-    required this.item,
+class _TopRecipeHero extends StatelessWidget {
+  const _TopRecipeHero({
+    required this.meal,
+    required this.badge,
     required this.isFavorite,
     required this.onFavoriteTap,
     required this.onTap,
   });
 
-  final MealDetail item;
+  final MealDetail meal;
+  final String badge;
   final bool isFavorite;
   final VoidCallback onFavoriteTap;
   final VoidCallback onTap;
@@ -406,95 +153,155 @@ class _RecipeRow extends StatelessWidget {
     final theme = Theme.of(context);
     final ext = theme.extension<AppThemeExtension>()!;
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 110,
-        decoration: BoxDecoration(
-          color: ext.glassFill,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: ext.glassBorder),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 5,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 15,
+    return PressableScale(
+      child: GestureDetector(
+        onTap: onTap,
+        child: AspectRatio(
+          aspectRatio: 16 / 11,
+          child: Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppRadius.card),
+              border: Border.all(color: ext.glassBorder),
+            ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset(meal.image, fit: BoxFit.cover),
+                Positioned.fill(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.transparent,
+                          Colors.transparent,
+                          Colors.black.withValues(alpha: 0.82),
+                        ],
+                        stops: const [0, 0.4, 1],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.name,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                PositionedDirectional(
+                  top: 14,
+                  start: 14,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 7,
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: ext.accentGradient,
+                      borderRadius: BorderRadius.circular(AppRadius.pill),
+                    ),
+                    child: Text(
+                      badge,
                       style: TextStyle(
-                        fontSize: 16,
-                        color: ext.textPrimary,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w900,
+                        color: ext.onAccent,
+                        letterSpacing: 0.4,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Image.asset(
-                          'assets/time.png',
-                          color: theme.colorScheme.primary,
-                        ),
-                        const SizedBox(width: 5),
-                        Text(
-                          item.time,
-                          style: TextStyle(fontSize: 12, color: ext.textMuted),
-                        ),
-                        const SizedBox(width: 20),
-                        Image.asset(
-                          'assets/calories.png',
-                          color: theme.colorScheme.primary,
-                        ),
-                        const SizedBox(width: 5),
-                        Text(
-                          item.calories,
-                          style: TextStyle(fontSize: 12, color: ext.textMuted),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            const Spacer(),
-            Expanded(
-              flex: 3,
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      item.image,
-                      width: 148,
-                      height: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                    top: 5,
-                    right: 5,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: onFavoriteTap,
+                PositionedDirectional(
+                  top: 14,
+                  end: 14,
+                  child: GestureDetector(
+                    onTap: onFavoriteTap,
+                    child: Container(
+                      width: 38,
+                      height: 38,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.32),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.2),
+                        ),
+                      ),
                       child: Icon(
-                        isFavorite ? Icons.star : Icons.star_border,
-                        color: isFavorite ? ext.danger : Colors.white,
+                        isFavorite ? Icons.star_rounded : Icons.star_border_rounded,
+                        color: isFavorite ? ext.accentGlow : Colors.white,
+                        size: 20,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+                PositionedDirectional(
+                  start: 16,
+                  end: 16,
+                  bottom: 14,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        meal.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                          height: 1.12,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.timer_outlined,
+                            size: 15,
+                            color: Colors.white.withValues(alpha: 0.8),
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            meal.time,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Icon(
+                            Icons.local_fire_department_rounded,
+                            size: 15,
+                            color: Colors.white.withValues(alpha: 0.8),
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            meal.calories,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                            ),
+                          ),
+                          if (meal.rating != null) ...[
+                            const SizedBox(width: 16),
+                            Icon(
+                              Icons.star_rounded,
+                              size: 15,
+                              color: ext.accentGlow,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              meal.rating!.toStringAsFixed(1),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

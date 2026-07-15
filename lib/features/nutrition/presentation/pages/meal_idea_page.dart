@@ -11,6 +11,12 @@ import '../../../workout/presentation/widgets/workout_header.dart';
 import '../providers/meal_idea_controller.dart';
 import '../widgets/meal_idea_section_view.dart';
 
+const _categoryEmoji = {
+  MealCategory.breakfast: '🍳',
+  MealCategory.lunch: '🥪',
+  MealCategory.dinner: '🍝',
+};
+
 class MealIdeaPage extends ConsumerWidget {
   const MealIdeaPage({super.key});
 
@@ -20,8 +26,6 @@ class MealIdeaPage extends ConsumerWidget {
     final section = ref.watch(mealIdeaSectionProvider(category));
     final favorites = ref.watch(mealIdeaFavoritesProvider.notifier);
     final favSet = ref.watch(mealIdeaFavoritesProvider);
-    final theme = Theme.of(context);
-    final ext = theme.extension<AppThemeExtension>()!;
     final l10n = AppLocalizations.of(context);
 
     return PremiumScaffold(
@@ -37,59 +41,34 @@ class MealIdeaPage extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   WorkoutHeader(title: l10n.mealIdeaTitle),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      for (final cat in MealCategory.values)
-                        Expanded(
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(20),
-                            onTap:
-                                () => ref
-                                    .read(
-                                      mealIdeaCategoryControllerProvider
-                                          .notifier,
-                                    )
-                                    .select(cat),
-                            child: Container(
-                              height: 32,
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                gradient:
-                                    cat == category
-                                        ? ext.accentGradient
-                                        : null,
-                                color:
-                                    cat == category ? null : ext.glassFill,
-                                border:
-                                    cat == category
-                                        ? null
-                                        : Border.all(color: ext.glassBorder),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  _label(l10n, cat),
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color:
-                                        cat == category
-                                            ? ext.onAccent
-                                            : ext.textPrimary,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
+                  const SizedBox(height: 18),
+                  SizedBox(
+                    height: 40,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: MealCategory.values.length,
+                      separatorBuilder: (_, _) => const SizedBox(width: 10),
+                      itemBuilder: (context, index) {
+                        final cat = MealCategory.values[index];
+                        return _CategoryChip(
+                          emoji: _categoryEmoji[cat]!,
+                          label: _label(l10n, cat),
+                          selected: cat == category,
+                          onTap:
+                              () => ref
+                                  .read(
+                                    mealIdeaCategoryControllerProvider
+                                        .notifier,
+                                  )
+                                  .select(cat),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 6),
             MealIdeaSectionView(
               section: section,
               isFavorite: (key) => key != null && favSet.contains(key),
@@ -110,4 +89,57 @@ class MealIdeaPage extends ConsumerWidget {
         MealCategory.lunch => l10n.mealCategoryLunch,
         MealCategory.dinner => l10n.mealCategoryDinner,
       };
+}
+
+class _CategoryChip extends StatelessWidget {
+  const _CategoryChip({
+    required this.emoji,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String emoji;
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOut,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          gradient: selected ? ext.accentGradient : null,
+          color: selected ? null : ext.glassFill,
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(
+            color: selected ? Colors.transparent : ext.glassBorder,
+          ),
+        ),
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(emoji, style: const TextStyle(fontSize: 15)),
+            const SizedBox(width: 7),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: selected ? ext.onAccent : ext.textPrimary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

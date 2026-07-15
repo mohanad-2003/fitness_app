@@ -2,6 +2,7 @@ import 'package:fitness_app/core/localization/generated/app_localizations.dart';
 import 'package:fitness_app/core/routing/app_routes.dart';
 import 'package:fitness_app/core/theme/app_colors.dart';
 import 'package:fitness_app/core/theme/app_theme_extension.dart';
+import 'package:fitness_app/core/widgets/user_avatar.dart';
 import 'package:fitness_app/features/home/domain/home_models.dart';
 import 'package:fitness_app/features/home/presentation/providers/home_controller.dart';
 import 'package:fitness_app/features/workout/domain/exercise_detail_models.dart';
@@ -128,20 +129,10 @@ class _HomeHeader extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return Row(
       children: [
-        Container(
-          width: 52,
-          height: 52,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Theme.of(context).colorScheme.primary,
-              width: 2,
-            ),
-            image: const DecorationImage(
-              image: AssetImage('assets/profile.png'),
-              fit: BoxFit.cover,
-            ),
-          ),
+        UserAvatar(
+          radius: 26,
+          borderColor: Theme.of(context).colorScheme.primary,
+          borderWidth: 2,
         ),
         const SizedBox(width: 14),
         Expanded(

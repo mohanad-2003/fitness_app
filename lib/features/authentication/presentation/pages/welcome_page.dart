@@ -1,8 +1,17 @@
 import 'package:fitness_app/core/localization/generated/app_localizations.dart';
 import 'package:fitness_app/core/routing/app_routes.dart';
+import 'package:fitness_app/core/theme/app_colors.dart';
+import 'package:fitness_app/core/theme/app_theme_extension.dart';
+import 'package:fitness_app/core/widgets/glow_orb.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../widgets/onboarding_hero_art.dart';
+
+/// Premium, fully-vector welcome screen — the bridge between the splash
+/// screen and onboarding. No longer a photo of a person; the same abstract
+/// gradient-medallion hero art used across splash/onboarding/auth so the
+/// whole first-run experience reads as one design system.
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
 
@@ -43,6 +52,7 @@ class _WelcomePageState extends State<WelcomePage>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
@@ -50,79 +60,95 @@ class _WelcomePageState extends State<WelcomePage>
       body: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset('assets/ob1.png', fit: BoxFit.cover),
-          ),
-          Positioned.fill(
             child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    theme.colorScheme.surface.withValues(alpha: 0.28),
-                    theme.colorScheme.surface.withValues(alpha: 0.72),
-                    theme.colorScheme.surface,
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
+              decoration: BoxDecoration(gradient: ext.backgroundGradient),
+            ),
+          ),
+          Positioned(
+            top: -90,
+            right: -80,
+            child: GlowOrb(
+              color: ext.accentGlow,
+              size: 280,
+              opacity: theme.brightness == Brightness.dark ? 0.28 : 0.38,
+            ),
+          ),
+          Positioned(
+            bottom: -70,
+            left: -100,
+            child: GlowOrb(
+              color: theme.colorScheme.secondary,
+              size: 300,
+              opacity: theme.brightness == Brightness.dark ? 0.22 : 0.3,
             ),
           ),
           SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(28),
-              child: FadeTransition(
-                opacity: _fade,
-                child: SlideTransition(
-                  position: _slide,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Spacer(),
-                      Image.asset('assets/FB.png', width: 86),
-                      const SizedBox(height: 22),
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: l10n.splashBrandFit,
-                              style: TextStyle(
-                                color: theme.colorScheme.primary,
-                              ),
-                            ),
-                            TextSpan(text: l10n.splashBrandBody),
-                          ],
-                        ),
-                        style: theme.textTheme.displayLarge?.copyWith(
-                          color: theme.colorScheme.onSurface,
-                          fontSize: 56,
-                          fontWeight: FontWeight.w900,
-                          height: 0.95,
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      Text(
-                        l10n.welcomeTagline,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onSurface.withValues(
-                            alpha: 0.76,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 26),
-                      Row(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 480),
+                child: Padding(
+                  padding: const EdgeInsets.all(28),
+                  child: FadeTransition(
+                    opacity: _fade,
+                    child: SlideTransition(
+                      position: _slide,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _WelcomeBadge(
-                            icon: Icons.bolt_rounded,
-                            label: l10n.welcomeBadgeEnergy,
+                          SizedBox(
+                            height: 190,
+                            child: OnboardingHeroArt(
+                              icon: Icons.auto_awesome_rounded,
+                              colors: const [
+                                AppColors.seedLime,
+                                AppColors.electricOrange,
+                              ],
+                            ),
                           ),
-                          const SizedBox(width: 10),
-                          _WelcomeBadge(
-                            icon: Icons.show_chart_rounded,
-                            label: l10n.welcomeBadgeProgress,
+                          const SizedBox(height: 22),
+                          Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: l10n.splashBrandFit,
+                                  style: TextStyle(
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                ),
+                                TextSpan(text: l10n.splashBrandBody),
+                              ],
+                            ),
+                            style: theme.textTheme.displayLarge?.copyWith(
+                              color: theme.colorScheme.onSurface,
+                              fontSize: 52,
+                              fontWeight: FontWeight.w900,
+                              height: 0.95,
+                            ),
+                          ),
+                          const SizedBox(height: 14),
+                          Text(
+                            l10n.welcomeTagline,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              color: ext.textMuted,
+                            ),
+                          ),
+                          const SizedBox(height: 26),
+                          Row(
+                            children: [
+                              _WelcomeBadge(
+                                icon: Icons.bolt_rounded,
+                                label: l10n.welcomeBadgeEnergy,
+                              ),
+                              const SizedBox(width: 10),
+                              _WelcomeBadge(
+                                icon: Icons.show_chart_rounded,
+                                label: l10n.welcomeBadgeProgress,
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -143,23 +169,21 @@ class _WelcomeBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withValues(
-          alpha: 0.10,
-        ),
+        color: ext.glassFill,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(
-          color: theme.colorScheme.outline.withValues(alpha: 0.12),
-        ),
+        border: Border.all(color: ext.glassBorder),
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 18, color: theme.colorScheme.primary),
           const SizedBox(width: 7),
-          Text(label, style: TextStyle(color: theme.colorScheme.onSurface)),
+          Text(label, style: TextStyle(color: ext.textPrimary)),
         ],
       ),
     );

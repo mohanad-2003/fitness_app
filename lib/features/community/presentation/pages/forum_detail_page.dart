@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/premium_scaffold.dart';
+import '../../../../core/widgets/user_avatar.dart';
 import '../../domain/community_models.dart';
 
 class ForumDetailPage extends StatelessWidget {
@@ -74,10 +75,7 @@ class _DiscussionCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const CircleAvatar(
-                backgroundImage: AssetImage('assets/profile.png'),
-                radius: 24,
-              ),
+              const UserAvatar(radius: 24),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(

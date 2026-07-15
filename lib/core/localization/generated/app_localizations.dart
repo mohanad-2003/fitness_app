@@ -2648,6 +2648,90 @@ abstract class AppLocalizations {
   /// **'Recipes for you'**
   String get nutritionRecipesForYou;
 
+  /// No description provided for @nutritionDailySummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Nutrition'**
+  String get nutritionDailySummary;
+
+  /// No description provided for @nutritionDailySummarySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your intake at a glance'**
+  String get nutritionDailySummarySubtitle;
+
+  /// No description provided for @nutritionProteinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Protein'**
+  String get nutritionProteinLabel;
+
+  /// No description provided for @nutritionCarbsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Carbs'**
+  String get nutritionCarbsLabel;
+
+  /// No description provided for @nutritionFatLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fat'**
+  String get nutritionFatLabel;
+
+  /// No description provided for @nutritionWaterIntakeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Water Intake'**
+  String get nutritionWaterIntakeLabel;
+
+  /// No description provided for @nutritionNutritionFacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition Facts'**
+  String get nutritionNutritionFacts;
+
+  /// No description provided for @nutritionCookingSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Cooking Steps'**
+  String get nutritionCookingSteps;
+
+  /// No description provided for @nutritionTips.
+  ///
+  /// In en, this message translates to:
+  /// **'Chef\'s Tips'**
+  String get nutritionTips;
+
+  /// No description provided for @nutritionBenefits.
+  ///
+  /// In en, this message translates to:
+  /// **'Health Benefits'**
+  String get nutritionBenefits;
+
+  /// No description provided for @nutritionSimilarRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Similar Recipes'**
+  String get nutritionSimilarRecipes;
+
+  /// No description provided for @nutritionSaveRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Recipe'**
+  String get nutritionSaveRecipe;
+
+  /// No description provided for @nutritionRecipeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to Favorites'**
+  String get nutritionRecipeSaved;
+
+  /// No description provided for @nutritionServingsShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Servings'**
+  String get nutritionServingsShort;
+
   /// No description provided for @mealIdeaTitle.
   ///
   /// In en, this message translates to:

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/widgets/premium_scaffold.dart';
+import '../../../../core/localization/generated/app_localizations.dart';
+import '../../../../core/theme/app_theme_extension.dart';
+import '../../../../core/widgets/primary_button.dart';
 import '../../domain/nutrition_models.dart';
-import '../../../workout/presentation/widgets/workout_header.dart';
 import '../providers/meal_idea_controller.dart';
+import '../providers/nutrition_controller.dart';
 import '../widgets/meal_detail_header.dart';
 
 /// Generic recipe/meal detail screen — replaces the legacy
@@ -12,47 +14,67 @@ import '../widgets/meal_detail_header.dart';
 /// mealIdeaPage.dart (top/recommended/recipe), all of which rendered the
 /// same ingredients+preparation layout.
 class MealDetailPage extends ConsumerWidget {
-  const MealDetailPage({
-    super.key,
-    required this.meal,
-    this.headerTitle = 'Meal plan',
-    this.tag = 'Recipe',
-  });
+  const MealDetailPage({super.key, required this.meal, this.tag = 'Recipe'});
 
   final MealDetail meal;
-  final String headerTitle;
   final String tag;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+    final l10n = AppLocalizations.of(context);
     final favorites = ref.watch(mealIdeaFavoritesProvider.notifier);
     final isFavorite = ref
         .watch(mealIdeaFavoritesProvider)
         .contains(meal.favoriteKey);
+    final similar = ref.watch(nutritionRecommendedProvider);
 
-    return PremiumScaffold(
-      padding: EdgeInsets.zero,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: WorkoutHeader(title: headerTitle),
+    return Scaffold(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(gradient: ext.backgroundGradient),
             ),
-            MealDetailHeader(
-              meal: meal,
-              tagText: tag,
-              isFavorite: meal.favoriteKey != null && isFavorite,
-              onFavoriteTap:
-                  meal.favoriteKey == null
-                      ? null
-                      : () => favorites.toggle(meal.favoriteKey),
+          ),
+          SafeArea(
+            bottom: false,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: 24),
+              child: MealDetailHeader(
+                meal: meal,
+                tagText: tag,
+                isFavorite: meal.favoriteKey != null && isFavorite,
+                onFavoriteTap:
+                    meal.favoriteKey == null
+                        ? null
+                        : () => favorites.toggle(meal.favoriteKey),
+                similar: similar,
+              ),
             ),
-            const SizedBox(height: 20),
-          ],
-        ),
+          ),
+        ],
       ),
+      bottomNavigationBar:
+          meal.favoriteKey == null
+              ? null
+              : SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
+                  child: PrimaryButton(
+                    label:
+                        isFavorite
+                            ? l10n.nutritionRecipeSaved
+                            : l10n.nutritionSaveRecipe,
+                    icon:
+                        isFavorite
+                            ? Icons.check_rounded
+                            : Icons.star_border_rounded,
+                    onPressed: () => favorites.toggle(meal.favoriteKey),
+                  ),
+                ),
+              ),
     );
   }
 }

@@ -1,11 +1,14 @@
+import 'package:fitness_app/features/onboarding/presentation/widgets/wizard_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/premium_scaffold.dart';
+import '../../../../core/widgets/primary_button.dart';
 import '../../../workout/presentation/widgets/workout_header.dart';
 import '../providers/meal_breakfast_controller.dart';
 
@@ -27,21 +30,22 @@ class MealPlanBreakfastPage extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           WorkoutHeader(title: l10n.nutritionTabMealPlans),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
+          const WizardStepIndicator(step: 4, totalSteps: 4),
+          const SizedBox(height: 20),
           Text(
             l10n.mealPlanBreakfastTitle,
-            style: TextStyle(
+            style: theme.textTheme.titleLarge?.copyWith(
               color: theme.colorScheme.primary,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w900,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           Text(
             l10n.mealPlanBreakfastBody,
-            style: TextStyle(fontSize: 12, color: ext.textMuted),
+            style: TextStyle(fontSize: 13, color: ext.textMuted),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 16),
           Expanded(
             child: ListView.separated(
               itemCount: options.length,
@@ -49,169 +53,171 @@ class MealPlanBreakfastPage extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final item = options[index];
                 final isSelected = selectedIndex == index;
-                return GestureDetector(
+                return _BreakfastOptionCard(
+                  isSelected: isSelected,
                   onTap: () {
                     ref
                         .read(selectedBreakfastIndexProvider.notifier)
                         .select(index);
                     context.push(AppRoutes.mealDetail, extra: item.toDetail());
                   },
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 28,
-                        height: 28,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: theme.colorScheme.secondary,
-                            width: 3,
-                          ),
-                        ),
-                        child:
-                            isSelected
-                                ? Center(
-                                  child: CircleAvatar(
-                                    radius: 7,
-                                    backgroundColor: theme.colorScheme.primary,
-                                  ),
-                                )
-                                : null,
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: SizedBox(
-                          height: 110,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: ext.cardColor,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: ext.glassBorder),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 16,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          item.name,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: ext.textPrimary,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Row(
-                                          children: [
-                                            Image.asset(
-                                              'assets/time.png',
-                                              color: ext.textMuted,
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              item.time,
-                                              style: TextStyle(
-                                                fontSize: 11,
-                                                color: ext.textMuted,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Image.asset(
-                                              'assets/calories.png',
-                                              color: ext.textMuted,
-                                            ),
-                                            const SizedBox(width: 2),
-                                            Text(
-                                              item.calories,
-                                              style: TextStyle(
-                                                fontSize: 11,
-                                                color: ext.textMuted,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Stack(
-                                    children: [
-                                      Image.asset(
-                                        item.image,
-                                        fit: BoxFit.cover,
-                                        width: 110,
-                                        height: double.infinity,
-                                      ),
-                                      Positioned(
-                                        right: 8,
-                                        top: 8,
-                                        child: GestureDetector(
-                                          onTap:
-                                              () => controller.toggleFavorite(
-                                                index,
-                                              ),
-                                          child: Icon(
-                                            Icons.star,
-                                            color:
-                                                item.isFavorite
-                                                    ? theme.colorScheme.primary
-                                                    : Colors.white,
-                                            size: 24,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  image: item.image,
+                  name: item.name,
+                  time: item.time,
+                  calories: item.calories,
+                  isFavorite: item.isFavorite,
+                  onFavoriteTap: () => controller.toggleFavorite(index),
                 );
               },
             ),
           ),
-          const SizedBox(height: 12),
-          Center(
-            child: GestureDetector(
-              onTap: () => context.push(AppRoutes.mealIdeaDiscover),
-              child: Container(
-                width: 180,
-                height: 44,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: theme.colorScheme.primary,
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  l10n.mealPlanSeeRecipe,
-                  style: TextStyle(
-                    color: theme.colorScheme.onPrimary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
+          const SizedBox(height: 16),
+          PrimaryButton(
+            label: l10n.mealPlanSeeRecipe,
+            icon: Icons.arrow_forward_rounded,
+            onPressed: () => context.push(AppRoutes.mealIdeaDiscover),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _BreakfastOptionCard extends StatelessWidget {
+  const _BreakfastOptionCard({
+    required this.isSelected,
+    required this.onTap,
+    required this.image,
+    required this.name,
+    required this.time,
+    required this.calories,
+    required this.isFavorite,
+    required this.onFavoriteTap,
+  });
+
+  final bool isSelected;
+  final VoidCallback onTap;
+  final String image;
+  final String name;
+  final String time;
+  final String calories;
+  final bool isFavorite;
+  final VoidCallback onFavoriteTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: ext.glassFill,
+          borderRadius: BorderRadius.circular(AppRadius.card),
+          border: Border.all(
+            color: isSelected ? theme.colorScheme.primary : ext.glassBorder,
+            width: isSelected ? 1.6 : 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: isSelected ? ext.accentGradient : null,
+                border:
+                    isSelected
+                        ? null
+                        : Border.all(color: ext.glassBorder, width: 2),
+              ),
+              child:
+                  isSelected
+                      ? Icon(Icons.check_rounded, size: 15, color: ext.onAccent)
+                      : null,
+            ),
+            const SizedBox(width: 12),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Stack(
+                children: [
+                  Image.asset(
+                    image,
+                    width: 88,
+                    height: 88,
+                    fit: BoxFit.cover,
+                  ),
+                  PositionedDirectional(
+                    top: 6,
+                    end: 6,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: onFavoriteTap,
+                      child: Icon(
+                        isFavorite ? Icons.star_rounded : Icons.star_border_rounded,
+                        color: isFavorite ? ext.accentGlow : Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: ext.textPrimary,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(Icons.timer_outlined, size: 14, color: ext.textMuted),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          time,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 11, color: ext.textMuted),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Icon(
+                        Icons.local_fire_department_rounded,
+                        size: 14,
+                        color: theme.colorScheme.secondary,
+                      ),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          calories,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 11, color: ext.textMuted),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -24,7 +24,6 @@ import 'package:fitness_app/features/nutrition/presentation/pages/meal_plan_intr
 import 'package:fitness_app/features/nutrition/presentation/pages/meal_plan_preferences_page.dart';
 import 'package:fitness_app/features/nutrition/presentation/pages/nutrition_page.dart';
 import 'package:fitness_app/features/onboarding/presentation/pages/age_page.dart';
-import 'package:fitness_app/features/onboarding/presentation/pages/fill_profile_page.dart';
 import 'package:fitness_app/features/onboarding/presentation/pages/gender_page.dart';
 import 'package:fitness_app/features/onboarding/presentation/pages/goal_page.dart';
 import 'package:fitness_app/features/onboarding/presentation/pages/height_page.dart';
@@ -63,7 +62,7 @@ part 'app_router.g.dart';
 @Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) {
   return GoRouter(
-    initialLocation: AppRoutes.splash,
+    initialLocation: AppRoutes.home,
     routes: [
       GoRoute(
         path: AppRoutes.splash,
@@ -124,10 +123,6 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: AppRoutes.setupPhysical,
         builder: (context, state) => const PhysicalActivityPage(),
-      ),
-      GoRoute(
-        path: AppRoutes.setupFillProfile,
-        builder: (context, state) => const FillProfilePage(),
       ),
       GoRoute(
         path: AppRoutes.search,

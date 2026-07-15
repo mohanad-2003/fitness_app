@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_theme_extension.dart';
-import '../../../../core/widgets/premium_scaffold.dart';
+import '../../../../core/widgets/fade_slide_in.dart';
+import '../../../../core/widgets/glow_orb.dart';
+import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/widgets/top_icon_actions.dart';
 
 class MealIdeaDiscoverPage extends StatelessWidget {
@@ -12,102 +14,116 @@ class MealIdeaDiscoverPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ext = Theme.of(context).extension<AppThemeExtension>()!;
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppThemeExtension>()!;
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset('assets/m_i.png', fit: BoxFit.cover),
-          ),
-          Positioned.fill(
             child: DecoratedBox(
               decoration: BoxDecoration(gradient: ext.backgroundGradient),
             ),
           ),
+          Positioned(
+            top: -100,
+            right: -90,
+            child: GlowOrb(
+              color: ext.accentGlow,
+              size: 280,
+              opacity: theme.brightness == Brightness.dark ? 0.26 : 0.34,
+            ),
+          ),
+          Positioned(
+            bottom: -80,
+            left: -100,
+            child: GlowOrb(
+              color: theme.colorScheme.secondary,
+              size: 300,
+              opacity: theme.brightness == Brightness.dark ? 0.22 : 0.28,
+            ),
+          ),
           SafeArea(
-            bottom: false,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Row(
                 children: [
                   GestureDetector(
                     onTap: () => context.canPop() ? context.pop() : null,
-                    child: const Icon(
-                      Icons.arrow_left_outlined,
-                      color: Colors.white,
-                      size: 28,
+                    child: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: ext.textPrimary,
+                      size: 22,
                     ),
                   ),
                   const Spacer(),
-                  const TopIconActions(color: Colors.white),
+                  TopIconActions(color: theme.colorScheme.primary),
                 ],
               ),
             ),
           ),
           Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 720),
+              constraints: const BoxConstraints(maxWidth: 480),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    PremiumGlassCard(
-                      color: ext.cardColor.withValues(alpha: 0.92),
+                    FadeSlideIn(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset('assets/apple.png', height: 28),
-                              const SizedBox(width: 10),
-                              Text(
-                                l10n.mealIdeasDiscoverTitle,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: ext.textPrimary,
-                                  fontWeight: FontWeight.bold,
+                          Container(
+                            width: 96,
+                            height: 96,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: ext.accentGradient,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: ext.accentGlow.withValues(alpha: 0.3),
+                                  blurRadius: 32,
+                                  offset: const Offset(0, 16),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                            child: Icon(
+                              Icons.restaurant_menu_rounded,
+                              color: ext.onAccent,
+                              size: 44,
+                            ),
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 24),
+                          Text(
+                            l10n.mealIdeasDiscoverTitle,
+                            textAlign: TextAlign.center,
+                            style: theme.textTheme.headlineMedium?.copyWith(
+                              color: ext.textPrimary,
+                              height: 1.06,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
                           Text(
                             l10n.mealIdeasDiscoverBody,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 13,
+                            style: theme.textTheme.bodyMedium?.copyWith(
                               color: ext.textMuted,
+                              height: 1.5,
                             ),
-                            maxLines: 4,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () => context.push(AppRoutes.mealIdea),
-                      child: Container(
-                        width: 250,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: ext.glassFill,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: ext.glassBorder),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          l10n.actionDiscover,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                    const SizedBox(height: 32),
+                    FadeSlideIn(
+                      delay: const Duration(milliseconds: 120),
+                      child: PrimaryButton(
+                        label: l10n.actionDiscover,
+                        icon: Icons.arrow_forward_rounded,
+                        onPressed: () => context.push(AppRoutes.mealIdea),
                       ),
                     ),
                   ],

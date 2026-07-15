@@ -11,7 +11,6 @@ class UserProfile {
     required this.caloriesBurned,
     required this.trainingDays,
     required this.currentStreak,
-    this.avatar = 'assets/profile.png',
   });
 
   final String name;
@@ -29,8 +28,6 @@ class UserProfile {
   final int caloriesBurned;
   final int trainingDays;
   final int currentStreak;
-
-  final String avatar;
 }
 
 class DocumentItem {

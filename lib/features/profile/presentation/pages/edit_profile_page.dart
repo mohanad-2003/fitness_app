@@ -4,6 +4,7 @@ import 'package:fitness_app/core/widgets/app_text_field.dart';
 import 'package:fitness_app/core/widgets/fade_slide_in.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
 import 'package:fitness_app/core/widgets/primary_button.dart';
+import 'package:fitness_app/core/widgets/user_avatar.dart';
 import 'package:fitness_app/features/profile/presentation/providers/profile_controller.dart';
 import 'package:fitness_app/features/profile/presentation/widgets/profile_stat_row.dart';
 import 'package:flutter/material.dart';
@@ -141,18 +142,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                     child: Stack(
                       clipBehavior: Clip.none,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: ext.accentGradient,
-                          ),
-                          child: CircleAvatar(
-                            radius: 52,
-                            backgroundColor: ext.cardColor,
-                            backgroundImage: AssetImage(profile.avatar),
-                          ),
-                        ),
+                        const UserAvatar(radius: 52),
                         Positioned(
                           bottom: 0,
                           right: 0,

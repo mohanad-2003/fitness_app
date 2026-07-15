@@ -51,7 +51,7 @@ class PhysicalActivityPage extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: PrimaryButton(
           label: l10n.actionContinue,
-          onPressed: () => context.push(AppRoutes.setupFillProfile),
+          onPressed: () => context.go(AppRoutes.home),
         ),
       ),
     );

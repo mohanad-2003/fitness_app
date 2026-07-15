@@ -1,3 +1,4 @@
+import 'package:fitness_app/features/onboarding/presentation/widgets/wizard_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +7,7 @@ import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/premium_scaffold.dart';
+import '../../../../core/widgets/primary_button.dart';
 import '../../../workout/presentation/widgets/workout_header.dart';
 import '../providers/meal_plan_wizard_controller.dart';
 import '../widgets/option_selector.dart';
@@ -27,6 +29,8 @@ class MealPlanPreferencesPage extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             WorkoutHeader(title: l10n.mealPlanTitle),
+            const SizedBox(height: 18),
+            WizardStepIndicator(step: 1, totalSteps: 4),
             const SizedBox(height: 30),
             _SectionTitle(l10n.mealPlanDietaryPreferences),
             const SizedBox(height: 12),
@@ -34,14 +38,14 @@ class MealPlanPreferencesPage extends ConsumerWidget {
               l10n.mealPlanDietaryPreferencesQuestion,
               style: TextStyle(color: ext.textPrimary),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
             OptionSelector(
               options: MealPlanWizardController.dietaryOptions,
               selected: prefs.dietaryPreference,
               onSelected: controller.selectDietaryPreference,
               itemWidthFraction: 1,
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 32),
             _SectionTitle(l10n.mealPlanAllergies),
             const SizedBox(height: 12),
             Text(
@@ -54,7 +58,7 @@ class MealPlanPreferencesPage extends ConsumerWidget {
               selected: prefs.allergy,
               onSelected: controller.selectAllergy,
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 32),
             _SectionTitle(l10n.mealPlanMealTypes),
             const SizedBox(height: 12),
             Text(
@@ -67,28 +71,11 @@ class MealPlanPreferencesPage extends ConsumerWidget {
               selected: prefs.mealType,
               onSelected: controller.selectMealType,
             ),
-            const SizedBox(height: 30),
-            Center(
-              child: GestureDetector(
-                onTap: () => context.push(AppRoutes.mealPlanGoals),
-                child: Container(
-                  width: 130,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Center(
-                    child: Text(
-                      l10n.actionContinue,
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            const SizedBox(height: 32),
+            PrimaryButton(
+              label: l10n.actionContinue,
+              icon: Icons.arrow_forward_rounded,
+              onPressed: () => context.push(AppRoutes.mealPlanGoals),
             ),
           ],
         ),
@@ -105,10 +92,9 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(
-        fontSize: 22,
+      style: Theme.of(context).textTheme.titleLarge?.copyWith(
         color: Theme.of(context).colorScheme.primary,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w900,
       ),
     );
   }

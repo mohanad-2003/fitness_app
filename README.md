@@ -273,8 +273,8 @@ BASE_URL=https://your-api-domain.com/api
 **Mohanad Zaqout**
 Flutter Developer
 
-- GitHub: [github.com/your-username](https://github.com/your-username)
-- LinkedIn: [linkedin.com/in/your-username](https://linkedin.com/in/your-username)
+- GitHub: [github.com/mohanad-2003](https://github.com/mohanad-2003)
+- LinkedIn: [linkedin.com/in/your-username](https://linkedin.com/in/mohanad-zaqout-b2462b3a1)
 - Portfolio: [your-portfolio.com](https://your-portfolio.com)
 
 ---

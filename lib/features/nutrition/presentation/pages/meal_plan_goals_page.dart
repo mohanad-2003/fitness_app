@@ -1,3 +1,4 @@
+import 'package:fitness_app/features/onboarding/presentation/widgets/wizard_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +7,7 @@ import '../../../../core/localization/generated/app_localizations.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_theme_extension.dart';
 import '../../../../core/widgets/premium_scaffold.dart';
+import '../../../../core/widgets/primary_button.dart';
 import '../../../workout/presentation/widgets/workout_header.dart';
 import '../providers/meal_plan_wizard_controller.dart';
 import '../widgets/option_selector.dart';
@@ -28,15 +30,10 @@ class MealPlanGoalsPage extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             WorkoutHeader(title: l10n.nutritionTabMealPlans),
+            const SizedBox(height: 18),
+            WizardStepIndicator(step: 2, totalSteps: 4),
             const SizedBox(height: 30),
-            Text(
-              l10n.mealPlanCaloricGoal,
-              style: TextStyle(
-                fontSize: 22,
-                color: theme.colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            _SectionTitle(l10n.mealPlanCaloricGoal),
             const SizedBox(height: 12),
             Text(
               l10n.mealPlanCaloricGoalQuestion,
@@ -49,15 +46,8 @@ class MealPlanGoalsPage extends ConsumerWidget {
               onSelected: controller.selectCaloricGoal,
               itemWidthFraction: 1,
             ),
-            const SizedBox(height: 40),
-            Text(
-              l10n.mealPlanCookingTime,
-              style: TextStyle(
-                fontSize: 22,
-                color: theme.colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            const SizedBox(height: 32),
+            _SectionTitle(l10n.mealPlanCookingTime),
             const SizedBox(height: 12),
             Text(
               l10n.mealPlanCookingTimeQuestion,
@@ -69,15 +59,8 @@ class MealPlanGoalsPage extends ConsumerWidget {
               selected: prefs.cookingTime,
               onSelected: controller.selectCookingTime,
             ),
-            const SizedBox(height: 40),
-            Text(
-              l10n.mealPlanServings,
-              style: TextStyle(
-                fontSize: 22,
-                color: theme.colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            const SizedBox(height: 32),
+            _SectionTitle(l10n.mealPlanServings),
             const SizedBox(height: 12),
             Text(
               l10n.mealPlanServingsQuestion,
@@ -89,31 +72,30 @@ class MealPlanGoalsPage extends ConsumerWidget {
               selected: prefs.servings,
               onSelected: controller.selectServings,
             ),
-            const SizedBox(height: 40),
-            Center(
-              child: GestureDetector(
-                onTap: () => context.push(AppRoutes.mealPlanGenerating),
-                child: Container(
-                  width: 130,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Center(
-                    child: Text(
-                      l10n.mealPlanCreate,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: theme.colorScheme.onPrimary,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            const SizedBox(height: 32),
+            PrimaryButton(
+              label: l10n.mealPlanCreate,
+              icon: Icons.auto_awesome_rounded,
+              onPressed: () => context.push(AppRoutes.mealPlanGenerating),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle(this.text);
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+        color: Theme.of(context).colorScheme.primary,
+        fontWeight: FontWeight.w900,
       ),
     );
   }

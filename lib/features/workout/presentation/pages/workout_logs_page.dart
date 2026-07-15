@@ -2,6 +2,7 @@ import 'package:fitness_app/core/localization/generated/app_localizations.dart';
 import 'package:fitness_app/core/routing/app_routes.dart';
 import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
+import 'package:fitness_app/core/widgets/user_avatar.dart';
 import 'package:fitness_app/features/workout/presentation/providers/workout_progress_controller.dart';
 import 'package:fitness_app/features/workout/presentation/widgets/progress_tab_bar.dart';
 import 'package:fitness_app/features/workout/presentation/widgets/workout_header.dart';
@@ -272,13 +273,7 @@ class _ProfileSummary extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          const Expanded(
-            flex: 1,
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/profile.png'),
-              radius: 42,
-            ),
-          ),
+          const Expanded(flex: 1, child: UserAvatar(radius: 42)),
         ],
       ),
     );

@@ -102,7 +102,7 @@ final class NutritionRecommendedProvider
 }
 
 String _$nutritionRecommendedHash() =>
-    r'26106e4ad8673f03c99f4ce93a7eacc64f678abd';
+    r'a14e28754382c7a574cec9ad9d42dab300a0ff5b';
 
 @ProviderFor(nutritionRecipes)
 final nutritionRecipesProvider = NutritionRecipesProvider._();
@@ -143,4 +143,52 @@ final class NutritionRecipesProvider
   }
 }
 
-String _$nutritionRecipesHash() => r'd1686acc4ab4aebda9d48f24b3adbd022d01bbd8';
+String _$nutritionRecipesHash() => r'fe337fd90d51d1429a8b3ee442ad0621c59d253d';
+
+@ProviderFor(dailyNutritionSummary)
+final dailyNutritionSummaryProvider = DailyNutritionSummaryProvider._();
+
+final class DailyNutritionSummaryProvider
+    extends
+        $FunctionalProvider<
+          DailyNutritionSummary,
+          DailyNutritionSummary,
+          DailyNutritionSummary
+        >
+    with $Provider<DailyNutritionSummary> {
+  DailyNutritionSummaryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'dailyNutritionSummaryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$dailyNutritionSummaryHash();
+
+  @$internal
+  @override
+  $ProviderElement<DailyNutritionSummary> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  DailyNutritionSummary create(Ref ref) {
+    return dailyNutritionSummary(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DailyNutritionSummary value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DailyNutritionSummary>(value),
+    );
+  }
+}
+
+String _$dailyNutritionSummaryHash() =>
+    r'b8a3e7d121c963e3d4a01165768a442a96812417';

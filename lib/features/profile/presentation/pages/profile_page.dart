@@ -31,7 +31,6 @@ class ProfilePage extends ConsumerWidget {
           SliverToBoxAdapter(
             child: ProfileHeader(
               title: l10n.profileMyProfile,
-              avatar: profile.avatar,
               name: profile.name,
               email: profile.email,
               fitnessLevel: profile.fitnessLevel,

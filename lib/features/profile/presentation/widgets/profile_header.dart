@@ -1,6 +1,7 @@
 import 'package:fitness_app/core/theme/app_theme_extension.dart';
 import 'package:fitness_app/core/widgets/fade_slide_in.dart';
 import 'package:fitness_app/core/widgets/premium_scaffold.dart';
+import 'package:fitness_app/core/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 
 /// Premium profile header: back/edit actions, gradient-ringed avatar with a
@@ -10,7 +11,6 @@ class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
     super.key,
     required this.title,
-    required this.avatar,
     required this.name,
     required this.email,
     required this.fitnessLevel,
@@ -20,7 +20,6 @@ class ProfileHeader extends StatelessWidget {
   });
 
   final String title;
-  final String avatar;
   final String name;
   final String email;
   final String fitnessLevel;
@@ -74,11 +73,7 @@ class ProfileHeader extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: CircleAvatar(
-                    radius: 52,
-                    backgroundColor: ext.cardColor,
-                    backgroundImage: AssetImage(avatar),
-                  ),
+                  child: const UserAvatar(radius: 52),
                 ),
                 Positioned(
                   bottom: 0,
